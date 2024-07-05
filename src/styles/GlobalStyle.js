@@ -1,4 +1,4 @@
-import styled, { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 import * as colors from '../cfg/colors';
 
 export default createGlobalStyle`
@@ -41,14 +41,4 @@ export default createGlobalStyle`
   ul {
     list-style: none;
   }
-`;
-
-export const Container = styled.section`
-  display: flex;
-  justify-content: center;
-  max-width: 40rem;
-  margin: 3rem auto; 
-  padding: 3rem; 
-  border-radius: 0.4rem; 
-  box-shadow: 0 0 1rem rgba(0,0,0,0.5); 
-`;
+`
