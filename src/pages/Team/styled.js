@@ -1,7 +1,11 @@
 import styled from 'styled-components';
 import * as colors from '../../cfg/colors';
 
-export const Form = styled.div`
+export const Main = styled.div`
+  img{
+    width: 350px;
+    background-color: transparent;
+  }
   label {
     font-size: 1.8rem;
     font-weight: bold;
@@ -32,8 +36,7 @@ export const Form = styled.div`
 export const Container = styled.section`
   color: white;
   display: flex;
-  justify-content: center;
-  max-width: 40rem;
+  max-width: 100rem;
   margin: 3rem auto; 
   padding: 3rem; 
   border-radius: 0.4rem; 
