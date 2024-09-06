@@ -2,9 +2,27 @@ import styled from 'styled-components';
 import * as colors from '../../cfg/colors';
 
 export const Main = styled.div`
-  img{
-    width: 350px;
-    background-color: transparent;
+ .teamLogo{
+    width: 110px;
+  }
+  .countryFlag{
+    width: 1.6rem;
+    border: 1px solid black;
+  }
+  article{
+    display: flex;
+    flex-direction: row
+  }
+  p{
+    font-size: 1.6rem;
+  }
+  .tittle{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 15px;
+    margin: 15px auto;
   }
   label {
     font-size: 1.8rem;
@@ -36,9 +54,9 @@ export const Main = styled.div`
 export const Container = styled.section`
   color: white;
   display: flex;
-  max-width: 100rem;
+  max-width: 60rem;
   margin: 3rem auto; 
-  padding: 3rem; 
+  padding: 3rem;
   border-radius: 0.4rem; 
   box-shadow: 0 0 1rem rgba(0,0,0,0.5); 
 `;
