@@ -2,34 +2,11 @@ import styled from 'styled-components';
 import * as colors from '../../cfg/colors';
 
 export const Main = styled.div`
- .teamLogo{
-    width: 110px;
-  }
-  .countryFlag{
-    width: 1.6rem;
-    border: 1px solid black;
-  }
-  article{
-    display: flex;
-    flex-direction: row
-  }
-  p{
-    font-size: 1.6rem;
-  }
-  .tittle{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 15px;
-    margin: 15px auto;
-  }
   label {
     font-size: 1.8rem;
     font-weight: bold;
     align-self: flex-start;
   }
-
   input {
     background-color: ${colors.primaryLightColor};
     color: white;
@@ -45,18 +22,72 @@ export const Main = styled.div`
     width: 250px;
     height: 40px;
   }
-
+  
   button:hover {
     background-color: ${colors.primaryDarkColor};
   }
-`;
+  `;
 
-export const Container = styled.section`
+export const Nav = styled.section`
   color: white;
   display: flex;
-  max-width: 60rem;
+  max-width: 80rem;
   margin: 3rem auto; 
   padding: 3rem;
+  border: 1px solid white;
   border-radius: 0.4rem; 
   box-shadow: 0 0 1rem rgba(0,0,0,0.5); 
-`;
+  .teamLogo{
+     width: 110px;
+   }
+   .countryFlag{
+     width: 2rem;
+     border: 1px solid black;
+   }
+   article{
+     display: flex;
+     flex-direction: row
+   }
+   p{
+     font-size: 2rem;
+   }
+   .tittle{
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     text-align: center;
+     font-size: 2rem;
+     padding: 15px;
+     margin: 15px auto;
+   }
+   .grid{
+     display: flex;
+     gap: 35px;
+     font-size: 15px;
+     text-align: center;
+     height: 25px;
+     margin-left: 100px;
+   }
+   .col{
+  
+   }
+   em{
+     background-color: white;
+     color: black;
+     padding: 5px;
+     border-radius: 3px;
+   }
+   .sub{
+     margin-top: 8px;
+   }
+   a{
+     color: white;
+     margin: 0 25px 0 0;
+     font-weight: bold;
+   }
+   .playerTittle{
+     display: flex;
+     justify-content: space-between;
+     width: 100%;
+  }
+  `;

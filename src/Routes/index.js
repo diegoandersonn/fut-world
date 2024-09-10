@@ -4,6 +4,7 @@ import Main from '../pages/Main';
 import Create from '../pages/Create';
 import Page404 from '../pages/Page404';
 import TeamPage from '../pages/Team';
+import PlayerPage from '../pages/Player';
 
 export const TeamsContext = createContext();
 
@@ -25,6 +26,7 @@ export default function MyRoutes() {
           <Route exact path='/Create' element={<Create />} />
           <Route path='*' element={<Page404 />} />
           <Route path='/Team/*' element={<TeamPage />} />
+          <Route path='/Player/*' element={<PlayerPage />} />
         </Routes>
       </TeamsProvider>
     </BrowserRouter>
