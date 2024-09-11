@@ -4,15 +4,18 @@ import { PlayersContext } from "../../Routes";
 import Header from '../../components/Header/index';
 import { Container, Form } from './styled';
 
+
 export default function PlayerPage() {
   const { players, setPlayers } = useContext(PlayersContext);
+  const location = useLocation();
+  const team = location.state?.team || { name: "Default Team" };
+
   const [player, setPlayer] = useState({
     name: "",
     nationality: "",
     age: "",
     number: "",
     position: "",
-    overall: "",
     pace: "",
     shooting: "",
     passing: "",
@@ -28,7 +31,23 @@ export default function PlayerPage() {
       [name]: value,
     }));
   }
-
+  function getOverall(position, pace, shooting, passing, dribbling, defense, physical) {
+    if (position === 'Zagueiro') {
+      return (defense * 0.6 + passing * 0.1 + physical * 0.3).toFixed(0);
+    } else if (position === 'Lateral') {
+      return (pace * 0.3 + passing * 0.2 + defense * 0.3 + dribbling * 0.2).toFixed(0);
+    } else if (position === 'Volante') {
+      return (defense * 0.4 + physical * 0.3 + passing * 0.3).toFixed(0);
+    } else if (position === 'Meio-Campo') {
+      return (shooting * 0.1 + passing * 0.3 + dribbling * 0.2 + defense * 0.2, physical * 0.2).toFixed(0);
+    } else if (position === 'Meia-Atacante') {
+      return (shooting * 0.3 + dribbling * 0.3 + passing * 0.4).toFixed(0);
+    } else if (position === 'Ponta') {
+      return (shooting * 0.2 + dribbling * 0.5 + pace * 0.3).toFixed(0);
+    } else if (position === 'Atacante') {
+      return (shooting * 0.5 + dribbling * 0.2 + passing * 0.1 + physical * 0.2).toFixed(0);
+    }
+  }
   class CreatePlayer {
     constructor(name, team, nationality, age, number, position, overall, pace, shooting, passing, dribbling, defense, physical) {
       this.name = name;
@@ -46,12 +65,12 @@ export default function PlayerPage() {
       this.physical = physical;
     }
   }
-  const location = useLocation();
-  const team = location.state?.team;
   function saveTeam(e) {
     e.preventDefault();
-    if (!player.name || !team.name || !player.nationality || !player.age || !player.number || !player.position || !player.overall || !player.pace || !player.shooting || !player.passing || !player.dribbling || !player.defense || !player.physical) return;
-    if (player.value > 100 || player.value < 0 || player.number > 99 || player.number < 0 || player.overall > 99 || player.overall < 0 || player.pace > 99 || player.pace < 0 || player.shooting > 99 || player.shooting < 0 || player.passing > 99 || player.passing < 0 || player.dribbling > 99 || player.dribbling < 0 || player.defense > 99 || player.defense < 0 || player.physical > 99 || player.physical < 0) return;
+    if (!player.name || !team.name || !player.nationality || !player.age || !player.number || !player.position || !player.pace || !player.shooting || !player.passing || !player.dribbling || !player.defense || !player.physical) return;
+    if (player.value > 100 || player.value < 0 || player.number > 99 || player.number < 0 || player.pace > 99 || player.pace < 0 || player.shooting > 99 || player.shooting < 0 || player.passing > 99 || player.passing < 0 || player.dribbling > 99 || player.dribbling < 0 || player.defense > 99 || player.defense < 0 || player.physical > 99 || player.physical < 0) return;
+    const overall = getOverall(player.position, player.pace, player.shooting, player.passing, player.dribbling, player.defense, player.physical);
+    console.log(team)
     const newPlayer = new CreatePlayer(
       player.name,
       team.name,
@@ -59,7 +78,7 @@ export default function PlayerPage() {
       player.age,
       player.number,
       player.position,
-      player.overall,
+      overall,
       player.pace,
       player.shooting,
       player.passing,
@@ -73,7 +92,6 @@ export default function PlayerPage() {
       age: "",
       number: "",
       position: "",
-      overall: "",
       pace: "",
       shooting: "",
       passing: "",
@@ -94,7 +112,7 @@ export default function PlayerPage() {
             <div className="row">
               <div className="mainForm">
                 <input type="text" name="name" placeholder="Commom Name" value={player.name} onChange={handleInputChange} />
-                <input type="text" name="nationality" placeholder="nationality" value={player.nationality} onChange={handleInputChange} />
+                <input type="text" name="nationality" placeholder="Nationality" value={player.nationality} onChange={handleInputChange} />
                 <input type="number" name="age" placeholder="Age" value={player.age} onChange={handleInputChange} />
               </div>
               <div className="mainForm">
@@ -105,10 +123,11 @@ export default function PlayerPage() {
                   <option value="Lateral">Lateral</option>
                   <option value="Volante">Volante</option>
                   <option value="Meio-Campo">Meio-Campo</option>
+                  <option value="Meia-Atacante">Meia-Atacante</option>
+                  <option value="Ponta">Ponta</option>
                   <option value="Atacante">Atacante</option>
                 </select>
                 <input type="number" name="number" placeholder="Number" value={player.number} onChange={handleInputChange} />
-                <input type="text" name="overall" placeholder="Overall" value={player.overall} onChange={handleInputChange} />
               </div>
             </div>
             <div className="formTittle">
@@ -134,7 +153,6 @@ export default function PlayerPage() {
                 age: "",
                 number: "",
                 position: "",
-                overall: "",
                 pace: "",
                 shooting: "",
                 passing: "",
@@ -148,5 +166,4 @@ export default function PlayerPage() {
       </Form >
     </>
   );
-
 }

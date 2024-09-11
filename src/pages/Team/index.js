@@ -11,6 +11,7 @@ export default function TeamPage() {
     const location = useLocation();
     const { team } = location.state;
     const { players } = useContext(PlayersContext);
+    console.log(players);
     const filteredPlayers = players.filter((player) => player.team === team.name);
 
     return (
