@@ -11,7 +11,6 @@ export default function Main() {
             <Header />
             <Container>
                 <TeamsList>
-                    <h1>Main</h1>
                     <table>
                         <thead>
                             <tr>

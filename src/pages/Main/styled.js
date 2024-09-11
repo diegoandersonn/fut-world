@@ -28,17 +28,11 @@ export const TeamsList = styled.div`
   button:hover {
     background-color: ${colors.primaryDarkColor};
   }
-  h1{
-    display: flex;
-    justify-content: center;
-  }
   table{
-    max-width: 100%;
     text-align: left;
   }
   th, td{
     color: white;
-    min-width: 100px;
     padding: 10px;
     margin: 10px auto; 
   }
@@ -48,9 +42,9 @@ export const Container = styled.section`
   color: white;
   display: flex;
   justify-content: center;
-  max-width: 55rem;
+  max-width: 60rem;
   margin: 3rem auto; 
-  padding: 3rem; 
+  padding: 2rem; 
   border-radius: 0.4rem; 
   box-shadow: 0 0 1rem rgba(0,0,0,0.5); 
   overflow-x: auto;

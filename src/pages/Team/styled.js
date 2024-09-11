@@ -34,7 +34,6 @@ export const Nav = styled.section`
   max-width: 80rem;
   margin: 3rem auto; 
   padding: 3rem;
-  border: 1px solid white;
   border-radius: 0.4rem; 
   box-shadow: 0 0 1rem rgba(0,0,0,0.5); 
   .teamLogo{
@@ -89,5 +88,20 @@ export const Nav = styled.section`
      display: flex;
      justify-content: space-between;
      width: 100%;
+  }
+  footer{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  table{
+    max-width: 100%;
+    text-align: left;
+  }
+  th, td{
+    color: white;
+    min-width: 100px;
+    padding: 10px;
+    margin: 10px auto; 
   }
   `;

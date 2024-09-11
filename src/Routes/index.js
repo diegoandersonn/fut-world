@@ -7,6 +7,7 @@ import TeamPage from '../pages/Team';
 import PlayerPage from '../pages/Player';
 
 export const TeamsContext = createContext();
+export const PlayersContext = createContext();
 
 const TeamsProvider = ({ children }) => {
   const [teams, setTeams] = useState([]);
@@ -16,19 +17,29 @@ const TeamsProvider = ({ children }) => {
     </TeamsContext.Provider>
   );
 };
+const PlayersProvider = ({ children }) => {
+  const [players, setPlayers] = useState([]);
+  return (
+    <PlayersContext.Provider value={{ players, setPlayers }}>
+      {children}
+    </PlayersContext.Provider>
+  );
+};
 
 export default function MyRoutes() {
   return (
     <BrowserRouter>
-      <TeamsProvider>
-        <Routes>
-          <Route exact path='/' element={<Main />} />
-          <Route exact path='/Create' element={<Create />} />
-          <Route path='*' element={<Page404 />} />
-          <Route path='/Team/*' element={<TeamPage />} />
-          <Route path='/Player/*' element={<PlayerPage />} />
-        </Routes>
-      </TeamsProvider>
+      <PlayersProvider>
+        <TeamsProvider>
+          <Routes>
+            <Route exact path='/' element={<Main />} />
+            <Route exact path='/Create' element={<Create />} />
+            <Route path='*' element={<Page404 />} />
+            <Route path='/Team/*' element={<TeamPage />} />
+            <Route path='/Player/*' element={<PlayerPage />} />
+          </Routes>
+        </TeamsProvider>
+      </PlayersProvider>
     </BrowserRouter>
   );
 }

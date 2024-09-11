@@ -8,22 +8,22 @@ export const Form = styled.div`
     align-self: flex-start;
   }
 
-  input {
+  input, select {
     background-color: ${colors.primaryLightColor};
     color: white;
     border: 0.2rem solid ${colors.primaryColor}; 
     width: 25rem;  
-    height: 3.5rem; 
+    height: 4rem; 
     border-radius: 0.5rem; 
     font-size: 1.8rem;
     padding: 0.5rem;  
-    margin-bottom: 1rem; /* Adiciona espaço entre os inputs */
+    margin-bottom: 1rem;
   }
 
   button {
     background-color: ${colors.primaryLightColor};
     width: 25rem;  
-    height: 4rem;  
+    height: 4rem;
   }
 
   button:hover {
@@ -36,26 +36,22 @@ export const Container = styled.section`
   display: flex;
   flex-direction: column;
   gap: 3rem;
-  max-width: 60rem; 
+  max-width: 80rem; 
   margin: 3rem auto; 
   padding: 3rem; 
   border-radius: 0.4rem;
-  border: 0.1rem solid white;
   box-shadow: 0 0 1rem rgba(0,0,0,0.5);
   .formTittle{
     margin-top: 1rem;
-  .row {
+  }
+  .row, .formButtons {
     display: flex;
     justify-content: space-between;
     width: 100%;
   }
-
   .mainForm, .attributeForm {
     display: flex;
     flex-direction: column;
-  }
-  h1{
-
   }
   `;
 

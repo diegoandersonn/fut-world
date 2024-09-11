@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useLocation, Link } from 'react-router-dom';
 import { Nav, Main } from './styled';
 import { IoAdd, IoTrash } from 'react-icons/io5';
+import { PlayersContext } from '../../Routes';
 import Header from '../../components/Header/index';
 import tottenhamLogo from '../../imgs/tottenhamlogo.png';
 import englandFlag from '../../imgs/england.png';
@@ -9,7 +10,9 @@ import englandFlag from '../../imgs/england.png';
 export default function TeamPage() {
     const location = useLocation();
     const { team } = location.state;
-    // const teamOverall = (attackOverall + midOverall + defenseOverall)/3; 
+    const { players } = useContext(PlayersContext);
+    const filteredPlayers = players.filter((player) => player.team === team.name);
+
     return (
         <>
             <Header />
@@ -52,6 +55,7 @@ export default function TeamPage() {
                     </article>
                 </Nav>
                 <Nav>
+                    <footer>
                     <div className="playerTittle">
                         <h1>Jogadores: </h1>
                         <div className="managePlayers">
@@ -59,6 +63,27 @@ export default function TeamPage() {
                             <Link to="/Player"> <IoTrash size={28} /> </ Link>
                         </div>
                     </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Idade</th>
+                                <th>Posição</th>
+                                <th>Overall</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {filteredPlayers.map((player, index) => (
+                                <tr key={`player-${index}`}>
+                                    <td>{player.name}</td>
+                                    <td>{player.age}</td>
+                                    <td>{player.position}</td>
+                                    <td>{player.overall}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    </footer>
                 </Nav>
             </Main>
         </>
