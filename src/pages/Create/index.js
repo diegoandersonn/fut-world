@@ -2,20 +2,13 @@ import React, { useState, useContext } from "react";
 import { Container, Form } from './styled';
 import { TeamsContext } from '../../Routes';
 import Header from '../../components/Header/index';
+import CreateTeam from '../../classes/team';
 
 export default function Create() {
   const [teamName, setTeamName] = useState("");
   const [teamCountry, setTeamCountry] = useState("");
   const [teamStadium, setTeamStadium] = useState("");
   const { teams, setTeams } = useContext(TeamsContext);
-
-  class CreateTeam {
-    constructor(name, country, stadium) {
-      this.name = name;
-      this.country = country;
-      this.stadium = stadium;
-    }
-  }
 
   function saveTeam(e) {
     e.preventDefault();

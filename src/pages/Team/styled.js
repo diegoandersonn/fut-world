@@ -35,7 +35,7 @@ export const Nav = styled.section`
   margin: 3rem auto; 
   padding: 3rem;
   border-radius: 0.4rem; 
-  box-shadow: 0 0 1rem rgba(0,0,0,0.5); 
+  box-shadow: 0 0 1rem rgba(0,0,0,0.5);
   .teamLogo{
      width: 110px;
    }

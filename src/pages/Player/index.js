@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { PlayersContext } from "../../Routes";
 import Header from '../../components/Header/index';
 import { Container, Form } from './styled';
+import CreatePlayer from '../../classes/player';
 
 
 export default function PlayerPage() {
@@ -48,29 +49,11 @@ export default function PlayerPage() {
       return (shooting * 0.5 + dribbling * 0.2 + passing * 0.1 + physical * 0.2).toFixed(0);
     }
   }
-  class CreatePlayer {
-    constructor(name, team, nationality, age, number, position, overall, pace, shooting, passing, dribbling, defense, physical) {
-      this.name = name;
-      this.team = team;
-      this.nationality = nationality;
-      this.age = age;
-      this.number = number;
-      this.position = position;
-      this.overall = overall;
-      this.pace = pace;
-      this.shooting = shooting;
-      this.passing = passing;
-      this.dribbling = dribbling;
-      this.defense = defense;
-      this.physical = physical;
-    }
-  }
-  function saveTeam(e) {
+  function savePlayer(e) {
     e.preventDefault();
     if (!player.name || !team.name || !player.nationality || !player.age || !player.number || !player.position || !player.pace || !player.shooting || !player.passing || !player.dribbling || !player.defense || !player.physical) return;
     if (player.value > 100 || player.value < 0 || player.number > 99 || player.number < 0 || player.pace > 99 || player.pace < 0 || player.shooting > 99 || player.shooting < 0 || player.passing > 99 || player.passing < 0 || player.dribbling > 99 || player.dribbling < 0 || player.defense > 99 || player.defense < 0 || player.physical > 99 || player.physical < 0) return;
     const overall = getOverall(player.position, player.pace, player.shooting, player.passing, player.dribbling, player.defense, player.physical);
-    console.log(team)
     const newPlayer = new CreatePlayer(
       player.name,
       team.name,
@@ -103,7 +86,7 @@ export default function PlayerPage() {
   return (
     <>
       <Header />
-      <Form onSubmit={saveTeam}>
+      <Form onSubmit={savePlayer}>
         <Container>
           <form action="">
             <div className="formTittle">
@@ -111,7 +94,7 @@ export default function PlayerPage() {
             </div>
             <div className="row">
               <div className="mainForm">
-                <input type="text" name="name" placeholder="Commom Name" value={player.name} onChange={handleInputChange} />
+                <input type="text" name="name" placeholder="Commom Name"  onChange={handleInputChange} />
                 <input type="text" name="nationality" placeholder="Nationality" value={player.nationality} onChange={handleInputChange} />
                 <input type="number" name="age" placeholder="Age" value={player.age} onChange={handleInputChange} />
               </div>

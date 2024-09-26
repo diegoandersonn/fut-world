@@ -11,9 +11,24 @@ export default function TeamPage() {
     const location = useLocation();
     const { team } = location.state;
     const { players } = useContext(PlayersContext);
-    console.log(players);
     const filteredPlayers = players.filter((player) => player.team === team.name);
-
+    const attackPlayers = filteredPlayers.filter((player) =>
+        player.position === 'Ponta' ||
+        player.position === 'Atacante'
+    );
+    const midPlayers = filteredPlayers.filter((player) =>
+        player.position === 'Volante' ||
+        player.position === 'Meio-Campo' ||
+        player.position === 'Meia-Atacante'
+    );
+    const defensePlayers = filteredPlayers.filter((player) =>
+        player.position === 'Lateral' ||
+        player.position === 'Zagueiro'
+    );
+    function getTotalOverall(filteredPlayers) {
+        if(filteredPlayers.length === 0) return 'XX'
+        return (filteredPlayers.reduce((accumulator, player) => accumulator + Number(player.overall), 0)/filteredPlayers.length).toFixed(0);
+    }
     return (
         <>
             <Header />
@@ -30,25 +45,27 @@ export default function TeamPage() {
                         <div className="grid">
                             <div className="over">
                                 <div className="col">
-                                    <em tittle="XX">XX</em>
+                                    <em title="XX">
+                                        {getTotalOverall(filteredPlayers)}
+                                    </em>
                                     <div className="sub">Overall</div>
                                 </div>
                             </div>
                             <div className="ataque">
                                 <div className="col">
-                                    <em tittle="XX">XX</em>
+                                    <em tittle="XX">{getTotalOverall(attackPlayers)}</em>
                                     <div className="sub">Ataque</div>
                                 </div>
                             </div>
                             <div className="meio">
                                 <div className="col">
-                                    <em tittle="XX">XX</em>
+                                    <em tittle="XX">{getTotalOverall(midPlayers)}</em>
                                     <div className="sub">Meio-Campo</div>
                                 </div>
                             </div>
                             <div className="defesa">
                                 <div className="col">
-                                    <em tittle="XX">XX</em>
+                                    <em tittle="XX">{getTotalOverall(defensePlayers)}</em>
                                     <div className="sub">Defesa</div>
                                 </div>
                             </div>
@@ -57,33 +74,33 @@ export default function TeamPage() {
                 </Nav>
                 <Nav>
                     <footer>
-                    <div className="playerTittle">
-                        <h1>Jogadores: </h1>
-                        <div className="managePlayers">
-                            <Link to={"/Player"} state={{ team }}><IoAdd size={35} /></ Link>
-                            <Link to="/Player"> <IoTrash size={28} /> </ Link>
+                        <div className="playerTittle">
+                            <h1>Jogadores: </h1>
+                            <div className="managePlayers">
+                                <Link to={"/Player"} state={{ team }}><IoAdd size={35} /></ Link>
+                                <Link to="/Player"> <IoTrash size={28} /> </ Link>
+                            </div>
                         </div>
-                    </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Nome</th>
-                                <th>Idade</th>
-                                <th>Posição</th>
-                                <th>Overall</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filteredPlayers.map((player, index) => (
-                                <tr key={`player-${index}`}>
-                                    <td>{player.name}</td>
-                                    <td>{player.age}</td>
-                                    <td>{player.position}</td>
-                                    <td>{player.overall}</td>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Idade</th>
+                                    <th>Posição</th>
+                                    <th>Overall</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {filteredPlayers.map((player, index) => (
+                                    <tr key={`player-${index}`}>
+                                        <td>{player.name}</td>
+                                        <td>{player.age}</td>
+                                        <td>{player.position}</td>
+                                        <td>{player.overall}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </footer>
                 </Nav>
             </Main>
