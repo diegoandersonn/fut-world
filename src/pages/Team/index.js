@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useLocation, Link } from 'react-router-dom';
 import { Nav, Main } from './styled';
-import { IoAdd, IoTrash } from 'react-icons/io5';
+import { IoAdd, IoTrash, IoPencilSharp } from 'react-icons/io5';
 import { PlayersContext } from '../../Routes';
 import Header from '../../components/Header/index';
 import tottenhamLogo from '../../imgs/tottenhamlogo.png';
@@ -78,7 +78,6 @@ export default function TeamPage() {
                             <h1>Jogadores: </h1>
                             <div className="managePlayers">
                                 <Link to={"/Player"} state={{ team }}><IoAdd size={35} /></ Link>
-                                <Link to="/Player"> <IoTrash size={28} /> </ Link>
                             </div>
                         </div>
                         <table>
@@ -88,6 +87,8 @@ export default function TeamPage() {
                                     <th>Idade</th>
                                     <th>Posição</th>
                                     <th>Overall</th>
+                                    <th>Editar</th>
+                                    <th>Remover</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -97,6 +98,8 @@ export default function TeamPage() {
                                         <td>{player.age}</td>
                                         <td>{player.position}</td>
                                         <td>{player.overall}</td>
+                                        <td><Link to="/Player"> <IoPencilSharp size={24} /> </ Link></td>
+                                        <td><Link to="/Player"> <IoTrash size={28} /> </ Link></td>
                                     </tr>
                                 ))}
                             </tbody>
