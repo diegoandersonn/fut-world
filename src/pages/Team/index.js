@@ -83,7 +83,7 @@ export default function TeamPage() {
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Nome</th>
+                                    <th className="fixName">Nome</th>
                                     <th>Idade</th>
                                     <th>Posição</th>
                                     <th>Overall</th>
@@ -94,7 +94,7 @@ export default function TeamPage() {
                             <tbody>
                                 {filteredPlayers.map((player, index) => (
                                     <tr key={`player-${index}`}>
-                                        <td>{player.name}</td>
+                                        <td className="fixName">{player.name}</td>
                                         <td>{player.age}</td>
                                         <td>{player.position}</td>
                                         <td>{player.overall}</td>

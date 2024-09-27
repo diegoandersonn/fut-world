@@ -103,5 +103,9 @@ export const Nav = styled.section`
     min-width: 100px;
     padding: 10px;
     margin: 10px auto; 
+    text-align: center;
+  }
+  .fixName{
+    text-align: left;
   }
   `;
