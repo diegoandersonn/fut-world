@@ -4,6 +4,7 @@ import { PlayersContext } from "../../Routes";
 import Header from '../../components/Header/index';
 import { Container, Form } from './styled';
 import CreatePlayer from '../../classes/player';
+import isValidPlayer from "../../validators/isValidPlayer";
 
 
 export default function PlayerPage() {
@@ -11,7 +12,7 @@ export default function PlayerPage() {
   const location = useLocation();
   const team = location.state?.team || { name: "Default Team" };
 
-  const [player, setPlayer] = useState({
+  const initialPlayerState = {
     name: "",
     nationality: "",
     age: "",
@@ -23,7 +24,8 @@ export default function PlayerPage() {
     dribbling: "",
     defense: "",
     physical: "",
-  });
+  };
+  const [player, setPlayer] = useState(initialPlayerState);
 
   function handleInputChange(e) {
     const { name, value } = e.target;
@@ -51,8 +53,7 @@ export default function PlayerPage() {
   }
   function savePlayer(e) {
     e.preventDefault();
-    if (!player.name || !team.name || !player.nationality || !player.age || !player.number || !player.position || !player.pace || !player.shooting || !player.passing || !player.dribbling || !player.defense || !player.physical) return;
-    if (player.value > 100 || player.value < 0 || player.number > 99 || player.number < 0 || player.pace > 99 || player.pace < 0 || player.shooting > 99 || player.shooting < 0 || player.passing > 99 || player.passing < 0 || player.dribbling > 99 || player.dribbling < 0 || player.defense > 99 || player.defense < 0 || player.physical > 99 || player.physical < 0) return;
+    if (!isValidPlayer(player)) return;
     const overall = getOverall(player.position, player.pace, player.shooting, player.passing, player.dribbling, player.defense, player.physical);
     const newPlayer = new CreatePlayer(
       player.name,
@@ -69,19 +70,7 @@ export default function PlayerPage() {
       player.defense,
       player.physical);
     setPlayers([...players, newPlayer]);
-    setPlayer({
-      name: "",
-      nationality: "",
-      age: "",
-      number: "",
-      position: "",
-      pace: "",
-      shooting: "",
-      passing: "",
-      dribbling: "",
-      defense: "",
-      physical: "",
-    })
+    setPlayer(initialPlayerState);
   }
   return (
     <>
@@ -94,7 +83,7 @@ export default function PlayerPage() {
             </div>
             <div className="row">
               <div className="mainForm">
-                <input type="text" name="name" placeholder="Commom Name"  onChange={handleInputChange} />
+                <input type="text" name="name" placeholder="Commom Name"  value={player.name} onChange={handleInputChange} />
                 <input type="text" name="nationality" placeholder="Nationality" value={player.nationality} onChange={handleInputChange} />
                 <input type="number" name="age" placeholder="Age" value={player.age} onChange={handleInputChange} />
               </div>
