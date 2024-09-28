@@ -1,10 +1,36 @@
-export default function isValidPlayer(player) {
-    const { name, nationality, age, number, pace, shooting, passing, dribbling, defense, physical } = player;
-  
-    if (!name || !nationality || !age || !number || !player.position || !pace || !shooting || !passing || !dribbling || !defense || !physical) {
+export default function isValidPlayer(player, attributes) {
+  if (!player.name || !player.nationality || !player.age || !player.number || !player.position) {
+    alert("Preencha todos os campos obrigatórios do jogador.");
+    return false;
+  }
+
+  if (player.position === "Goleiro") {
+    const { diving, handling, kicking, positioning, reflexes, reactions } = attributes;
+    if (
+      diving === "" ||
+      handling === "" ||
+      kicking === "" ||
+      positioning === "" ||
+      reflexes === "" ||
+      reactions === ""
+    ) {
+      alert("Preencha todos os atributos do goleiro.");
       return false;
     }
-    const attributes = [pace, shooting, passing, dribbling, defense, physical];
-    return (number >= 0 && number <= 99 && attributes.every(attr => attr >= 0 && attr <= 99) && age > 16 && age <= 100);
+  } else {
+    const { pace, shooting, passing, dribbling, defense, physical } = attributes;
+    if (
+      pace === "" ||
+      shooting === "" ||
+      passing === "" ||
+      dribbling === "" ||
+      defense === "" ||
+      physical === ""
+    ) {
+      alert("Preencha todos os atributos do jogador de linha.");
+      return false;
+    }
   }
-  
+
+  return true;
+}
