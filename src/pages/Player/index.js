@@ -4,6 +4,7 @@ import { PlayersContext } from "../../Routes";
 import Header from '../../components/Header/index';
 import { Container, Form } from './styled';
 import CreatePlayer from '../../classes/player';
+import CreateGoalkepper from "../../classes/goalkepper";
 import isValidPlayer from "../../validators/isValidPlayer";
 
 
@@ -18,14 +19,28 @@ export default function PlayerPage() {
     age: "",
     number: "",
     position: "",
+  };
+  const [player, setPlayer] = useState(initialPlayerState);
+
+  const initialPlayerAttributesState = {
     pace: "",
     shooting: "",
     passing: "",
     dribbling: "",
     defense: "",
-    physical: "",
+    physical: ""
   };
-  const [player, setPlayer] = useState(initialPlayerState);
+  const [fieldPlayerAttributes, setFieldPlayerAttributes] = useState(initialPlayerAttributesState);
+
+  const initialGoalkepperAttributesState = {
+    diving: "",
+    handling: "",
+    kicking: "",
+    positioning: "",
+    reflexes: "",
+    reactions: ""
+  };
+  const [goalkepperAttributes, setGoalkepperAttributes] = useState(initialGoalkepperAttributesState);
 
   function handleInputChange(e) {
     const { name, value } = e.target;
@@ -34,44 +49,80 @@ export default function PlayerPage() {
       [name]: value,
     }));
   }
-  function getOverall(position, pace, shooting, passing, dribbling, defense, physical) {
-    if (position === 'Zagueiro') {
-      return (defense * 0.6 + passing * 0.1 + physical * 0.3).toFixed(0);
-    } else if (position === 'Lateral') {
-      return (pace * 0.3 + passing * 0.2 + defense * 0.3 + dribbling * 0.2).toFixed(0);
-    } else if (position === 'Volante') {
-      return (defense * 0.4 + physical * 0.3 + passing * 0.3).toFixed(0);
-    } else if (position === 'Meio-Campo') {
-      return (shooting * 0.1 + passing * 0.3 + dribbling * 0.2 + defense * 0.2, physical * 0.2).toFixed(0);
-    } else if (position === 'Meia-Atacante') {
-      return (shooting * 0.3 + dribbling * 0.3 + passing * 0.4).toFixed(0);
-    } else if (position === 'Ponta') {
-      return (shooting * 0.2 + dribbling * 0.5 + pace * 0.3).toFixed(0);
-    } else if (position === 'Atacante') {
-      return (shooting * 0.5 + dribbling * 0.2 + passing * 0.1 + physical * 0.2).toFixed(0);
-    }
+  function handleInputChangePlayerAtrib(e) {
+    const { name, value } = e.target;
+    setFieldPlayerAttributes((prevPlayer) => ({
+      ...prevPlayer,
+      [name]: value,
+    }));
+  }
+  function handleInputChangeGKAtrib(e) {
+    const { name, value } = e.target;
+    setGoalkepperAttributes((prevPlayer) => ({
+      ...prevPlayer,
+      [name]: value,
+    }));
   }
   function savePlayer(e) {
+    let newPlayer;
     e.preventDefault();
-    if (!isValidPlayer(player)) return;
-    const overall = getOverall(player.position, player.pace, player.shooting, player.passing, player.dribbling, player.defense, player.physical);
-    const newPlayer = new CreatePlayer(
-      player.name,
-      team.name,
-      player.nationality,
-      player.age,
-      player.number,
-      player.position,
-      overall,
-      player.pace,
-      player.shooting,
-      player.passing,
-      player.dribbling,
-      player.defense,
-      player.physical);
+    const attributes = player.position === 'Goleiro' ? goalkepperAttributes : fieldPlayerAttributes;
+    
+    if (!isValidPlayer(player, attributes)) return;
+    
+    if (player.position === 'Goleiro') {
+      newPlayer = new CreateGoalkepper(
+        player.name,
+        team.name,
+        player.nationality,
+        player.age,
+        player.number,
+        player.position,
+        goalkepperAttributes.diving,
+        goalkepperAttributes.handling,
+        goalkepperAttributes.kicking,
+        goalkepperAttributes.positioning,
+        goalkepperAttributes.reflexes,
+        goalkepperAttributes.reactions
+      );
+    } else {
+      newPlayer = new CreatePlayer(
+        player.name,
+        team.name,
+        player.nationality,
+        player.age,
+        player.number,
+        player.position,
+        fieldPlayerAttributes.pace,
+        fieldPlayerAttributes.shooting,
+        fieldPlayerAttributes.passing,
+        fieldPlayerAttributes.dribbling,
+        fieldPlayerAttributes.defense,
+        fieldPlayerAttributes.physical
+      );
+    } 
+    
+    newPlayer.overall = newPlayer.getOverall();
     setPlayers([...players, newPlayer]);
     setPlayer(initialPlayerState);
+    setFieldPlayerAttributes({
+      pace: "",
+      shooting: "",
+      passing: "",
+      dribbling: "",
+      defense: "",
+      physical: ""
+    });
+    setGoalkepperAttributes({
+      diving: "",
+      handling: "",
+      kicking: "",
+      positioning: "",
+      reflexes: "",
+      reactions: ""
+    });
   }
+  
   return (
     <>
       <Header />
@@ -102,36 +153,43 @@ export default function PlayerPage() {
                 <input type="number" name="number" placeholder="Number" value={player.number} onChange={handleInputChange} />
               </div>
             </div>
-            <div className="formTittle">
-              <h1 className="formTittle">Atributos</h1>
-            </div>
-            <div className="row">
-              <div className="attributeForm">
-                <input type="number" name="pace" placeholder="Pace" value={player.pace} onChange={handleInputChange} />
-                <input type="number" name="shooting" placeholder="Shooting" value={player.shooting} onChange={handleInputChange} />
-                <input type="number" name="passing" placeholder="Passing" value={player.passing} onChange={handleInputChange} />
+                <div className="formTittle">
+                <h1 className="formTittle">Atributos</h1>
+                </div>
+              {player.position !== 'Goleiro' ? (
+              <>
+              <div className="row">
+                <div className="attributeForm">
+                  <input type="number" name="pace" placeholder="Pace" value={fieldPlayerAttributes.pace} onChange={handleInputChangePlayerAtrib} />
+                  <input type="number" name="shooting" placeholder="Shooting" value={fieldPlayerAttributes.shooting} onChange={handleInputChangePlayerAtrib} />
+                  <input type="number" name="passing" placeholder="Passing" value={fieldPlayerAttributes.passing} onChange={handleInputChangePlayerAtrib} />
+                </div>
+                <div className="attributeForm">
+                  <input type="number" name="dribbling" placeholder="Dribbling" value={fieldPlayerAttributes.dribbling} onChange={handleInputChangePlayerAtrib} />
+                  <input type="number" name="defense" placeholder="Defense" value={fieldPlayerAttributes.defense} onChange={handleInputChangePlayerAtrib} />
+                  <input type="number" name="physical" placeholder="Physical" value={fieldPlayerAttributes.physical} onChange={handleInputChangePlayerAtrib} />
+                </div>
               </div>
-              <div className="attributeForm">
-                <input type="number" name="dribbling" placeholder="Dribbling" value={player.dribbling} onChange={handleInputChange} />
-                <input type="number" name="defense" placeholder="Defense" value={player.defense} onChange={handleInputChange} />
-                <input type="number" name="physical" placeholder="Physical" value={player.physical} onChange={handleInputChange} />
+              </>
+            ) : (
+              <>
+              <div className="row">
+                <div className="attributeForm">
+                  <input type="number" name="diving" placeholder="Diving" value={goalkepperAttributes.diving} onChange={handleInputChangeGKAtrib} />
+                  <input type="number" name="handling" placeholder="Handling" value={goalkepperAttributes.handling} onChange={handleInputChangeGKAtrib} />
+                  <input type="number" name="kicking" placeholder="Kicking" value={goalkepperAttributes.kicking} onChange={handleInputChangeGKAtrib} />
+                </div>
+                <div className="attributeForm">
+                  <input type="number" name="positioning" placeholder="Positioning" value={goalkepperAttributes.positioning} onChange={handleInputChangeGKAtrib} />
+                  <input type="number" name="reflexes" placeholder="Reflexes" value={goalkepperAttributes.reflexes} onChange={handleInputChangeGKAtrib} />
+                  <input type="number" name="reactions" placeholder="Reactions" value={goalkepperAttributes.reactions} onChange={handleInputChangeGKAtrib} />
+                </div>
               </div>
-            </div>
+              </>
+            )}
             <div className="formButtons">
               <button type="submit">Enviar</button>
-              <button type="reset" onClick={() => setPlayer({
-                name: "",
-                nationality: "",
-                age: "",
-                number: "",
-                position: "",
-                pace: "",
-                shooting: "",
-                passing: "",
-                dribbling: "",
-                defense: "",
-                physical: "",
-              })}>Resetar</button>
+              <button type="reset" onClick={() => setPlayer(initialPlayerState)}>Resetar</button>
             </div>
           </form>
         </Container>
