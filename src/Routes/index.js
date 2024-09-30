@@ -5,6 +5,7 @@ import Create from '../pages/Create';
 import Page404 from '../pages/Page404';
 import TeamPage from '../pages/Team';
 import PlayerPage from '../pages/Player';
+import EditPlayer from '../pages/EditPlayer';
 
 export const TeamsContext = createContext();
 export const PlayersContext = createContext();
@@ -36,7 +37,8 @@ export default function MyRoutes() {
             <Route exact path='/Create' element={<Create />} />
             <Route path='*' element={<Page404 />} />
             <Route path='/Team/*' element={<TeamPage />} />
-            <Route path='/Player/*' element={<PlayerPage />} />
+            <Route path='/Player' element={<PlayerPage />} />
+            <Route path='/Player/*' element={<EditPlayer />} />
           </Routes>
         </TeamsProvider>
       </PlayersProvider>
