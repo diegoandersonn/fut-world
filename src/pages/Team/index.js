@@ -4,8 +4,8 @@ import { Nav, Main } from './styled';
 import { IoAdd, IoTrash, IoPencilSharp } from 'react-icons/io5';
 import { PlayersContext } from '../../Routes';
 import Header from '../../components/Header/index';
-import tottenhamLogo from '../../imgs/tottenhamlogo.png';
-import englandFlag from '../../imgs/england.png';
+import realMadridLogo from '../../imgs/realMadridLogo.webp';
+import spainFlag from '../../imgs/spainFlag.webp';
 
 export default function TeamPage() {
     const location = useLocation();
@@ -23,7 +23,8 @@ export default function TeamPage() {
     );
     const defensePlayers = filteredPlayers.filter((player) =>
         player.position === 'Lateral' ||
-        player.position === 'Zagueiro'
+        player.position === 'Zagueiro' ||
+        player.position === 'Goleiro'
     );
     function getTotalOverall(filteredPlayers) {
         if(filteredPlayers.length === 0) return 'XX'
@@ -41,11 +42,11 @@ export default function TeamPage() {
                 <Nav>
                     <article>
                         <div className="logo">
-                            <img src={tottenhamLogo} alt="Tottenham" className="teamLogo" />
+                            <img src={realMadridLogo} alt="Tottenham" className="teamLogo" />
                         </div>
                         <div className="tittle">
                             <h1>{team.name}</h1>
-                            <p><img src={englandFlag} alt="England" className="countryFlag" /> {team.country}</p>
+                            <p><img src={spainFlag} alt="England" className="countryFlag" /> {team.country}</p>
                         </div>
                         <div className="grid">
                             <div className="over">
