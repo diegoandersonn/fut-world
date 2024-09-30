@@ -98,7 +98,7 @@ export default function TeamPage() {
                                         <td>{player.age}</td>
                                         <td>{player.position}</td>
                                         <td>{player.overall}</td>
-                                        <td><Link to="/Player"> <IoPencilSharp size={24} /> </ Link></td>
+                                        <td><Link to={`/Player/${player.name}`} state={{ player }}> <IoPencilSharp size={24} /> </ Link></td>
                                         <td><Link to="/Player"> <IoTrash size={28} /> </ Link></td>
                                     </tr>
                                 ))}
