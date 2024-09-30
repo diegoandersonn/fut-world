@@ -4,7 +4,7 @@ import Main from '../pages/Main';
 import Create from '../pages/CreateTeam';
 import Page404 from '../pages/Page404';
 import TeamPage from '../pages/Team';
-import PlayerPage from '../pages/Player';
+import PlayerPage from '../pages/CreatePlayer';
 import EditPlayer from '../pages/EditPlayer';
 
 export const TeamsContext = createContext();
