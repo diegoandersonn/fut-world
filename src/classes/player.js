@@ -1,5 +1,6 @@
 export default class CreatePlayer {
     overall;
+    id;
     constructor(name, team, nationality, age, number, position, pace, shooting, passing, dribbling, defense, physical) {
       this.name = name;
       this.team = team;
