@@ -7,6 +7,7 @@ import CreatePlayer from '../../classes/player';
 import CreateGoalkepper from "../../classes/goalkepper";
 import isValidPlayer from "../../validators/isValidPlayer";
 
+let counter = 1;
 
 export default function PlayerPage() {
   const { players, setPlayers } = useContext(PlayersContext);
@@ -19,6 +20,7 @@ export default function PlayerPage() {
     age: "",
     number: "",
     position: "",
+    id:"",
   };
   const [player, setPlayer] = useState(initialPlayerState);
 
@@ -101,8 +103,9 @@ export default function PlayerPage() {
         fieldPlayerAttributes.physical
       );
     } 
-    
+    newPlayer.id = counter++;
     newPlayer.overall = newPlayer.getOverall();
+    console.log(newPlayer)
     setPlayers([...players, newPlayer]);
     setPlayer(initialPlayerState);
     setFieldPlayerAttributes({
