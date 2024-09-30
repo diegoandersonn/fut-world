@@ -105,7 +105,6 @@ export default function PlayerPage() {
     } 
     newPlayer.id = counter++;
     newPlayer.overall = newPlayer.getOverall();
-    console.log(newPlayer)
     setPlayers([...players, newPlayer]);
     setPlayer(initialPlayerState);
     setFieldPlayerAttributes({
