@@ -1,7 +1,7 @@
 import React, { createContext, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Main from '../pages/Main';
-import Create from '../pages/Create';
+import Create from '../pages/CreateTeam';
 import Page404 from '../pages/Page404';
 import TeamPage from '../pages/Team';
 import PlayerPage from '../pages/Player';
