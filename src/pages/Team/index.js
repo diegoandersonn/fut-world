@@ -29,6 +29,11 @@ export default function TeamPage() {
         if(filteredPlayers.length === 0) return 'XX'
         return (filteredPlayers.reduce((accumulator, player) => accumulator + Number(player.overall), 0)/filteredPlayers.length).toFixed(0);
     }
+    function removePlayer(id) {
+        console.log('cheguei na funcao remover');
+        players.pop(filteredPlayers.map((player) => player.id === id));
+        console.log(players);
+    }
     return (
         <>
             <Header />
@@ -99,7 +104,7 @@ export default function TeamPage() {
                                         <td>{player.position}</td>
                                         <td>{player.overall}</td>
                                         <td><Link to={`/Player/${player.name}`} state={{ player }}> <IoPencilSharp size={24} /> </ Link></td>
-                                        <td><Link to="/Player"> <IoTrash size={28} /> </ Link></td>
+                                        <td><p onClick={() => removePlayer(player.id)}><IoTrash size={28}/></p></td>
                                     </tr>
                                 ))}
                             </tbody>
