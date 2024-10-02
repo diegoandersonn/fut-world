@@ -10,6 +10,7 @@ import EditPlayer from '../pages/EditPlayer';
 export const TeamsContext = createContext();
 export const PlayersContext = createContext();
 
+
 const TeamsProvider = ({ children }) => {
   const [teams, setTeams] = useState([]);
   return (
@@ -18,14 +19,25 @@ const TeamsProvider = ({ children }) => {
     </TeamsContext.Provider>
   );
 };
+
 const PlayersProvider = ({ children }) => {
   const [players, setPlayers] = useState([]);
+
+  const updatePlayer = (updatedPlayer) => {
+    setPlayers((prevPlayers) =>
+      prevPlayers.map((player) =>
+        player.id === updatedPlayer.id ? updatedPlayer : player
+      )
+    );
+  };
+
   return (
-    <PlayersContext.Provider value={{ players, setPlayers }}>
+    <PlayersContext.Provider value={{ players, updatePlayer }}>
       {children}
     </PlayersContext.Provider>
   );
 };
+
 
 export default function MyRoutes() {
   return (
