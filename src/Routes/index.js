@@ -32,12 +32,11 @@ const PlayersProvider = ({ children }) => {
   };
 
   return (
-    <PlayersContext.Provider value={{ players, updatePlayer }}>
+    <PlayersContext.Provider value={{ players, setPlayers, updatePlayer }}>
       {children}
     </PlayersContext.Provider>
   );
 };
-
 
 export default function MyRoutes() {
   return (
