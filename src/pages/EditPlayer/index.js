@@ -3,20 +3,22 @@ import { useLocation } from "react-router-dom";
 import { PlayersContext } from '../../Routes';
 import Header from '../../components/Header/index';
 import { Container, Form } from './styled';
+import getOverall from '../../utils/getOverall';
 
 export default function EditPlayer() {
-  const { players, setPlayers } = useContext(PlayersContext);
+  const { players, updatePlayer } = useContext(PlayersContext);
   console.log(players);
-  console.log(setPlayers);
   const location = useLocation();
   const { player } = location.state;
   const initialPlayerState = {
     name: player.name,
+    id: player.id,
+    team: player.team,
     nationality: player.nationality,
     age: player.age,
     position: player.position,
     number: player.number,
-  }
+  };
   const [playerState, setPlayerState] = useState(initialPlayerState);
   const initialPlayerAttributesState = player.position !== "Goleiro" ? {
     pace: player.pace,
@@ -34,6 +36,7 @@ export default function EditPlayer() {
     reactions: player.reactions,
   };
   const [AttributesState, setAttributesState] = useState(initialPlayerAttributesState);
+
   function handleInputChange(e) {
     const { name, value } = e.target;
     setPlayerState((prevPlayer) => ({
@@ -41,25 +44,50 @@ export default function EditPlayer() {
       [name]: value,
     }));
   }
+
   function handleInputChangeAtrib(e) {
     const { name, value } = e.target;
-    setAttributesState((prevPlayer) => ({
-      ...prevPlayer,
+    setAttributesState((prevAttributes) => ({
+      ...prevAttributes,
       [name]: value,
     }));
   }
+
   function savePlayer(e) {
     e.preventDefault();
-    const updatedPlayer = {
-      ...playerState,
-      ...AttributesState,
-    };
-    const updatedPlayers = players.map((p) =>
-      p.id === playerState.id ? updatedPlayer : p
-    );
-  
-    setPlayers(updatedPlayers);
+    if (playerState !== "Goleiro") {
+      const updatedPlayer = {
+        ...playerState,
+        overall: getOverall(
+          playerState.position,
+          AttributesState.pace,
+          AttributesState.shooting,
+          AttributesState.passing,
+          AttributesState.dribbling,
+          AttributesState.defense,
+          AttributesState.physical),
+        ...AttributesState,
+      };
+      updatePlayer(updatedPlayer);
+      console.log('Player updated successfully');
+    } else {
+      const updatedPlayer = {
+        ...playerState,
+        overall: getOverall(
+          playerState.position,
+          AttributesState.diving,
+          AttributesState.handling,
+          AttributesState.kicking,
+          AttributesState.positioning,
+          AttributesState.reflexes,
+          AttributesState.reactions),
+        ...AttributesState,
+      };
+      updatePlayer(updatedPlayer);
+      console.log('Player updated successfully');
+    }
   }
+
   return (
     <>
       <Header />

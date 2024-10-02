@@ -26,6 +26,9 @@ export const Main = styled.div`
   button:hover {
     background-color: ${colors.primaryDarkColor};
   }
+  p {
+    cursor: pointer;
+  }
   `;
 
 export const Nav = styled.section`
