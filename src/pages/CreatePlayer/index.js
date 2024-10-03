@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { PlayersContext } from "../../Routes";
 import Header from '../../components/Header/index';
 import { Container, Form } from './styled';
@@ -12,6 +12,7 @@ let counter = 1;
 
 export default function PlayerPage() {
   const { players, setPlayers } = useContext(PlayersContext);
+  const navigate = useNavigate();
   const location = useLocation();
   const team = location.state?.team || { name: "Default Team" };
 
@@ -143,6 +144,7 @@ export default function PlayerPage() {
       reflexes: "",
       reactions: ""
     });
+    navigate(`/Team/${team.name}`, { state: { team }});
   }
   
   return (
