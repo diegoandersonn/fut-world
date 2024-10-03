@@ -5,19 +5,26 @@ import Header from '../../components/Header/index';
 import CreateTeam from '../../classes/team';
 
 export default function Create() {
-  const [teamName, setTeamName] = useState("");
-  const [teamCountry, setTeamCountry] = useState("");
-  const [teamStadium, setTeamStadium] = useState("");
   const { teams, setTeams } = useContext(TeamsContext);
-
+  const initialTeamState = {
+    teamName: '',
+    teamCountry: '',
+    teamStadium: '',
+  }
+  const [team, setTeam] = useState(initialTeamState);
   function saveTeam(e) {
     e.preventDefault();
-    if (!teamName || !teamCountry || !teamStadium) return;
-    const newTeam = new CreateTeam(teamName, teamCountry, teamStadium);
+    if (!team.teamName || !team.teamCountry || !team.teamStadium) return;
+    const newTeam = new CreateTeam(team.teamName, team.teamCountry, team.teamStadium);
     setTeams([...teams, newTeam]);
-    setTeamName("");
-    setTeamCountry("");
-    setTeamStadium("");
+    setTeam(initialTeamState);
+  }
+  function handleInputChange(e) {
+    const { name, value } = e.target;
+    setTeam((prevTeam) => ({
+      ...prevTeam,
+      [name]: value,
+    }));
   }
 
   return (
@@ -31,24 +38,24 @@ export default function Create() {
               type="text"
               id="teamName"
               name="teamName"
-              value={teamName}
-              onChange={(e) => setTeamName(e.target.value)}
+              value={team.teamName}
+              onChange={handleInputChange}
             /><br /><br />
             <label htmlFor="teamCountry">País:</label><br />
             <input
               type="text"
               id="teamCountry"
               name="teamCountry"
-              value={teamCountry}
-              onChange={(e) => setTeamCountry(e.target.value)}
+              value={team.teamCountry}
+              onChange={handleInputChange}
             /><br /><br />
             <label htmlFor="teamStadium">Estádio do time:</label><br />
             <input
               type="text"
               id="teamStadium"
               name="teamStadium"
-              value={teamStadium}
-              onChange={(e) => setTeamStadium(e.target.value)}
+              value={team.teamStadium}
+              onChange={handleInputChange}
             /><br /><br /><br />
             <button type="submit">Enviar</button>
           </form>
