@@ -1,15 +1,18 @@
 import React, { useState, useContext } from "react";
-import { useLocation } from "react-router-dom";
-import { PlayersContext } from '../../Routes';
+import { useLocation, useNavigate  } from "react-router-dom";
+import { PlayersContext, TeamsContext } from '../../Routes';
 import Header from '../../components/Header/index';
 import { Container, Form } from './styled';
 import getOverall from '../../utils/getOverall';
 
 export default function EditPlayer() {
-  const { players, updatePlayer } = useContext(PlayersContext);
-  console.log(players);
+  const { teams } = useContext(TeamsContext);
+  const { updatePlayer } = useContext(PlayersContext);
+  const navigate = useNavigate();
   const location = useLocation();
   const { player } = location.state;
+  const playerTeam = teams.find(team => team.name === player.team);
+  console.log('edit page', playerTeam)
   const initialPlayerState = {
     name: player.name,
     id: player.id,
@@ -69,7 +72,8 @@ export default function EditPlayer() {
         ...AttributesState,
       };
       updatePlayer(updatedPlayer);
-      console.log('Player updated successfully');
+      console.log('após o save', playerTeam);
+      navigate(`/Team/${playerState.team}`, { state: { team: playerTeam } } );
     } else {
       const updatedPlayer = {
         ...playerState,
@@ -84,7 +88,7 @@ export default function EditPlayer() {
         ...AttributesState,
       };
       updatePlayer(updatedPlayer);
-      console.log('Player updated successfully');
+      navigate(`/Team/${playerState.team}`, { state: playerTeam });
     }
   }
 

@@ -8,10 +8,12 @@ import realMadridLogo from '../../imgs/realMadridLogo.webp';
 import spainFlag from '../../imgs/spainFlag.webp';
 
 export default function TeamPage() {
+    const { players, setPlayers } = useContext(PlayersContext);
     const location = useLocation();
-    const { team } = location.state;
-    const { players } = useContext(PlayersContext);
+    const team = location.state?.team || { name: "Default Team", country: "Unknown" };
     const filteredPlayers = players.filter((player) => player.team === team.name);
+    console.log('team page', team);
+
     const attackPlayers = filteredPlayers.filter((player) =>
         player.position === 'Ponta' ||
         player.position === 'Atacante'
@@ -26,14 +28,17 @@ export default function TeamPage() {
         player.position === 'Zagueiro' ||
         player.position === 'Goleiro'
     );
-    function getTotalOverall(filteredPlayers) {
-        if(filteredPlayers.length === 0) return 'XX'
-        return (filteredPlayers.reduce((accumulator, player) => accumulator + Number(player.overall), 0)/filteredPlayers.length).toFixed(0);
+
+    function getTotalOverall(playersList) {
+        if (playersList.length === 0) return 'XX';
+        return (
+            playersList.reduce((accumulator, player) => accumulator + Number(player.overall), 0) / playersList.length
+        ).toFixed(0);
     }
+
     function removePlayer(id) {
-        console.log('cheguei na funcao remover');
-        players.pop(filteredPlayers.map((player) => player.id === id));
-        console.log(players);
+        const updatedPlayers = players.filter((player) => player.id !== id);
+        setPlayers(updatedPlayers);
     }
     return (
         <>
