@@ -6,6 +6,7 @@ import { Container, Form } from './styled';
 import CreatePlayer from '../../classes/player';
 import CreateGoalkepper from "../../classes/goalkepper";
 import isValidPlayer from "../../validators/isValidPlayer";
+import getOverall from "../../utils/getOverall";
 
 let counter = 1;
 
@@ -67,6 +68,7 @@ export default function PlayerPage() {
   }
   function savePlayer(e) {
     let newPlayer;
+    let overall;
     e.preventDefault();
     const attributes = player.position === 'Goleiro' ? goalkepperAttributes : fieldPlayerAttributes;
     
@@ -80,6 +82,15 @@ export default function PlayerPage() {
         player.age,
         player.number,
         player.position,
+        overall = getOverall(
+          player.position,
+          goalkepperAttributes.diving,
+          goalkepperAttributes.handling,
+          goalkepperAttributes.kicking,
+          goalkepperAttributes.positioning,
+          goalkepperAttributes.reflexes,
+          goalkepperAttributes.reactions
+        ),
         goalkepperAttributes.diving,
         goalkepperAttributes.handling,
         goalkepperAttributes.kicking,
@@ -95,6 +106,16 @@ export default function PlayerPage() {
         player.age,
         player.number,
         player.position,
+        // eslint-disable-next-line no-unused-vars
+        overall = getOverall(
+          player.position,
+          fieldPlayerAttributes.pace,
+          fieldPlayerAttributes.shooting,
+          fieldPlayerAttributes.passing,
+          fieldPlayerAttributes.dribbling,
+          fieldPlayerAttributes.defense,
+          fieldPlayerAttributes.physical,
+        ),
         fieldPlayerAttributes.pace,
         fieldPlayerAttributes.shooting,
         fieldPlayerAttributes.passing,
@@ -102,9 +123,8 @@ export default function PlayerPage() {
         fieldPlayerAttributes.defense,
         fieldPlayerAttributes.physical
       );
-    } 
+    }
     newPlayer.id = counter++;
-    newPlayer.overall = newPlayer.getOverall();
     setPlayers([...players, newPlayer]);
     setPlayer(initialPlayerState);
     setFieldPlayerAttributes({
