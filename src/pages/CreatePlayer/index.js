@@ -8,7 +8,7 @@ import CreateGoalkepper from "../../classes/goalkepper";
 import isValidPlayer from "../../validators/isValidPlayer";
 import getOverall from "../../utils/getOverall";
 
-let counter = 1;
+let idCounter = 1;
 
 export default function PlayerPage() {
   const { players, setPlayers } = useContext(PlayersContext);
@@ -69,7 +69,6 @@ export default function PlayerPage() {
   }
   function savePlayer(e) {
     let newPlayer;
-    let overall;
     e.preventDefault();
     const attributes = player.position === 'Goleiro' ? goalkepperAttributes : fieldPlayerAttributes;
     
@@ -83,7 +82,7 @@ export default function PlayerPage() {
         player.age,
         player.number,
         player.position,
-        overall = getOverall(
+        getOverall(
           player.position,
           goalkepperAttributes.diving,
           goalkepperAttributes.handling,
@@ -107,8 +106,7 @@ export default function PlayerPage() {
         player.age,
         player.number,
         player.position,
-        // eslint-disable-next-line no-unused-vars
-        overall = getOverall(
+        getOverall(
           player.position,
           fieldPlayerAttributes.pace,
           fieldPlayerAttributes.shooting,
@@ -125,7 +123,7 @@ export default function PlayerPage() {
         fieldPlayerAttributes.physical
       );
     }
-    newPlayer.id = counter++;
+    newPlayer.id = idCounter++;
     setPlayers([...players, newPlayer]);
     setPlayer(initialPlayerState);
     setFieldPlayerAttributes({
