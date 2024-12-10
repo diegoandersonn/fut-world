@@ -8,7 +8,7 @@ export const Form = styled.div`
     align-self: flex-start;
   }
 
-  input {
+  input, select {
     background-color: ${colors.primaryLightColor};
     color: white;
     border: 2px solid ${colors.primaryColor};

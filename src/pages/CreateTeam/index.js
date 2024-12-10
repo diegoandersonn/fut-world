@@ -17,12 +17,12 @@ export default function Create() {
 
   function handleInputChange(e) {
     const { name, value } = e.target;
+
     setTeam((prevTeam) => ({
       ...prevTeam,
       [name]: value,
-    }));
+    }))
   }
-
   function saveTeam(e) {
     e.preventDefault();
     if (!team.teamName || !team.teamCountry || !team.teamStadium) return;
@@ -47,13 +47,12 @@ export default function Create() {
               onChange={handleInputChange}
             /><br /><br />
             <label htmlFor="teamCountry">País:</label><br />
-            <input
-              type="text"
-              id="teamCountry"
-              name="teamCountry"
-              value={team.teamCountry}
-              onChange={handleInputChange}
-            /><br /><br />
+            <select name="teamCountry" value={team.teamCountry} onChange={handleInputChange}>
+              <option value="" disabled>Selecione o País</option>
+                <option value="Inglaterra">Inglaterra</option>
+                <option value="Espanha">Espanha</option>
+            </select>
+            <br /><br />
             <label htmlFor="teamStadium">Estádio do time:</label><br />
             <input
               type="text"

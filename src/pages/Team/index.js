@@ -5,7 +5,7 @@ import { IoAdd, IoTrash, IoPencilSharp } from 'react-icons/io5';
 import { PlayersContext } from '../../Routes';
 import Header from '../../components/Header/index';
 import realMadridLogo from '../../imgs/realMadridLogo.webp';
-import spainFlag from '../../imgs/spainFlag.webp';
+import spainFlag from '../../assets/countries/spainflag.webp';
 
 export default function TeamPage() {
     const { players, setPlayers } = useContext(PlayersContext);
@@ -50,7 +50,7 @@ export default function TeamPage() {
                         </div>
                         <div className="tittle">
                             <h1>{team.name}</h1>
-                            <p><img src={spainFlag} alt="England" className="countryFlag" /> {team.country}</p>
+                            <p><img src={spainFlag} alt="England" className="countryFlag" /></p>
                         </div>
                         <div className="grid">
                             <div className="over">
