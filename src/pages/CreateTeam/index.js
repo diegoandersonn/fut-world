@@ -4,6 +4,7 @@ import { Container, Form } from './styled';
 import { TeamsContext } from '../../Routes';
 import Header from '../../components/Header/index';
 import CreateTeam from '../../classes/team';
+import TeamForm from '../../components/TeamForm';
 
 export default function Create() {
   const { teams, setTeams } = useContext(TeamsContext);
@@ -35,36 +36,14 @@ export default function Create() {
   return (
     <>
       <Header />
-      <Container>
-        <Form onSubmit={saveTeam}>
-          <form action="">
-            <label htmlFor="teamName">Nome do Time:</label><br />
-            <input
-              type="text"
-              id="teamName"
-              name="teamName"
-              value={team.teamName}
-              onChange={handleInputChange}
-            /><br /><br />
-            <label htmlFor="teamCountry">País:</label><br />
-            <select name="teamCountry" value={team.teamCountry} onChange={handleInputChange}>
-              <option value="" disabled>Selecione o País</option>
-                <option value="Inglaterra">Inglaterra</option>
-                <option value="Espanha">Espanha</option>
-            </select>
-            <br /><br />
-            <label htmlFor="teamStadium">Estádio do time:</label><br />
-            <input
-              type="text"
-              id="teamStadium"
-              name="teamStadium"
-              value={team.teamStadium}
-              onChange={handleInputChange}
-            /><br /><br /><br />
-            <button type="submit">Enviar</button>
-          </form>
-        </Form>
-      </Container>
+      <Form onSubmit={saveTeam}>
+        <Container>
+          <TeamForm
+            team={team}
+            handleInputChange={handleInputChange}
+          />
+        </Container>
+      </Form>
     </>
   );
 }

@@ -5,13 +5,14 @@ import { IoAdd, IoTrash, IoPencilSharp } from 'react-icons/io5';
 import { PlayersContext } from '../../Routes';
 import Header from '../../components/Header/index';
 import realMadridLogo from '../../imgs/realMadridLogo.webp';
-import spainFlag from '../../assets/countries/spainflag.webp';
+import { flags } from '../../cfg/flags';
 
 export default function TeamPage() {
     const { players, setPlayers } = useContext(PlayersContext);
     const location = useLocation();
     const team = location.state?.team || { name: "Default Team", country: "Unknown" };
     const filteredPlayers = players.filter((player) => player.team === team.name);
+    const teamLogo = flags.find((index) => index.name === team.country);
 
     const attackPlayers = filteredPlayers.filter((player) =>
         player.position === 'Ponta' ||
@@ -50,7 +51,7 @@ export default function TeamPage() {
                         </div>
                         <div className="tittle">
                             <h1>{team.name}</h1>
-                            <p><img src={spainFlag} alt="England" className="countryFlag" /></p>
+                            <p><img src={teamLogo.flag} alt="England" className="countryFlag" /> {team.country}</p>
                         </div>
                         <div className="grid">
                             <div className="over">
