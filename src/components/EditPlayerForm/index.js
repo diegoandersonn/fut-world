@@ -1,5 +1,4 @@
 import React from "react";
-import { flags } from '../../cfg/flags';
 
 export default function EditPlayerForm({
   player,
@@ -8,7 +7,6 @@ export default function EditPlayerForm({
   AttributesState,
   handleInputChangeAtrib,
 }) {
-  console.log(flags);
   return (
     <form action="">
     <div className="formTittle">

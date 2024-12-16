@@ -7,7 +7,7 @@ import CreatePlayer from '../../classes/player';
 import CreateGoalkepper from "../../classes/goalkepper";
 import isValidPlayer from "../../validators/isValidPlayer";
 import getOverall from "../../utils/getOverall";
-import PlayerForm from '../../components/PlayerForm';
+import PlayerForm from '../../components/CreatePlayerForm';
 
 let idCounter = 1;
 

@@ -13,7 +13,6 @@ export default function EditPlayer() {
   const location = useLocation();
   const { player } = location.state;
   const playerTeam = teams.find(team => team.name === player.team);
-  console.log('edit page', playerTeam)
   const initialPlayerState = {
     name: player.name,
     id: player.id,
@@ -73,7 +72,6 @@ export default function EditPlayer() {
         ...AttributesState,
       };
       updatePlayer(updatedPlayer);
-      console.log('após o save', playerTeam);
       navigate(`/Team/${playerState.team}`, { state: { team: playerTeam } } );
     } else {
       const updatedPlayer = {

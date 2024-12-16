@@ -11,7 +11,6 @@ export default function PlayerForm({
   handleInputChangeGKAtrib,
   initialPlayerState
 }) {
-  console.log(flags);
   return (
     <form action="">
       <div className="formTittle">

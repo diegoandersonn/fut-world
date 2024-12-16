@@ -1,11 +1,17 @@
 import React, { useContext } from "react";
 import { TeamsContext } from '../../Routes';
 import Header from '../../components/Header/index';
+import { IoTrash, IoPencilSharp } from 'react-icons/io5';
 import { TeamsList, Container } from './styled';
 import { Link } from 'react-router-dom';
 
 export default function Main() {
-    const { teams } = useContext(TeamsContext);
+    const { teams, setTeams } = useContext(TeamsContext);
+
+    function removeTeam(id) {
+        const updatedTeams = teams.filter((team) => team.id !== id);
+        setTeams(updatedTeams);
+    }
     return (
         <>
             <Header />
@@ -14,19 +20,23 @@ export default function Main() {
                     <table>
                         <thead>
                             <tr>
+                                <th></th>
                                 <th>Team</th>
                                 <th>Country</th>
                                 <th>Stadium</th>
+                                <th>Editar</th>
+                                <th>Remover</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {teams.map((team, index) => (
-                                <tr key={`team-${index}`}>
-                                    <Link to={`/Team/${team.name}`} state={{ team }}>
-                                        <td>{team.name}</td>
-                                    </Link>
+                            {teams.map((team) => (
+                                <tr>
+                                    <td><img src={team.logo} alt="" /></td>
+                                    <td>{team.name}</td>
                                     <td>{team.country}</td>
                                     <td>{team.stadium}</td>
+                                    <td className="oi"><Link to={`/Team/${team.name}`} state={{ team }}> <IoPencilSharp size={28} /></ Link></td>
+                                    <td><p onClick={() => removeTeam(team.id)}><IoTrash size={28} /></p></td>
                                 </tr>
                             ))}
                         </tbody>

@@ -2,7 +2,9 @@ import styled from 'styled-components';
 import * as colors from '../../cfg/colors';
 
 export const TeamsList = styled.div`
-
+  p {
+    cursor: pointer;
+  }
   label {
     font-size: 1.8rem;
     font-weight: bold;
@@ -32,9 +34,18 @@ export const TeamsList = styled.div`
     text-align: left;
   }
   th, td{
-    color: white;
     padding: 10px;
     margin: 10px auto; 
+  }
+  svg {
+    color: white;
+  }
+  img {
+    border: 1px solid darkgray;
+    border-radius: 4px;
+    background-color: #312828;
+    width: 65px;
+    height: 65px;
   }
 `;
 

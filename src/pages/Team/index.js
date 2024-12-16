@@ -12,7 +12,6 @@ export default function TeamPage() {
     const team = location.state?.team || { name: "Default Team", country: "Unknown" };
     const filteredPlayers = players.filter((player) => player.team === team.name);
     const teamLogo = flags.find((index) => index.name === team.country);
-    console.log(team);
 
     const attackPlayers = filteredPlayers.filter((player) =>
         player.position === 'Ponta' ||

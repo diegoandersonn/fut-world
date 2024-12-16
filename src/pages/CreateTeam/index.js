@@ -5,6 +5,7 @@ import { TeamsContext } from '../../Routes';
 import Header from '../../components/Header/index';
 import CreateTeam from '../../classes/team';
 import TeamForm from '../../components/CreateTeamForm';
+let id = 1;
 
 export default function Create() {
   const { teams, setTeams } = useContext(TeamsContext);
@@ -14,6 +15,7 @@ export default function Create() {
     teamCountry: '',
     teamStadium: '',
     teamLogo: '',
+    id: '',
   };
   const [team, setTeam] = useState(initialTeamState);
 
@@ -24,7 +26,6 @@ export default function Create() {
       ...prevTeam,
       [name]: value,
     }))
-    console.log(team);
   }
 
   function handleFileChange(e) {
@@ -41,9 +42,10 @@ export default function Create() {
   function saveTeam(e) {
     e.preventDefault();
     if (!team.teamName || !team.teamCountry || !team.teamStadium || !team.teamLogo) return;
-    const newTeam = new CreateTeam(team.teamName, team.teamCountry, team.teamStadium, team.teamLogo);
+    const newTeam = new CreateTeam(team.teamName, team.teamCountry, team.teamStadium, team.teamLogo, id);
     setTeams([...teams, newTeam]);
     setTeam(initialTeamState);
+    id++;
     navigate('/');
   }
 

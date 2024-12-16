@@ -41,6 +41,8 @@ export const Nav = styled.section`
   box-shadow: 0 0 1rem rgba(0,0,0,0.5);
   .teamLogo{
      width: 110px;
+     background-color: aliceblue;
+     border-radius: 50%;
    }
    .countryFlag{
      width: 2rem;
