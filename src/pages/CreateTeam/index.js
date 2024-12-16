@@ -4,7 +4,7 @@ import { Container, Form } from './styled';
 import { TeamsContext } from '../../Routes';
 import Header from '../../components/Header/index';
 import CreateTeam from '../../classes/team';
-import TeamForm from '../../components/TeamForm';
+import TeamForm from '../../components/CreateTeamForm';
 
 export default function Create() {
   const { teams, setTeams } = useContext(TeamsContext);
@@ -13,6 +13,7 @@ export default function Create() {
     teamName: '',
     teamCountry: '',
     teamStadium: '',
+    teamLogo: '',
   };
   const [team, setTeam] = useState(initialTeamState);
 
@@ -23,11 +24,24 @@ export default function Create() {
       ...prevTeam,
       [name]: value,
     }))
+    console.log(team);
   }
+
+  function handleFileChange(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const previewURL = URL.createObjectURL(file)
+    
+    setTeam((prevTeam) => ({
+      ...prevTeam,
+      teamLogo: previewURL,
+    }));
+  }
+
   function saveTeam(e) {
     e.preventDefault();
-    if (!team.teamName || !team.teamCountry || !team.teamStadium) return;
-    const newTeam = new CreateTeam(team.teamName, team.teamCountry, team.teamStadium);
+    if (!team.teamName || !team.teamCountry || !team.teamStadium || !team.teamLogo) return;
+    const newTeam = new CreateTeam(team.teamName, team.teamCountry, team.teamStadium, team.teamLogo);
     setTeams([...teams, newTeam]);
     setTeam(initialTeamState);
     navigate('/');
@@ -41,6 +55,7 @@ export default function Create() {
           <TeamForm
             team={team}
             handleInputChange={handleInputChange}
+            handleFileChange={handleFileChange}
           />
         </Container>
       </Form>

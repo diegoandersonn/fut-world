@@ -27,6 +27,26 @@ export const Form = styled.div`
   button:hover {
     background-color: ${colors.primaryDarkColor};
   }
+  input[type="file"] {
+  border-radius: 5px;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+  background-color: #007bff;
+  color: #007bff;
+  width: 15%;
+  height: 100%;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+input[type="file"]::-webkit-file-upload-button:hover {
+  background-color: #0056b3;
+  color: #0056b3;
+}
 `;
 
 export const Container = styled.section`

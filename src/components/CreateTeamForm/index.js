@@ -2,7 +2,8 @@ import React from 'react';
 
 export default function TeamForm({
   team,
-  handleInputChange
+  handleInputChange,
+  handleFileChange,
 }) {
   return (<form action="">
     <label htmlFor="teamName">Nome do Time:</label><br />
@@ -35,7 +36,19 @@ export default function TeamForm({
       name="teamStadium"
       value={team.teamStadium}
       onChange={handleInputChange}
-    /><br /><br /><br />
+    />
+    <br /><br />
+    <label htmlFor="teamLogo">Logo do time:</label><br />
+    <input
+      type="file"
+      alt="teamLogo"
+      id="teamLogo"
+      name="teamLogo"
+      onChange={(e) => {
+        handleFileChange(e);
+      }}
+    />
+    <br /><br /><br />
     <button type="submit">Enviar</button>
   </form>);
 };

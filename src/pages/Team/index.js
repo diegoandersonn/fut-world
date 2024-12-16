@@ -4,7 +4,6 @@ import { Nav, Main } from './styled';
 import { IoAdd, IoTrash, IoPencilSharp } from 'react-icons/io5';
 import { PlayersContext } from '../../Routes';
 import Header from '../../components/Header/index';
-import realMadridLogo from '../../imgs/realMadridLogo.webp';
 import { flags } from '../../cfg/flags';
 
 export default function TeamPage() {
@@ -13,6 +12,7 @@ export default function TeamPage() {
     const team = location.state?.team || { name: "Default Team", country: "Unknown" };
     const filteredPlayers = players.filter((player) => player.team === team.name);
     const teamLogo = flags.find((index) => index.name === team.country);
+    console.log(team);
 
     const attackPlayers = filteredPlayers.filter((player) =>
         player.position === 'Ponta' ||
@@ -47,7 +47,7 @@ export default function TeamPage() {
                 <Nav>
                     <article>
                         <div className="logo">
-                            <img src={realMadridLogo} alt="Tottenham" className="teamLogo" />
+                            <img src={team.logo} alt="Tottenham" className="teamLogo" />
                         </div>
                         <div className="tittle">
                             <h1>{team.name}</h1>
@@ -110,7 +110,7 @@ export default function TeamPage() {
                                         <td>{player.position}</td>
                                         <td>{player.overall}</td>
                                         <td><Link to={`/Player/${player.name}`} state={{ player }}> <IoPencilSharp size={24} /> </ Link></td>
-                                        <td><p onClick={() => removePlayer(player.id)}><IoTrash size={28}/></p></td>
+                                        <td><p onClick={() => removePlayer(player.id)}><IoTrash size={28} /></p></td>
                                     </tr>
                                 ))}
                             </tbody>
