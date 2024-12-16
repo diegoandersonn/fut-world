@@ -1,15 +1,17 @@
 import React from "react";
+import { flags } from '../../cfg/flags';
 
-export default function PlayerForm({ 
-    player,
-    handleInputChange, 
-    fieldPlayerAttributes, 
-    handleInputChangePlayerAtrib, 
-    goalkepperAttributes, 
-    setPlayer, 
-    handleInputChangeGKAtrib, 
-    initialPlayerState 
-  }) {
+export default function PlayerForm({
+  player,
+  handleInputChange,
+  fieldPlayerAttributes,
+  handleInputChangePlayerAtrib,
+  goalkepperAttributes,
+  setPlayer,
+  handleInputChangeGKAtrib,
+  initialPlayerState
+}) {
+  console.log(flags);
   return (
     <form action="">
       <div className="formTittle">
@@ -18,7 +20,12 @@ export default function PlayerForm({
       <div className="row">
         <div className="mainForm">
           <input type="text" name="name" placeholder="Commom Name" value={player.name} onChange={handleInputChange} />
-          <input type="text" name="nationality" placeholder="Nationality" value={player.nationality} onChange={handleInputChange} />
+          <select name="nationality" value={player.nationality} onChange={handleInputChange}>
+            <option value="" disabled>Selecione a Nacionalidade</option>
+            {flags.map((flag, index) => (
+              <option value={flag.name}>{flag.name}</option>
+            ))}
+          </select>
           <input type="number" name="age" placeholder="Age" value={player.age} onChange={handleInputChange} />
         </div>
         <div className="mainForm">

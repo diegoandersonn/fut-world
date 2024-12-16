@@ -21,6 +21,11 @@ export default function TeamForm({
       <option value="Alemanha">Alemanha</option>
       <option value="Italia">Italia</option>
       <option value="França">França</option>
+      <option value="Brasil">Brasil</option>
+      <option value="Portugal">Portugal</option>
+      <option value="Argentina">Argentina</option>
+      <option value="Estados Unidos">Estados Unidos</option>
+      <option value="Arábia Saudita">Arábia Saudita</option>
     </select>
     <br /><br />
     <label htmlFor="teamStadium">Estádio do time:</label><br />
