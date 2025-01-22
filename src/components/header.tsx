@@ -8,7 +8,7 @@ export default function Header() {
           <Link to="/">Home</Link>
         </li>
         <li>
-          <Link to="/">Create</Link>
+          <Link to="/CreateTeam">Create</Link>
         </li>
         <li>
           <Link to="/">Git</Link>

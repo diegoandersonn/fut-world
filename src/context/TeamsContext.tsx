@@ -4,7 +4,6 @@ import { TeamType } from "../types/typeTeam";
 type TeamsContextType = {
   teams: TeamType[];
   setTeams: React.Dispatch<React.SetStateAction<TeamType[]>>;
-  pushTeam: (team: TeamType) => void
 };
 type TeamProviderProps = {
   children: ReactNode;
@@ -14,17 +13,14 @@ type TeamProviderProps = {
 export const TeamsContext = createContext<TeamsContextType>({
   teams: [],
   setTeams: () => {},
-  pushTeam: () => {},
 });
 
 export const TeamsProvider = ({ children }: TeamProviderProps) => {
   const [teams, setTeams] = useState<TeamType[]>([]);
 
-  const pushTeam = (team: TeamType) => {
-    setTeams((prevTeams) => [...prevTeams, team]);
-  };
+
   return (
-    <TeamsContext.Provider value={{ teams, setTeams, pushTeam }}>
+    <TeamsContext.Provider value={{ teams, setTeams }}>
       {children}
     </TeamsContext.Provider>
   );
