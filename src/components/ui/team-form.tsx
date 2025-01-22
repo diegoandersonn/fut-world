@@ -2,9 +2,10 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { v4 as uuidv4 } from "uuid";
-import TeamFormLabel from "./create-team-label";
-import TeamFormInput from "./create-team-input";
-import { useState } from "react";
+import TeamFormLabel from "./team-form-label";
+import TeamFormInput from "./team-form-input";
+import { useContext } from "react";
+import { TeamsContext } from "../../context/TeamsContext";
 
 const teamSchema = z.object({
   teamName: z.string().nonempty("Nome do time é obrigatório"),
@@ -15,21 +16,19 @@ const teamSchema = z.object({
 
 type TeamSchema = z.infer<typeof teamSchema>;
 
-export default function CreateTeamForm() {
-  const [output, setOutput] = useState("");
+export default function TeamForm() {
+  const {pushTeam} = useContext(TeamsContext);
   const { register, handleSubmit } = useForm<TeamSchema>({
     resolver: zodResolver(teamSchema),
   });
   const handleTeam = (data: TeamSchema) => {
-    console.log("oi");
     const newTeam = { ...data, id: uuidv4() };
-    console.log(newTeam);
-    setOutput(JSON.stringify(newTeam, null, 2));
+    pushTeam(newTeam);
   };
   return (
     <form
       onSubmit={handleSubmit(handleTeam)}
-      className="bg-black text-white rounded-md shadow-sm shadow-slate-950 flex flex-col gap-4 p-20"
+      className="bg-neutral-950 text-white rounded-md shadow-sm shadow-slate-950 flex flex-col gap-4 p-20"
     >
       <div className="flex flex-col gap-4">
         <div className="flex flex-col justify-between">
@@ -63,7 +62,6 @@ export default function CreateTeamForm() {
       >
         Enviar
       </button>
-      <p>{output}</p>
     </form>
   );
 }
