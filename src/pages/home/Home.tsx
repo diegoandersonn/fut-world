@@ -1,5 +1,5 @@
 import Header from "../../components/header";
-import Aside from "../../components/home-aside";
+import Main from "../../components/home-main";
 import Sidebar from "../../components/home-sidebar";
 
 export default function Home() {
@@ -8,7 +8,7 @@ export default function Home() {
       <Header />
       <div className="flex gap-3">
         <Sidebar />
-        <Aside />
+        <Main />
       </div>
     </div>
   );

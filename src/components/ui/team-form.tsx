@@ -4,11 +4,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { v4 as uuidv4 } from "uuid";
 import TeamFormLabel from "./team-form-label";
 import TeamFormInput from "./team-form-input";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { TeamsContext } from "../../context/TeamsContext";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Select, { SingleValue } from "react-select";
+import TeamFormSelect from "./team-form-select";
 
 const teamSchema = z.object({
   teamName: z.string().nonempty("O Nome do time é obrigatório"),
@@ -21,30 +20,7 @@ type TeamSchema = z.infer<typeof teamSchema>;
 
 export default function TeamForm() {
   const navigate = useNavigate();
-  const [countries, setCountries] = useState<string[]>([]);
-
-  const api = axios.create({
-    baseURL: "https://restcountries.com/v3.1",
-  });
-
-  useEffect(() => {
-    api
-      .get("/all")
-      .then((response) => {
-        const array: string[] = [];
-        response.data.forEach((country) => {
-          array.push(country.name.common);
-        });
-        setCountries(array);
-      })
-      .catch((e) => console.log(e));
-  }, [api]);
-
   const { teams, setTeams } = useContext(TeamsContext);
-  const options = countries.map((country) => ({
-    value: country,
-    label: country,
-  }));
   const {
     control,
     register,
@@ -82,41 +58,7 @@ export default function TeamForm() {
             name="teamCountry"
             control={control}
             render={({ field }) => (
-              <Select
-                {...field}
-                className="h-8 rounded-md hover:scale-110 focus:outline-none"
-                options={options}
-                placeholder="Insert Team Country"
-                onChange={(
-                  selected: SingleValue<{ value: string; label: string }>
-                ) => field.onChange(selected?.value || "")}
-                value={options.find((option) => option.value === field.value)}
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                    backgroundColor: "#0a0a0a",  
-                    border: "1px solid #a1a1aa",
-                    color: "white",
-                  }),
-                  menu: (base) => ({
-                    ...base,
-                    backgroundColor: "#0a0a0a", 
-                    color: "white",
-                  }),
-                  option: (base) => ({
-                    color: "white",
-                    ...base,
-                  }),
-                  placeholder: (base) => ({
-                    ...base,
-                    color: "#CBD5E1", 
-                  }),
-                  singleValue: (base) => ({
-                    ...base,
-                    color: "white",
-                  }),
-                }}
-              />
+              <TeamFormSelect placeholder="Insert Team Country" field={field} />
             )}
           />
         </div>
