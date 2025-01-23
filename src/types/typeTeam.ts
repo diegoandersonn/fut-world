@@ -1,9 +1,7 @@
 export type TeamType = {
   teamName: string;
-  teamCountry: {
-    name: string;
-    flag: string;
-  };
+  teamCountry: string;
   teamStadium: string;
   id: string;
 };
+
