@@ -1,14 +1,14 @@
 import Header from "../../components/header";
-import HomeMain from "../../components/home-main";
 import Sidebar from "../../components/sidebar";
+import TeamMain from "../../components/team-main";
 
-export default function Home() {
+export default function Team() {
   return (
     <div className="bg-black h-screen w-screen flex flex-col font-roboto">
       <Header />
       <div className="flex gap-3 h-full">
         <Sidebar />
-        <HomeMain />
+        <TeamMain />
       </div>
     </div>
   );

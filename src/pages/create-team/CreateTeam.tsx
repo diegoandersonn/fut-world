@@ -3,9 +3,11 @@ import TeamForm from "../../components/ui/team-form";
 
 export default function CreateTeam() {
   return (
-    <div className="bg-black flex flex-col items-center justify-center font-roboto">
+    <div className="bg-black h-screen w-screen flex flex-col font-roboto">
       <Header />
-      <TeamForm />
+      <div className="flex justify-center items-center gap-3">
+        <TeamForm />
+      </div>
     </div>
   );
 }
