@@ -3,5 +3,6 @@ export type TeamType = {
   teamCountry: string;
   teamStadium: string;
   id: string;
+  logo: string;
 };
 

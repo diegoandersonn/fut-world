@@ -8,12 +8,14 @@ import { useContext } from "react";
 import { TeamsContext } from "../../context/TeamsContext";
 import { useNavigate } from "react-router-dom";
 import TeamFormSelect from "./team-form-select";
+import defaultTeamImage from "../../assets/defaultteamimage.jpg";
 
 const teamSchema = z.object({
-  teamName: z.string().nonempty("O Nome do time é obrigatório"),
-  teamCountry: z.string().nonempty("O País é obrigatório"),
-  teamStadium: z.string(),
+  teamName: z.string().nonempty("The Team Name field is Required"),
+  teamCountry: z.string().nonempty("The Team Country field is Required"),
+  teamStadium: z.string().nonempty("The Team Stadium field is Required"),
   id: z.string().optional(),
+  logo: z.string().optional(),
 });
 
 type TeamSchema = z.infer<typeof teamSchema>;
@@ -31,7 +33,7 @@ export default function TeamForm() {
   });
 
   const handleTeam = (data: TeamSchema) => {
-    const newTeam = { ...data, id: uuidv4() };
+    const newTeam = { ...data, id: uuidv4(), logo: defaultTeamImage };
     setTeams([...teams, newTeam]);
     navigate("/");
   };

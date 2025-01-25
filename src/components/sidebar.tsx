@@ -1,13 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import { TeamsContext } from "../context/TeamsContext";
 import { Plus } from "lucide-react";
-import defaultTeamImage from "../assets/defaultteamimage.jpg";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
 export default function Sidebar() {
   const [countries, setCountries] = useState([]);
   const [selectedTeam, setSelectedTeam] = useState("");
+  const { teams } = useContext(TeamsContext);
   const api = axios.create({
     baseURL: "https://restcountries.com/v3.1",
   });
@@ -19,7 +19,6 @@ export default function Sidebar() {
       })
       .catch((e) => console.log(e));
   }, [api]);
-  const { teams } = useContext(TeamsContext);
   function getFlagImage(countryName: string) {
     const selectedCountry = countries.find(
       (country) => country.name.common === countryName
@@ -45,7 +44,7 @@ export default function Sidebar() {
           >
             <div className="flex-shrink-0">
               <img
-                src={defaultTeamImage}
+                src={team.logo}
                 alt=""
                 className="w-14 h-14 rounded-md"
               />
