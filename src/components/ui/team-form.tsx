@@ -2,12 +2,12 @@ import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { v4 as uuidv4 } from "uuid";
-import TeamFormLabel from "./team-form-label";
-import TeamFormInput from "./team-form-input";
+import FormLabel from "./form-label";
+import FormInput from "./form-input";
 import { useContext } from "react";
 import { TeamsContext } from "../../context/TeamsContext";
 import { useNavigate } from "react-router-dom";
-import TeamFormSelect from "./team-form-select";
+import CountrySelect from "./country-select";
 import defaultTeamImage from "../../assets/defaultteamimage.jpg";
 
 const teamSchema = z.object({
@@ -46,8 +46,8 @@ export default function TeamForm() {
     >
       <div className="flex flex-col gap-4">
         <div className="flex flex-col justify-between">
-          <TeamFormLabel text="Name" htmlFor="teamName" />
-          <TeamFormInput
+          <FormLabel text="Name" htmlFor="teamName" />
+          <FormInput
             type="text"
             placeholder="Insert Team Name"
             {...register("teamName")}
@@ -56,24 +56,26 @@ export default function TeamForm() {
         </div>
 
         <div className="flex flex-col justify-between">
-          <TeamFormLabel text="Country" htmlFor="teamCountry" />
+          <FormLabel text="Country" htmlFor="teamCountry" />
           <Controller
             name="teamCountry"
             control={control}
             render={({ field }) => (
-              <TeamFormSelect placeholder="Insert Team Country" field={field} />
+              <CountrySelect placeholder="Insert Team Country" field={field} />
             )}
           />
+          <p>{errors?.teamCountry?.message}</p>
         </div>
 
         <div className="flex flex-col justify-between">
-          <TeamFormLabel text="Estádio" htmlFor="teamStadium" />
-          <TeamFormInput
+          <FormLabel text="Estádio" htmlFor="teamStadium" />
+          <FormInput
             type="text"
             placeholder="Insira o estádio do time"
             {...register("teamStadium")}
           />
         </div>
+        <p>{errors?.teamStadium?.message}</p>
       </div>
       <button
         type="submit"

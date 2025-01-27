@@ -5,10 +5,10 @@ import Select from "react-select";
 
 type Props = {
   placeholder: string;
-  field: any;
+  field?: any;
 }
 
-export default function TeamFormSelect({ placeholder, field }: Props) {
+export default function CountrySelect({ placeholder, field }: Props) {
   const [countries, setCountries] = useState<string[]>([]);
 
   const api = axios.create({

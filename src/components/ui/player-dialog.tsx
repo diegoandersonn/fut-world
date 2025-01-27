@@ -1,9 +1,12 @@
-import PlayerForm from "./player-dialog-form";
+import { forwardRef } from "react";
+import PlayerForm from "./player-form";
 
-export default function PlayerDialog() {
-    return(
-        <dialog>
-            <PlayerForm />
-        </dialog>
-    )
-}
+const PlayerDialog = forwardRef<HTMLDialogElement>((_, ref) => {
+    return (
+      <dialog ref={ref}>
+        <PlayerForm />
+      </dialog>
+    );
+});
+
+export default PlayerDialog;

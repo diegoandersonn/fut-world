@@ -1,26 +1,18 @@
 import { useLocation } from "react-router-dom";
 import { Share, PencilLine, Send, Plus } from "lucide-react";
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { TeamsContext } from "../context/TeamsContext";
-import defaultTeamImage from "../assets/defaultteamimage.jpg";
 import PlayerDialog from "./ui/player-dialog";
+import CountrySelect from "./ui/country-select";
 
 export default function TeamMain() {
   const { teams, updateTeam } = useContext(TeamsContext);
+  const dialogRef = useRef<HTMLDialogElement>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [teamName, setTeamName] = useState("");
   const location = useLocation();
-  const teamId = location.state?.team?.id;
-  const team = teams.find((team) => (team.id = teamId)) || {
-    teamName: "Default Name",
-    teamCountry: "Unknown",
-    teamStadium: "Default Stadium",
-    id: "Default id",
-    logo: defaultTeamImage,
-    manager: "Default Manager",
-  };
-
-  console.log(team);
+  let team = location.state?.team;
+  team = teams.find((t) => t.id === team.id);
 
   function handleLogoChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -28,6 +20,15 @@ export default function TeamMain() {
       const fileURL = URL.createObjectURL(file);
       const updatedTeam = { ...team, logo: fileURL };
       updateTeam(updatedTeam);
+    }
+  }
+
+  function toggleDialog() {
+    if (!dialogRef.current) return;
+    if (dialogRef.current.hasAttribute("open")) {
+      dialogRef.current.close();
+    } else {
+      dialogRef.current.showModal();
     }
   }
 
@@ -46,7 +47,6 @@ export default function TeamMain() {
 
   function submitNameChange() {
     updateTeam({ ...team, teamName: teamName });
-    console.log(team);
     setIsEditing(false);
   }
 
@@ -82,7 +82,7 @@ export default function TeamMain() {
               <>
                 <input
                   type="text"
-                  value={teamName}
+                  value={team.teamName}
                   onChange={(e) => handleNameChange(e)}
                   className="text-3xl bg-transparent border-b border-white outline-none w-full"
                   style={{ width: `${team.teamName.length}ch` }}
@@ -127,12 +127,7 @@ export default function TeamMain() {
               >
                 Team Country
               </label>
-              <input
-                type="text"
-                className="text-sm p-1 outline-none rounded-md border-2 border-zinc-400 bg-transparent"
-                value={team.teamCountry}
-                onChange={(e) => handleFieldChange(e, "teamCountry")}
-              />
+              {/* <CountrySelect placeholder="Country"/> */}
             </div>
             <div className="flex gap-2 items-center">
               <label
@@ -154,7 +149,10 @@ export default function TeamMain() {
       <div className="flex flex-col gap-2 p-4 text-zinc-400">
         <div className="flex justify-between">
           <h1 className="text-xl font-bold">Jogadores</h1>
-          <button onClick={() => PlayerDialog}><Plus size={30}/></button>
+          <button onClick={toggleDialog}>
+            <Plus size={30} />
+          </button>
+          <PlayerDialog ref={dialogRef} />
         </div>
         <table className="">
           <thead>

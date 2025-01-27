@@ -5,7 +5,7 @@ type Props = React.InputHTMLAttributes<HTMLInputElement> & {
   placeholder: string;
 };
 
-const TeamFormInput = React.forwardRef<HTMLInputElement, Props>(
+const FormInput = React.forwardRef<HTMLInputElement, Props>(
   ({ type, placeholder, ...rest }, ref) => {
     return (
       <input
@@ -19,4 +19,4 @@ const TeamFormInput = React.forwardRef<HTMLInputElement, Props>(
   }
 );
 
-export default TeamFormInput;
+export default FormInput;
