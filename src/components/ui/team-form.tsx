@@ -16,6 +16,7 @@ const teamSchema = z.object({
   teamStadium: z.string().nonempty("The Team Stadium field is Required"),
   id: z.string().optional(),
   logo: z.string().optional(),
+  manager: z.string().optional(),
 });
 
 type TeamSchema = z.infer<typeof teamSchema>;
@@ -33,7 +34,7 @@ export default function TeamForm() {
   });
 
   const handleTeam = (data: TeamSchema) => {
-    const newTeam = { ...data, id: uuidv4(), logo: defaultTeamImage };
+    const newTeam = { ...data, id: uuidv4(), logo: defaultTeamImage, manager: 'Default Manager' };
     setTeams([...teams, newTeam]);
     navigate("/");
   };

@@ -1,19 +1,28 @@
 import { useLocation } from "react-router-dom";
-import { Share, PencilLine, Send } from "lucide-react";
+import { Share, PencilLine, Send, Plus } from "lucide-react";
 import { useContext, useState } from "react";
 import { TeamsContext } from "../context/TeamsContext";
+import defaultTeamImage from "../assets/defaultteamimage.jpg";
+import PlayerDialog from "./ui/player-dialog";
 
-export default function HomeMain() {
-  const { updateTeam } = useContext(TeamsContext);
+export default function TeamMain() {
+  const { teams, updateTeam } = useContext(TeamsContext);
   const [isEditing, setIsEditing] = useState(false);
-  const [editedKey, setEditedKey] = useState("");
+  const [teamName, setTeamName] = useState("");
   const location = useLocation();
-  const team = location.state?.team || {
-    name: "Default Team",
-    country: "Unknown",
+  const teamId = location.state?.team?.id;
+  const team = teams.find((team) => (team.id = teamId)) || {
+    teamName: "Default Name",
+    teamCountry: "Unknown",
+    teamStadium: "Default Stadium",
+    id: "Default id",
+    logo: defaultTeamImage,
+    manager: "Default Manager",
   };
 
-  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+  console.log(team);
+
+  function handleLogoChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (file) {
       const fileURL = URL.createObjectURL(file);
@@ -22,27 +31,34 @@ export default function HomeMain() {
     }
   }
 
-  function handleClick() {
+  function toggleEditMode() {
     if (isEditing) {
       setIsEditing(false);
     } else {
-      setEditedKey(team.teamName);
+      setTeamName(team.teamName);
       setIsEditing(true);
     }
   }
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setEditedKey(e.target.value);
+  function handleNameChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setTeamName(e.target.value);
   }
 
-  function handleSubmit() {
-    updateTeam({ ...team, teamName: editedKey });
+  function submitNameChange() {
+    updateTeam({ ...team, teamName: teamName });
     console.log(team);
     setIsEditing(false);
   }
 
+  function handleFieldChange(
+    e: React.ChangeEvent<HTMLInputElement>,
+    value: string
+  ) {
+    updateTeam({ ...team, [value]: e.target.value });
+  }
+
   return (
-    <div className="flex flex-col bg-neutral-950 w-full mr-2 text-white rounded-md">
+    <div className="flex flex-col bg-neutral-950 w-full mr-2 text-white rounded-md gap-28">
       <div className="flex justify-between">
         <div className="m-4">
           <div className="flex items-center justify-center gap-3">
@@ -59,29 +75,29 @@ export default function HomeMain() {
               <input
                 type="file"
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                onChange={handleFileChange}
+                onChange={handleLogoChange}
               />
             </button>
             {isEditing ? (
               <>
                 <input
                   type="text"
-                  value={editedKey}
-                  onChange={(e) => handleChange(e)}
+                  value={teamName}
+                  onChange={(e) => handleNameChange(e)}
                   className="text-3xl bg-transparent border-b border-white outline-none w-full"
                   style={{ width: `${team.teamName.length}ch` }}
                 />
-                <button type="submit" onClick={handleSubmit}>
+                <button type="submit" onClick={submitNameChange}>
                   <Send />
                 </button>
-                <button onClick={handleClick}>
+                <button onClick={toggleEditMode}>
                   <PencilLine />
                 </button>
               </>
             ) : (
               <>
                 <h1 className="text-3xl">{team.teamName}</h1>
-                <button onClick={handleClick}>
+                <button onClick={toggleEditMode}>
                   <PencilLine />
                 </button>
               </>
@@ -90,35 +106,78 @@ export default function HomeMain() {
         </div>
         <div className="flex items-center m-4">
           <form action="" className="grid grid-cols-2 gap-2">
-            <div>
-              <label htmlFor="">OIII</label>
-              <input type="text" />
+            <div className="flex gap-2 items-center">
+              <label
+                htmlFor="teamStadium"
+                className="text-zinc-400 font-semibold"
+              >
+                Team Stadium
+              </label>
+              <input
+                type="text"
+                className="text-sm p-1 outline-none rounded-md border-2 border-zinc-400 bg-transparent"
+                value={team.teamStadium}
+                onChange={(e) => handleFieldChange(e, "teamStadium")}
+              />
             </div>
-            <div>
-              <label htmlFor="">OIII</label>
-              <input type="text" />
+            <div className="flex gap-2 items-center">
+              <label
+                htmlFor="teamCountry"
+                className="text-zinc-400 font-semibold"
+              >
+                Team Country
+              </label>
+              <input
+                type="text"
+                className="text-sm p-1 outline-none rounded-md border-2 border-zinc-400 bg-transparent"
+                value={team.teamCountry}
+                onChange={(e) => handleFieldChange(e, "teamCountry")}
+              />
             </div>
-            <div>
-              <label htmlFor="">OIII</label>
-              <input type="text" />
-            </div>
-            <div>
-              <label htmlFor="">OIII</label>
-              <input type="text" />
-            </div>
-            <div>
-              <label htmlFor="">OIII</label>
-              <input type="text" />
-            </div>
-            <div>
-              <label htmlFor="">OIII</label>
-              <input type="text" />
+            <div className="flex gap-2 items-center">
+              <label
+                htmlFor="teamManager"
+                className="text-zinc-400 font-semibold"
+              >
+                Team Manager
+              </label>
+              <input
+                type="text"
+                className="text-sm p-1 outline-none rounded-md border-2 border-zinc-400 bg-transparent"
+                value={team.manager}
+                onChange={(e) => handleFieldChange(e, "manager")}
+              />
             </div>
           </form>
         </div>
       </div>
-      <div>
-        <h1>FORM DE JOGADORES</h1>
+      <div className="flex flex-col gap-2 p-4 text-zinc-400">
+        <div className="flex justify-between">
+          <h1 className="text-xl font-bold">Jogadores</h1>
+          <button onClick={() => PlayerDialog}><Plus size={30}/></button>
+        </div>
+        <table className="">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Idade</th>
+              <th>Posição</th>
+              <th>Overall</th>
+              <th>Editar</th>
+              <th>Remover</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>asdas</td>
+              <td>dasdas</td>
+              <td>dasdasd</td>
+              <td>asdasd</td>
+              <td>dasd</td>
+              <td>asd</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   );

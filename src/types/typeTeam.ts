@@ -4,5 +4,5 @@ export type TeamType = {
   teamStadium: string;
   id: string;
   logo: string;
+  manager: string;
 };
-
