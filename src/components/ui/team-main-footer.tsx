@@ -1,16 +1,34 @@
-import { Plus } from "lucide-react";
-import { useContext, useRef } from "react";
 import PlayerDialog from "./player-dialog";
+import { PlayerType } from "../../types/playerType";
 import { TeamType } from "../../types/teamType";
-import { PlayersContext } from "../../context/PlayersContext";
+import { useEffect, useRef, useState } from "react";
+import { Pencil, Plus, Trash2 } from "lucide-react";
+import getFlagImage from "../../utils/getFlagImage";
 
 type Props = {
   team: TeamType;
+  teamPlayers: PlayerType[];
 };
 
-export default function TeamMainFooter({ team }: Props) {
+export default function TeamMainFooter({ team, teamPlayers }: Props) {
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const { players } = useContext(PlayersContext);
+    const [flags, setFlags] = useState<{ [key: string]: string }>({});
+  
+    useEffect(() => {
+      const fetchFlags = async () => {
+        const flagUrls: { [key: string]: string } = {};
+        for (const player of teamPlayers) {
+          const flagUrl = await getFlagImage(player.nationality);
+          flagUrls[player.nationality] = flagUrl || "";
+        }
+        setFlags(flagUrls);
+      };
+  
+      if (teamPlayers.length > 0) {
+        fetchFlags();
+      }
+    }, [teamPlayers]);
+
   function toggleDialog() {
     if (dialogRef.current) {
       if (dialogRef.current.hasAttribute("open")) {
@@ -32,35 +50,66 @@ export default function TeamMainFooter({ team }: Props) {
         </button>
         <PlayerDialog ref={dialogRef} team={team} />
       </div>
-      <table className="">
+      <table className="w-full table-auto border-collapse text-left bg-neutral-950 text-white">
         <thead>
-          <tr>
-            <th>Nome</th>
-            <th>Idade</th>
-            <th>Posição</th>
-            <th>Overall</th>
-            <th>Editar</th>
-            <th>Remover</th>
+          <tr className="text-sm uppercase text-gray-300">
+            <th className="px-4 py-2">Nome</th>
+            <th className="px-4 py-2">Idade</th>
+            <th className="px-4 py-2">Nacionalidade</th>
+            <th className="px-4 py-2">Posição</th>
+            <th className="px-4 py-2">Overall</th>
+            <th className="px-4 py-2">Editar</th>
+            <th className="px-4 py-2">Remover</th>
           </tr>
         </thead>
         <tbody>
-          {players.map((player) => {
-            console.log(player);
-            return (
-              <tr key={player.id}>
-                <td>{player.name}</td>
-                <td>{player.age}</td>
-                <td>{player.position}</td>
-                <td>{player.overall}</td>
-                <td>
-                  <button>Editar</button>
+          {teamPlayers.length > 0 ? (
+            teamPlayers.map((player) => (
+              <tr
+                key={player.id}
+                className="hover:bg-neutral-800 transition-colors" 
+              >
+                <td className="px-4 py-2 border-t border-gray-700">
+                  {player.name}
                 </td>
-                <td>
-                  <button>Remover</button>
+                <td className="px-4 py-2 border-t border-gray-700">
+                  {player.age}
+                </td>
+                <td className="px-4 py-2 border-t border-gray-700">
+                  <div className="flex items-center gap-1">
+                    {player.nationality}
+                    <img
+                      src={flags[player.nationality || ""]}
+                      className="w-4 h-3"
+                      alt=""
+                    />
+                  </div>
+                </td>
+                <td className="px-4 py-2 border-t border-gray-700">
+                  {player.position}
+                </td>
+                <td className="px-4 py-2 border-t border-gray-700">
+                  {player.overall}
+                </td>
+                <td className="px-4 py-2 border-t border-gray-700">
+                  <button className="text-emerald-500 hover:text-emerald-300">
+                    <Pencil />
+                  </button>
+                </td>
+                <td className="px-4 py-2 border-t border-gray-700">
+                  <button className="text-red-500 hover:text-red-300">
+                    <Trash2 />
+                  </button>
                 </td>
               </tr>
-            );
-          })}
+            ))
+          ) : (
+            <tr>
+              <td colSpan={6} className="text-center py-4 text-gray-400">
+                Não há jogadores no time.
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>
