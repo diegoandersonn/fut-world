@@ -113,7 +113,7 @@ const CreatePlayerForm = forwardRef<HTMLDialogElement, Props>(
             <p className="text-red-700 text-xs">{errors?.age?.message}</p>
           </div>
           <div className="flex flex-col">
-            <FormLabel text="position" htmlFor="position" />
+            <FormLabel text="Position" htmlFor="position" />
             <Controller
               name="position"
               control={control}

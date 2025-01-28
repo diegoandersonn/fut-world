@@ -27,13 +27,14 @@ export default function HomeMain() {
       <table className="w-full table-auto border-collapse text-left bg-neutral-950 text-white">
         <thead>
           <tr className="text-sm uppercase text-gray-300">
-            <th className="px-4 py-2">Nome</th>
-            <th className="px-4 py-2">Time</th>
-            <th className="px-4 py-2">Idade</th>
-            <th className="px-4 py-2">Posição</th>
+            <th className="px-4 py-2">Name</th>
+            <th className="px-4 py-2">Nationality</th>
+            <th className="px-4 py-2">Team</th>
+            <th className="px-4 py-2">Age</th>
+            <th className="px-4 py-2">Position</th>
             <th className="px-4 py-2">Overall</th>
-            <th className="px-4 py-2">Editar</th>
-            <th className="px-4 py-2">Remover</th>
+            <th className="px-4 py-2">Edit</th>
+            <th className="px-4 py-2">Remove</th>
           </tr>
         </thead>
         <tbody>

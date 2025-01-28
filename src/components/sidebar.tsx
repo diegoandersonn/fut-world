@@ -25,11 +25,11 @@ export default function Sidebar() {
   }, [teams]);
 
   return (
-    <div className="bg-neutral-950 text-white rounded-md ml-2 p-5 flex flex-col gap-4 min-w-72">
-      <div className="flex justify-between items-center text-zinc-300">
-        <h1 className="text-lg font-medium">Times</h1>
+    <div className="bg-neutral-950 rounded-md ml-2 p-5 flex flex-col gap-4 min-w-72 text-zinc-300">
+      <div className="flex justify-between items-center">
+      <h1 className="text-lg font-medium hover:text-white hover:scale-105">Teams</h1>
         <Link to="/CreateTeam">
-          <Plus />
+          <Plus className="hover:text-white hover:scale-125" />
         </Link>
       </div>
       <div className="flex flex-col">
@@ -39,7 +39,7 @@ export default function Sidebar() {
             state={{ team }}
             onClick={() => setSelectedTeam(team.id)}
             key={index}
-            className="group flex p-3 rounded-md gap-3 cursor-pointer hover:bg-neutral-800"
+            className={team.id !== selectedTeam ? "group flex p-3 rounded-md gap-3 cursor-pointer hover:bg-neutral-800" : "group flex p-3 rounded-md gap-3 cursor-pointer bg-neutral-800"}
           >
             <div className="flex-shrink-0">
               <img src={team.logo} alt="" className="w-14 h-14 rounded-md" />
@@ -50,13 +50,13 @@ export default function Sidebar() {
                   className={
                     team.id === selectedTeam
                       ? "font-semibold text-emerald-500"
-                      : "font-semibold text-zinc-200 group-hover:text-emerald-500"
+                      : "font-semibold text-zinc-300 group-hover:text-emerald-500"
                   }
                 >
                   {team.name}
                 </h1>
               </div>
-              <div className="flex gap-3 text-xs text-zinc-400">
+              <div className="flex gap-2 text-xs text-zinc-500">
                 <div className="flex items-center gap-1">
                   <p className="truncate">{team.country}</p>
                   <img
