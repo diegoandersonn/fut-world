@@ -1,7 +1,7 @@
 export type TeamType = {
-  teamName: string;
-  teamCountry: string;
-  teamStadium: string;
+  name: string;
+  country: string;
+  stadium: string;
   id: string;
   logo: string;
   manager: string;

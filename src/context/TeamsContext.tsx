@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useState } from "react";
-import { TeamType } from "../types/typeTeam";
+import { TeamType } from "../types/teamType";
 
 type TeamsContextType = {
   teams: TeamType[];

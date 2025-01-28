@@ -1,8 +1,9 @@
 import { createContext, ReactNode, useState } from "react";
-import { PlayerType } from "../types/typePlayer";
+import { PlayerType } from "../types/playerType";
 
 type PlayersContextType = {
   players: PlayerType[];
+  setPlayers: React.Dispatch<React.SetStateAction<PlayerType[]>>;
   updatePlayer: (updatedPlayer: PlayerType) => void;
 };
 type PlayerProviderProps = {
@@ -20,7 +21,9 @@ export const PlayersProvider = ({ children }: PlayerProviderProps) => {
   const [players, setPlayers] = useState<PlayerType[]>([]);
   const updatePlayer = (updatedPlayer: PlayerType) => {
     setPlayers((prevPlayers) =>
-      prevPlayers.map((player) => (player.id === updatedPlayer.id ? updatedPlayer : player))
+      prevPlayers.map((player) =>
+        player.id === updatedPlayer.id ? updatedPlayer : player
+      )
     );
   };
   return (

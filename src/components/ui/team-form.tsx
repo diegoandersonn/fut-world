@@ -11,9 +11,9 @@ import CountrySelect from "./country-select";
 import defaultTeamImage from "../../assets/defaultteamimage.jpg";
 
 const teamSchema = z.object({
-  teamName: z.string().nonempty("The Team Name field is Required"),
-  teamCountry: z.string().nonempty("The Team Country field is Required"),
-  teamStadium: z.string().nonempty("The Team Stadium field is Required"),
+  name: z.string().nonempty("The Team Name field is Required"),
+  country: z.string().nonempty("The Team Country field is Required"),
+  stadium: z.string().nonempty("The Team Stadium field is Required"),
   id: z.string().optional(),
   logo: z.string().optional(),
   manager: z.string().optional(),
@@ -46,36 +46,36 @@ export default function CreateTeamForm() {
     >
       <div className="flex flex-col gap-4">
         <div className="flex flex-col justify-between">
-          <FormLabel text="Name" htmlFor="teamName" />
+          <FormLabel text="Name" htmlFor="name" />
           <FormInput
             type="text"
             placeholder="Insert Team Name"
-            {...register("teamName")}
+            {...register("name")}
           />
-          <p>{errors?.teamName?.message}</p>
+          <p>{errors?.name?.message}</p>
         </div>
 
         <div className="flex flex-col justify-between">
-          <FormLabel text="Country" htmlFor="teamCountry" />
+          <FormLabel text="Country" htmlFor="country" />
           <Controller
-            name="teamCountry"
+            name="country"
             control={control}
             render={({ field }) => (
               <CountrySelect placeholder="Insert Team Country" field={field} />
             )}
           />
-          <p>{errors?.teamCountry?.message}</p>
+          <p>{errors?.country?.message}</p>
         </div>
 
         <div className="flex flex-col justify-between">
-          <FormLabel text="Estádio" htmlFor="teamStadium" />
+          <FormLabel text="Estádio" htmlFor="stadium" />
           <FormInput
             type="text"
             placeholder="Insira o estádio do time"
-            {...register("teamStadium")}
+            {...register("stadium")}
           />
         </div>
-        <p>{errors?.teamStadium?.message}</p>
+        <p>{errors?.stadium?.message}</p>
       </div>
       <button
         type="submit"

@@ -8,30 +8,31 @@ type Props = {
 
 export default function PositionSelect({ placeholder, field }: Props) {
   const options = [
-    { value: "goalkepper", label: "Goalkepper" },
-    { value: "centerback", label: "Center Back" },
-    { value: "fullback", label: "Full Back" },
-    { value: "defensivemidfielder", label: "Defensive Midfielder" },
-    { value: "centermidfielder", label: "Center Midfielder" },
-    { value: "attackingmidfielder", label: "Attacking Midfielder" },
-    { value: "winger", label: "Winger" },
-    { value: "striker", label: "Striker" },
+    { value: "Goalkepper", label: "Goalkepper" },
+    { value: "Center Back", label: "Center Back" },
+    { value: "Full Back", label: "Full Back" },
+    { value: "Defensive Midfielder", label: "Defensive Midfielder" },
+    { value: "Center Midfielder", label: "Center Midfielder" },
+    { value: "Attacking Midfielder", label: "Attacking Midfielder" },
+    { value: "Winger", label: "Winger" },
+    { value: "Striker", label: "Striker" },
   ];
 
   return (
-<select
-        className="w-full h-8 px-3 py-1 bg-transparent border border-zinc-400 text-white rounded-md hover:scale-105 focus:outline-none focus:ring focus:ring-emerald-500"
-        value={field?.value}
-        onChange={(e) => field?.onChange(e.target.value)}
-      >
-        <option value="" disabled>
-          {placeholder}
+    <select
+      className="px-3 py-1 h-8 text-white bg-neutral-950 border border-zinc-400 rounded-md hover:scale-110 focus:outline-none"
+      value={field?.value}
+      onChange={(e) => field?.onChange(e.target.value)}
+      defaultValue=""
+    >
+      <option value="" disabled>
+        {placeholder}
+      </option>
+      {options.map((option) => (
+        <option key={option.value} value={option.value}>
+          {option.label}
         </option>
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
+      ))}
+    </select>
   );
 }

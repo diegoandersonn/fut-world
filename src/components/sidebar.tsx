@@ -36,7 +36,7 @@ export default function Sidebar() {
       <div className="flex flex-col">
         {teams.map((team, index) => (
           <Link
-            to={`/Team/${team.teamName}`}
+            to={`/Team/${team.name}`}
             state={{ team }}
             onClick={() => setSelectedTeam(team.id)}
             key={index}
@@ -58,20 +58,20 @@ export default function Sidebar() {
                       : "font-semibold text-zinc-200 group-hover:text-emerald-500"
                   }
                 >
-                  {team.teamName}
+                  {team.name}
                 </h1>
               </div>
               <div className="flex gap-3 text-xs text-zinc-400">
                 <div className="flex items-center gap-1">
-                  <p className="truncate">{team.teamCountry}</p>
+                  <p className="truncate">{team.country}</p>
                   <img
-                    src={getFlagImage(team.teamCountry)}
+                    src={getFlagImage(team.country)}
                     alt=""
                     className="w-4 h-3"
                   />
                 </div>
                 <p className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
-                  {team.teamStadium}
+                  {team.stadium}
                 </p>
               </div>
             </div>
