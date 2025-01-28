@@ -21,7 +21,7 @@ const teamSchema = z.object({
 
 type TeamSchema = z.infer<typeof teamSchema>;
 
-export default function TeamForm() {
+export default function CreateTeamForm() {
   const navigate = useNavigate();
   const { teams, setTeams } = useContext(TeamsContext);
   const {

@@ -3,7 +3,6 @@ import { Share, PencilLine, Send, Plus } from "lucide-react";
 import { useContext, useRef, useState } from "react";
 import { TeamsContext } from "../context/TeamsContext";
 import PlayerDialog from "./ui/player-dialog";
-import CountrySelect from "./ui/country-select";
 
 export default function TeamMain() {
   const { teams, updateTeam } = useContext(TeamsContext);
@@ -24,11 +23,12 @@ export default function TeamMain() {
   }
 
   function toggleDialog() {
-    if (!dialogRef.current) return;
-    if (dialogRef.current.hasAttribute("open")) {
-      dialogRef.current.close();
-    } else {
-      dialogRef.current.showModal();
+    if (dialogRef.current) {
+      if (dialogRef.current.hasAttribute("open")) {
+        dialogRef.current.close();
+      } else {
+        dialogRef.current.showModal();
+      }
     }
   }
 
@@ -127,7 +127,12 @@ export default function TeamMain() {
               >
                 Team Country
               </label>
-              {/* <CountrySelect placeholder="Country"/> */}
+              <input
+                type="text"
+                className="text-sm p-1 outline-none rounded-md border-2 border-zinc-400 bg-transparent"
+                value={team.teamCountry}
+                onChange={(e) => handleFieldChange(e, "teamCountry")}
+              />
             </div>
             <div className="flex gap-2 items-center">
               <label
@@ -149,7 +154,7 @@ export default function TeamMain() {
       <div className="flex flex-col gap-2 p-4 text-zinc-400">
         <div className="flex justify-between">
           <h1 className="text-xl font-bold">Jogadores</h1>
-          <button onClick={toggleDialog}>
+          <button onClick={toggleDialog} className="hover:text-white hover:scale-110">
             <Plus size={30} />
           </button>
           <PlayerDialog ref={dialogRef} />

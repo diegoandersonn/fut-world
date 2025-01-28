@@ -1,12 +1,12 @@
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { SingleValue } from "react-select";
 import Select from "react-select";
+import axios from "axios";
 
 type Props = {
   placeholder: string;
   field?: any;
-}
+};
 
 export default function CountrySelect({ placeholder, field }: Props) {
   const [countries, setCountries] = useState<string[]>([]);
@@ -43,24 +43,25 @@ export default function CountrySelect({ placeholder, field }: Props) {
         field.onChange(selected?.value || "")
       }
       value={options.find((option) => option.value === field.value)}
+      maxMenuHeight={100}
       styles={{
         control: (base) => ({
           ...base,
-          backgroundColor: "#0a0a0a",
+          backgroundColor: "transparent",
           border: "1px solid #a1a1aa",
           color: "white",
           input: {
             color: "white",
           },
         }),
-        menu: (base) => ({
+        input: (base) => ({
           ...base,
-          backgroundColor: "#0a0a0a",
           color: "white",
         }),
-        option: (base) => ({
-          color: "white",
+        option: (base, state) => ({
           ...base,
+          color: "white",
+          background: state.isFocused ? "gray" : "#0a0a0a",
         }),
         placeholder: (base) => ({
           ...base,
@@ -74,4 +75,3 @@ export default function CountrySelect({ placeholder, field }: Props) {
     />
   );
 }
-
