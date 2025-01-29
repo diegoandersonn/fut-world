@@ -10,6 +10,5 @@ export default async function getFlagImage(countryName: string) {
   const selectedCountry = countries.find(
     (country) => country.name.common === countryName
   );
-  console.log(selectedCountry.flags.png);
   return selectedCountry?.flags.png;
 }

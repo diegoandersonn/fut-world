@@ -6,8 +6,8 @@ import { Plus } from "lucide-react";
 
 export default function Sidebar() {
   const [selectedTeam, setSelectedTeam] = useState("");
-  const [flags, setFlags] = useState<{ [key: string]: string }>({});
   const { teams } = useContext(TeamsContext);
+  const [flags, setFlags] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
     const fetchFlags = async () => {
@@ -27,7 +27,9 @@ export default function Sidebar() {
   return (
     <div className="bg-neutral-950 rounded-md ml-2 p-5 flex flex-col gap-4 min-w-72 text-zinc-300">
       <div className="flex justify-between items-center">
-      <h1 className="text-lg font-medium hover:text-white hover:scale-105">Teams</h1>
+        <h1 className="text-lg font-medium hover:text-white hover:scale-105">
+          Teams
+        </h1>
         <Link to="/CreateTeam">
           <Plus className="hover:text-white hover:scale-125" />
         </Link>
@@ -39,7 +41,11 @@ export default function Sidebar() {
             state={{ team }}
             onClick={() => setSelectedTeam(team.id)}
             key={index}
-            className={team.id !== selectedTeam ? "group flex p-3 rounded-md gap-3 cursor-pointer hover:bg-neutral-800" : "group flex p-3 rounded-md gap-3 cursor-pointer bg-neutral-800"}
+            className={
+              team.id !== selectedTeam
+                ? "group flex p-3 rounded-md gap-3 cursor-pointer hover:bg-neutral-800"
+                : "group flex p-3 rounded-md gap-3 cursor-pointer bg-neutral-800"
+            }
           >
             <div className="flex-shrink-0">
               <img src={team.logo} alt="" className="w-14 h-14 rounded-md" />
