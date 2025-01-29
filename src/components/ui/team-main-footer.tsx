@@ -11,7 +11,7 @@ type Props = {
 };
 
 export default function TeamMainFooter({ team, teamPlayers }: Props) {
-  const playerDialogRef = useRef<HTMLDialogElement>(null);
+  const playerDialogRef = useRef<HTMLDialogElement>(null);  
 
   function togglePlayerDialog() {
     if (playerDialogRef.current) {
