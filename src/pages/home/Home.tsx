@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <div className="bg-black h-screen w-screen flex flex-col font-roboto">
       <Header />
-      <div className="flex gap-3 h-full">
+      <div className="flex justify-between gap-3 h-full">
         <Sidebar />
         <HomeMain />
       </div>

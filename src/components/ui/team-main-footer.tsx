@@ -3,7 +3,7 @@ import { PlayerType } from "../../types/playerType";
 import { TeamType } from "../../types/teamType";
 import { useRef } from "react";
 import { Plus } from "lucide-react";
-import MainFooterTable from "./main-footer-table";
+import PlayersTable from "./players-table";
 
 type Props = {
   team: TeamType;
@@ -34,7 +34,7 @@ export default function TeamMainFooter({ team, players }: Props) {
         </button>
         <PlayerDialog ref={playerDialogRef} team={team} />
       </div>
-      <MainFooterTable players={players} />
+      <PlayersTable players={players} />
     </div>
   );
 }

@@ -11,11 +11,9 @@ import { TeamType } from "../../types/teamType";
 import { forwardRef, useContext } from "react";
 import { PlayersContext } from "../../context/PlayersContext";
 
-const attributteSchema = z.coerce
+const attributeSchema = z.coerce
   .number()
-  .refine((value) => value >= 1 && value <= 99, {
-    message: "Attribute value must be between 1 and 99",
-  });
+  .refine((value) => value >= 1 && value <= 99, {});
 
 const playerSchema = z.object({
   name: z.string().nonempty("Player Name Field is Required"),
@@ -33,12 +31,12 @@ const playerSchema = z.object({
   id: z.string().optional(),
   team: z.string().optional(),
   teamId: z.string().optional(),
-  atb1: attributteSchema,
-  atb2: attributteSchema,
-  atb3: attributteSchema,
-  atb4: attributteSchema,
-  atb5: attributteSchema,
-  atb6: attributteSchema,
+  atb1: attributeSchema,
+  atb2: attributeSchema,
+  atb3: attributeSchema,
+  atb4: attributeSchema,
+  atb5: attributeSchema,
+  atb6: attributeSchema,
 });
 
 type PlayerSchema = z.infer<typeof playerSchema>;
@@ -86,7 +84,14 @@ const CreatePlayerForm = forwardRef<HTMLDialogElement, Props>(
         ref.current.close();
       }
     };
-
+    const attributes = [
+      { name: "Pace", key: "atb1" },
+      { name: "Shooting", key: "atb2" },
+      { name: "Passing", key: "atb3" },
+      { name: "Dribbling", key: "atb4" },
+      { name: "Defense", key: "atb5" },
+      { name: "Physical", key: "atb6" },
+    ];
     return (
       <form
         method="dialog"
@@ -144,60 +149,20 @@ const CreatePlayerForm = forwardRef<HTMLDialogElement, Props>(
           </div>
         </div>
         <div className="grid grid-cols-3 gap-4">
-          <div className="flex flex-col">
-            <FormLabel text="Pace" htmlFor="atb1" />
-            <FormInput
-              type="number"
-              placeholder="Insert Player Pace"
-              {...register("atb1")}
-            />
-            <p className="text-red-700 text-xs">{errors?.atb1?.message}</p>
-          </div>
-          <div className="flex flex-col">
-            <FormLabel text="Shooting" htmlFor="atb2" />
-            <FormInput
-              type="number"
-              placeholder="Insert Player Shooting"
-              {...register("atb2")}
-            />
-            <p className="text-red-700 text-xs">{errors?.atb2?.message}</p>
-          </div>
-          <div className="flex flex-col">
-            <FormLabel text="Passing" htmlFor="atb3" />
-            <FormInput
-              type="number"
-              placeholder="Insert Player Passing"
-              {...register("atb3")}
-            />
-            <p className="text-red-700 text-xs">{errors?.atb3?.message}</p>
-          </div>
-          <div className="flex flex-col">
-            <FormLabel text="Dribbling" htmlFor="atb4" />
-            <FormInput
-              type="number"
-              placeholder="Insert Player Dribbling"
-              {...register("atb4")}
-            />
-            <p className="text-red-700 text-xs">{errors?.atb4?.message}</p>
-          </div>
-          <div className="flex flex-col">
-            <FormLabel text="Defense" htmlFor="atb5" />
-            <FormInput
-              type="number"
-              placeholder="Insert Player Defense"
-              {...register("atb5")}
-            />
-            <p className="text-red-700 text-xs">{errors?.atb5?.message}</p>
-          </div>
-          <div className="flex flex-col">
-            <FormLabel text="Physical" htmlFor="atb6" />
-            <FormInput
-              type="number"
-              placeholder="Insert Player Physical"
-              {...register("atb6")}
-            />
-            <p className="text-red-700 text-xs">{errors?.atb6?.message}</p>
-          </div>
+          {attributes.map(({ name, key }) => {
+            return (
+              <div key={key} className="flex flex-col">
+                <FormLabel text={name} htmlFor={key} />
+                <FormInput
+                  type="number"
+                  min="1"
+                  max="99"
+                  placeholder={`Insert Player ${name}`}
+                  {...register(key as keyof PlayerSchema)}
+                />
+              </div>
+            );
+          })}
         </div>
         <button
           type="submit"
