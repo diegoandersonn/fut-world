@@ -4,7 +4,7 @@ import Select from "react-select";
 import axios from "axios";
 
 type Props = {
-  placeholder: string;
+  placeholder?: string;
   field?: any;
 };
 

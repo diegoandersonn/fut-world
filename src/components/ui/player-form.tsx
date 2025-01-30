@@ -1,43 +1,16 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import PositionSelect from "./position-select";
 import CountrySelect from "./country-select";
-import FormInput from "./form-input";
-import FormLabel from "./form-label";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 import getOverall from "../../utils/getOverall";
 import { TeamType } from "../../types/teamType";
 import { forwardRef, useContext } from "react";
 import { PlayersContext } from "../../context/PlayersContext";
-
-const attributeSchema = z.coerce
-  .number()
-  .refine((value) => value >= 1 && value <= 99, {});
-
-const playerSchema = z.object({
-  name: z.string().nonempty("Player Name Field is Required"),
-  age: z
-    .string()
-    .nonempty("Player Age Field is Required")
-    .refine(
-      (value) =>
-        !isNaN(Number(value)) && Number(value) >= 16 && Number(value) <= 40,
-      "Player Age must be a valid number between 16 and 40"
-    ),
-  nationality: z.string().nonempty("Country Name Field is Required"),
-  position: z.string().nonempty("Position Name Field is Required"),
-  overall: z.number().optional(),
-  id: z.string().optional(),
-  team: z.string().optional(),
-  teamId: z.string().optional(),
-  atb1: attributeSchema,
-  atb2: attributeSchema,
-  atb3: attributeSchema,
-  atb4: attributeSchema,
-  atb5: attributeSchema,
-  atb6: attributeSchema,
-});
+import { playerSchema } from "../../schemas/playerSchema";
+import FormField from "./form-field";
+import FormSelectField from "./form-select-field";
 
 type PlayerSchema = z.infer<typeof playerSchema>;
 
@@ -57,7 +30,6 @@ const CreatePlayerForm = forwardRef<HTMLDialogElement, Props>(
     } = useForm<PlayerSchema>({
       resolver: zodResolver(playerSchema),
     });
-
     const handlePlayer = (data: PlayerSchema) => {
       const overall = getOverall(
         data.position,
@@ -68,7 +40,6 @@ const CreatePlayerForm = forwardRef<HTMLDialogElement, Props>(
         data.atb5,
         data.atb6
       );
-
       setPlayers((prevPlayers) => [
         ...prevPlayers,
         {
@@ -84,7 +55,8 @@ const CreatePlayerForm = forwardRef<HTMLDialogElement, Props>(
         ref.current.close();
       }
     };
-    const attributes = [
+
+    const attributes: { name: string; key: keyof PlayerSchema }[] = [
       { name: "Pace", key: "atb1" },
       { name: "Shooting", key: "atb2" },
       { name: "Passing", key: "atb3" },
@@ -92,6 +64,7 @@ const CreatePlayerForm = forwardRef<HTMLDialogElement, Props>(
       { name: "Defense", key: "atb5" },
       { name: "Physical", key: "atb6" },
     ];
+
     return (
       <form
         method="dialog"
@@ -99,68 +72,55 @@ const CreatePlayerForm = forwardRef<HTMLDialogElement, Props>(
         className="bg-neutral-950 text-white rounded-md shadow-slate-950 flex flex-col gap-4 p-16 "
       >
         <div className="grid grid-cols-1 gap-4">
+          <FormField
+            label="Name"
+            name="name"
+            type="text"
+            placeholder="Insert Player Name"
+            register={register}
+            errors={errors}
+          />
+          <FormField
+            label="Age"
+            name="age"
+            type="text"
+            placeholder="Insert Player Age"
+            register={register}
+            errors={errors}
+          />
           <div className="flex flex-col">
-            <FormLabel text="Name" htmlFor="name" />
-            <FormInput
-              type="text"
-              placeholder="Insert Player Name"
-              {...register("name")}
-            />
-            <p className="text-red-700 text-xs">{errors?.name?.message}</p>
-          </div>
-          <div className="flex flex-col">
-            <FormLabel text="Age" htmlFor="age" />
-            <FormInput
-              type="number"
-              placeholder="Insert Player Age"
-              {...register("age")}
-            />
-            <p className="text-red-700 text-xs">{errors?.age?.message}</p>
-          </div>
-          <div className="flex flex-col">
-            <FormLabel text="Position" htmlFor="position" />
-            <Controller
+            <FormSelectField
+              label="Position"
               name="position"
               control={control}
-              render={({ field }) => (
-                <PositionSelect
-                  placeholder="Insert Player position"
-                  field={field}
-                />
-              )}
-            />
-            <p className="text-red-700 text-xs">{errors?.position?.message}</p>
-          </div>
-          <div className="flex flex-col">
-            <FormLabel text="Nationality" htmlFor="nationality" />
-            <Controller
+              errors={errors}
+              placeholder="Insert Player position"
+            >
+              <PositionSelect /> 
+            </FormSelectField>
+
+            <FormSelectField
+              label="Nationality"
               name="nationality"
               control={control}
-              render={({ field }) => (
-                <CountrySelect
-                  placeholder="Insert Player Nationality"
-                  field={field}
-                />
-              )}
-            />
-            <p className="text-red-700 text-xs">
-              {errors?.nationality?.message}
-            </p>
+              errors={errors}
+              placeholder="Insert Player Nationality"
+            >
+              <CountrySelect />
+            </FormSelectField>
           </div>
         </div>
         <div className="grid grid-cols-3 gap-4">
           {attributes.map(({ name, key }) => {
             return (
-              <div key={key} className="flex flex-col">
-                <FormLabel text={name} htmlFor={key} />
-                <FormInput
-                  type="number"
-                  min="1"
-                  max="99"
-                  placeholder={`Insert Player ${name}`}
-                  {...register(key as keyof PlayerSchema)}
-                />
-              </div>
+              <FormField
+                label={name}
+                name={key}
+                type="number"
+                placeholder="Insert Player Name"
+                register={register}
+                errors={errors}
+              />
             );
           })}
         </div>
