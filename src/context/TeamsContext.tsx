@@ -5,6 +5,7 @@ type TeamsContextType = {
   teams: TeamType[];
   setTeams: React.Dispatch<React.SetStateAction<TeamType[]>>;
   updateTeam: (updatedTeam: TeamType) => void;
+  removeTeam: (removedTeam: TeamType) => void;
 };
 type TeamProviderProps = {
   children: ReactNode;
@@ -15,6 +16,7 @@ export const TeamsContext = createContext<TeamsContextType>({
   teams: [],
   setTeams: () => {},
   updateTeam: () => {},
+  removeTeam: () => {},
 });
 
 export const TeamsProvider = ({ children }: TeamProviderProps) => {
@@ -24,8 +26,13 @@ export const TeamsProvider = ({ children }: TeamProviderProps) => {
       prevTeams.map((team) => (team.id === updatedTeam.id ? updatedTeam : team))
     );
   };
+  const removeTeam = (removedTeam: TeamType) => {
+    setTeams((prevTeams) =>
+      prevTeams.filter((team) => removedTeam.id === team.id)
+    );
+  };
   return (
-    <TeamsContext.Provider value={{ teams, setTeams, updateTeam }}>
+    <TeamsContext.Provider value={{ teams, setTeams, updateTeam, removeTeam }}>
       {children}
     </TeamsContext.Provider>
   );

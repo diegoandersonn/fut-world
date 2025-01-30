@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { TeamsContext } from "../context/TeamsContext";
 import getFlagImage from "../utils/getFlagImage";
 import { Link } from "react-router-dom";
-import { Plus } from "lucide-react";
+import { Plus, Trash } from "lucide-react";
 
 export default function Sidebar() {
   const [selectedTeam, setSelectedTeam] = useState("");
@@ -47,7 +47,7 @@ export default function Sidebar() {
                 : "group flex p-3 rounded-md gap-3 cursor-pointer bg-neutral-800"
             }
           >
-            <div className="flex-shrink-0">
+            <div>
               <img src={team.logo} alt="" className="w-14 h-14 rounded-md" />
             </div>
             <div className="flex flex-col flex-1">
@@ -76,6 +76,9 @@ export default function Sidebar() {
                 </p>
               </div>
             </div>
+              <div className="flex items-center">
+            <Trash size={22} className="text-zinc-400 hover:text-white hover:scale-110"/>
+              </div>
           </Link>
         ))}
       </div>

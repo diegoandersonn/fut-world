@@ -34,7 +34,7 @@ export default function CreateTeamForm() {
   });
 
   const handleTeam = (data: TeamSchema) => {
-    const newTeam = { ...data, id: uuidv4(), logo: defaultTeamImage, manager: 'Default Manager' };
+    const newTeam = { ...data, id: uuidv4(), logo: defaultTeamImage, manager: 'Default Manager', league: 'Default League' };
     setTeams([...teams, newTeam]);
     navigate("/");
   };
@@ -45,17 +45,17 @@ export default function CreateTeamForm() {
       className="bg-neutral-950 text-white rounded-md shadow-sm shadow-slate-950 flex flex-col gap-4 p-20"
     >
       <div className="flex flex-col gap-4">
-        <div className="flex flex-col justify-between">
+        <div className="flex flex-col gap-2">
           <FormLabel text="Name" htmlFor="name" />
           <FormInput
             type="text"
             placeholder="Insert Team Name"
             {...register("name")}
           />
-          <p>{errors?.name?.message}</p>
+          <p className="text-xs text-red-600 font-bold">{errors?.name?.message}</p>
         </div>
 
-        <div className="flex flex-col justify-between">
+        <div className="flex flex-col gap-2">
           <FormLabel text="Country" htmlFor="country" />
           <Controller
             name="country"
@@ -64,10 +64,10 @@ export default function CreateTeamForm() {
               <CountrySelect placeholder="Insert Team Country" field={field} />
             )}
           />
-          <p>{errors?.country?.message}</p>
+          <p className="text-xs text-red-600 font-bold">{errors?.country?.message}</p>
         </div>
 
-        <div className="flex flex-col justify-between">
+        <div className="flex flex-col gap-2">
           <FormLabel text="Estádio" htmlFor="stadium" />
           <FormInput
             type="text"
@@ -75,7 +75,7 @@ export default function CreateTeamForm() {
             {...register("stadium")}
           />
         </div>
-        <p>{errors?.stadium?.message}</p>
+        <p className="text-xs text-red-600 font-bold">{errors?.stadium?.message}</p>
       </div>
       <button
         type="submit"

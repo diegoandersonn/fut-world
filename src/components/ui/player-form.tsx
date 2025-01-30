@@ -1,7 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import PositionSelect from "./position-select";
 import CountrySelect from "./country-select";
+import FormLabel from "./form-label";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 import getOverall from "../../utils/getOverall";
@@ -10,7 +11,6 @@ import { forwardRef, useContext } from "react";
 import { PlayersContext } from "../../context/PlayersContext";
 import { playerSchema } from "../../schemas/playerSchema";
 import FormField from "./form-field";
-import FormSelectField from "./form-select-field";
 
 type PlayerSchema = z.infer<typeof playerSchema>;
 
@@ -45,8 +45,7 @@ const CreatePlayerForm = forwardRef<HTMLDialogElement, Props>(
         {
           ...data,
           id: uuidv4(),
-          team: team.name,
-          teamId: team.id,
+          team: team,
           overall: Number(overall),
         },
       ]);
@@ -69,9 +68,9 @@ const CreatePlayerForm = forwardRef<HTMLDialogElement, Props>(
       <form
         method="dialog"
         onSubmit={handleSubmit(handlePlayer)}
-        className="bg-neutral-950 text-white rounded-md shadow-slate-950 flex flex-col gap-4 p-16 "
+        className="bg-neutral-950 text-white rounded-md shadow-slate-950 flex flex-col gap-8 p-16 "
       >
-        <div className="grid grid-cols-1 gap-4">
+        <div className="flex flex-col gap-2">
           <FormField
             label="Name"
             name="name"
@@ -89,25 +88,34 @@ const CreatePlayerForm = forwardRef<HTMLDialogElement, Props>(
             errors={errors}
           />
           <div className="flex flex-col">
-            <FormSelectField
-              label="Position"
+            <FormLabel text="Position" htmlFor="position" />
+            <Controller
               name="position"
               control={control}
-              errors={errors}
-              placeholder="Insert Player position"
-            >
-              <PositionSelect /> 
-            </FormSelectField>
-
-            <FormSelectField
-              label="Nationality"
-              name="nationality"
+              render={({ field }) => (
+                <PositionSelect
+                  placeholder="Insert Player position"
+                  field={field}
+                />
+              )}
+            />
+            <p className="text-red-700 text-xs">{errors?.position?.message}</p>
+          </div>
+          <div className="flex flex-col">
+            <FormLabel text="Nationality" htmlFor="country" />
+            <Controller
+              name="country"
               control={control}
-              errors={errors}
-              placeholder="Insert Player Nationality"
-            >
-              <CountrySelect />
-            </FormSelectField>
+              render={({ field }) => (
+                <CountrySelect
+                  placeholder="Insert Player Nationality"
+                  field={field}
+                />
+              )}
+            />
+            <p className="text-red-700 text-xs">
+              {errors?.country?.message}
+            </p>
           </div>
         </div>
         <div className="grid grid-cols-3 gap-4">

@@ -1,6 +1,7 @@
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import PositionSelect from "./position-select";
 import CountrySelect from "./country-select";
+import FormLabel from "./form-label";
 import { PlayerType } from "../../types/playerType";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -9,7 +10,6 @@ import { PlayersContext } from "../../context/PlayersContext";
 import getOverall from "../../utils/getOverall";
 import { playerSchema } from "../../schemas/playerSchema";
 import FormField from "./form-field";
-import FormSelectField from "./form-select-field";
 
 type EditPlayerSchema = z.infer<typeof playerSchema>;
 
@@ -31,7 +31,7 @@ const CreateEditPlayerForm = forwardRef<HTMLDialogElement, Props>(
       defaultValues: {
         name: player.name,
         age: player.age,
-        nationality: player.nationality,
+        country: player.country,
         position: player.position,
         atb1: player.atb1,
         atb2: player.atb2,
@@ -45,7 +45,7 @@ const CreateEditPlayerForm = forwardRef<HTMLDialogElement, Props>(
       reset({
         name: player.name,
         age: player.age,
-        nationality: player.nationality,
+        country: player.country,
         position: player.position,
         atb1: player.atb1,
         atb2: player.atb2,
@@ -61,7 +61,6 @@ const CreateEditPlayerForm = forwardRef<HTMLDialogElement, Props>(
         ...data,
         id: player.id,
         team: player.team,
-        teamId: player.teamId,
         overall: Number(
           getOverall(
             data.position,
@@ -81,7 +80,7 @@ const CreateEditPlayerForm = forwardRef<HTMLDialogElement, Props>(
       }
     }
 
-    const attributes: {name: string, key: keyof EditPlayerSchema}[] = [
+    const attributes: { name: string; key: keyof EditPlayerSchema }[] = [
       { name: "Pace", key: "atb1" },
       { name: "Shooting", key: "atb2" },
       { name: "Passing", key: "atb3" },
@@ -114,25 +113,34 @@ const CreateEditPlayerForm = forwardRef<HTMLDialogElement, Props>(
             errors={errors}
           />
           <div className="flex flex-col">
-            <FormSelectField
-              label="Position"
+            <FormLabel text="Position" htmlFor="position" />
+            <Controller
               name="position"
               control={control}
-              errors={errors}
-              placeholder="Insert Player position"
-            >
-              <PositionSelect />
-            </FormSelectField>
-
-            <FormSelectField
-              label="Nationality"
-              name="nationality"
+              render={({ field }) => (
+                <PositionSelect
+                  placeholder="Insert Player position"
+                  field={field}
+                />
+              )}
+            />
+            <p className="text-red-700 text-xs">{errors?.position?.message}</p>
+          </div>
+          <div className="flex flex-col">
+            <FormLabel text="Nationality" htmlFor="country" />
+            <Controller
+              name="country"
               control={control}
-              errors={errors}
-              placeholder="Insert Player Nationality"
-            >
-              <CountrySelect />
-            </FormSelectField>
+              render={({ field }) => (
+                <CountrySelect
+                  placeholder="Insert Player Nationality"
+                  field={field}
+                />
+              )}
+            />
+            <p className="text-red-700 text-xs">
+              {errors?.country?.message}
+            </p>
           </div>
         </div>
         <div className="grid grid-cols-3 gap-4">

@@ -4,6 +4,7 @@ import { Pencil, Trash2 } from "lucide-react";
 import { PlayersContext } from "../../context/PlayersContext";
 import TableCell from "./table-cell";
 import FlagCell from "./flag-cell";
+import { TeamsContext } from "../../context/TeamsContext";
 
 type Props = {
   players: PlayerType[];
@@ -12,6 +13,7 @@ type Props = {
 
 export default function TableBody({ players, onEdit }: Props) {
   const { removePlayer } = useContext(PlayersContext);
+  const { teams } = useContext(TeamsContext);
   return (
     <tbody>
       {players.length > 0 ? (
@@ -21,8 +23,8 @@ export default function TableBody({ players, onEdit }: Props) {
             className="hover:bg-neutral-800 transition-colors"
           >
             <TableCell content={player.name} />
-            <FlagCell player={player} players={players} />
-            <TableCell content={player.team} />
+            <FlagCell entity={player} entities={players} type="player" />
+            <FlagCell entity={player.team} entities={teams} type="team" />
             <TableCell content={player.age} />
             <TableCell content={player.position} />
             <TableCell content={player.overall} />

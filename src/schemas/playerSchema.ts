@@ -16,7 +16,7 @@ export const playerSchema = z.object({
         !isNaN(Number(value)) && Number(value) >= 16 && Number(value) <= 40,
       "Player Age must be a valid number between 16 and 40"
     ),
-  nationality: z.string().nonempty("Country Name Field is Required"),
+  country: z.string().nonempty("Country Name Field is Required"),
   position: z.string().nonempty("Position Name Field is Required"),
   atb1: attributeSchema,
   atb2: attributeSchema,

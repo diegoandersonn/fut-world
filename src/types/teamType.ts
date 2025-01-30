@@ -5,4 +5,5 @@ export type TeamType = {
   id: string;
   logo: string;
   manager: string;
+  league: string;
 };

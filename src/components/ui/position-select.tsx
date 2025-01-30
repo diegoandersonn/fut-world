@@ -1,5 +1,5 @@
 type Props = {
-  placeholder?: string;
+  placeholder: string;
   field?: {
     value: string;
     onChange: (value: string) => void;
