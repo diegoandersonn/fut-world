@@ -7,11 +7,11 @@ import MainFooterTable from "./main-footer-table";
 
 type Props = {
   team: TeamType;
-  teamPlayers: PlayerType[];
+  players: PlayerType[];
 };
 
-export default function TeamMainFooter({ team, teamPlayers }: Props) {
-  const playerDialogRef = useRef<HTMLDialogElement>(null);  
+export default function TeamMainFooter({ team, players }: Props) {
+  const playerDialogRef = useRef<HTMLDialogElement>(null);
 
   function togglePlayerDialog() {
     if (playerDialogRef.current) {
@@ -34,7 +34,7 @@ export default function TeamMainFooter({ team, teamPlayers }: Props) {
         </button>
         <PlayerDialog ref={playerDialogRef} team={team} />
       </div>
-      <MainFooterTable teamPlayers = {teamPlayers}/>
+      <MainFooterTable players={players} />
     </div>
   );
 }

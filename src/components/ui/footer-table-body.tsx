@@ -1,17 +1,32 @@
-import { Pencil, Trash2 } from "lucide-react";
+import { useState, useEffect, useContext } from "react";
+import getFlagImage from "../../utils/getFlagImage";
 import { PlayerType } from "../../types/playerType";
+import { Pencil, Trash2 } from "lucide-react";
+import { PlayersContext } from "../../context/PlayersContext";
 
 type Props = {
   teamPlayers: PlayerType[];
+  onEdit: (player: PlayerType) => void;
 };
 
-export default function FooterTableBody({ teamPlayers }: Props) {
-  function toggleEditDialog(player: PlayerType) {
-    setSelectedPlayer(player);
-    if (editDialogRef.current) {
-      editDialogRef.current.showModal();
+export default function FooterTableBody({ teamPlayers, onEdit }: Props) {
+  const [flags, setFlags] = useState<{ [key: string]: string }>({});
+  const { removePlayer } = useContext(PlayersContext);
+
+  useEffect(() => {
+    const fetchFlags = async () => {
+      const flagUrls: { [key: string]: string } = {};
+      for (const player of teamPlayers) {
+        const flagUrl = await getFlagImage(player.nationality);
+        flagUrls[player.nationality] = flagUrl || "";
+      }
+      setFlags(flagUrls);
+    };
+
+    if (teamPlayers.length > 0) {
+      fetchFlags();
     }
-  }
+  }, [teamPlayers]);
   return (
     <tbody>
       {teamPlayers.length > 0 ? (
@@ -42,14 +57,17 @@ export default function FooterTableBody({ teamPlayers }: Props) {
             </td>
             <td className="px-4 py-2 border-t border-gray-700">
               <button
-                onClick={() => toggleEditDialog(player)}
+                onClick={() => onEdit(player)}
                 className="text-emerald-500 hover:text-emerald-300"
               >
                 <Pencil />
               </button>
             </td>
             <td className="px-4 py-2 border-t border-gray-700">
-              <button className="text-red-500 hover:text-red-300">
+              <button
+                className="text-red-500 hover:text-red-300"
+                onClick={() => removePlayer(player)}
+              >
                 <Trash2 />
               </button>
             </td>

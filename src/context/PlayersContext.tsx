@@ -5,6 +5,7 @@ type PlayersContextType = {
   players: PlayerType[];
   setPlayers: React.Dispatch<React.SetStateAction<PlayerType[]>>;
   updatePlayer: (updatedPlayer: PlayerType) => void;
+  removePlayer: (removedPlayer: PlayerType) => void;
 };
 type PlayerProviderProps = {
   children: ReactNode;
@@ -15,6 +16,7 @@ export const PlayersContext = createContext<PlayersContextType>({
   players: [],
   setPlayers: () => {},
   updatePlayer: () => {},
+  removePlayer: () => {},
 });
 
 export const PlayersProvider = ({ children }: PlayerProviderProps) => {
@@ -26,8 +28,15 @@ export const PlayersProvider = ({ children }: PlayerProviderProps) => {
       )
     );
   };
+  const removePlayer = (removedPlayer: PlayerType) => {
+    setPlayers((prevPlayers) =>
+      prevPlayers.filter((player) => player.id !== removedPlayer.id)
+    );
+  };
   return (
-    <PlayersContext.Provider value={{ players, setPlayers, updatePlayer }}>
+    <PlayersContext.Provider
+      value={{ players, setPlayers, updatePlayer, removePlayer }}
+    >
       {children}
     </PlayersContext.Provider>
   );
