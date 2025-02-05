@@ -1,3 +1,4 @@
+import Footer from "../../components/footer";
 import Header from "../../components/header";
 import Sidebar from "../../components/sidebar";
 import TeamMain from "../../components/team-main";
@@ -10,6 +11,7 @@ export default function Team() {
         <Sidebar />
         <TeamMain />
       </div>
+      <Footer />
     </div>
   );
 }

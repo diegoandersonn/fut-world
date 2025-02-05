@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { House, Github } from 'lucide-react'
+import { House, Github } from "lucide-react";
 
 
 export default function Header() {
@@ -7,12 +7,17 @@ export default function Header() {
     <div className="text-white flex justify-center p-10">
       <ul className="flex gap-8">
         <li>
-          <Link to="/"><House /></Link>
+          <Link to="/">
+            <House />
+          </Link>
         </li>
 
         <li>
-          <Link to="https://github.com/diegoandersonn"><Github /></Link>
+          <Link to="https://github.com/diegoandersonn">
+            <Github />
+          </Link>
         </li>
+
       </ul>
     </div>
   );

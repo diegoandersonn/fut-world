@@ -25,7 +25,7 @@ export default function Sidebar() {
   }, [teams]);
 
   return (
-    <div className="bg-neutral-950 rounded-md ml-2 p-5 flex flex-col gap-4 min-w-72 text-zinc-300">
+    <div className="bg-neutral-950 rounded-md ml-2 p-5 flex flex-col gap-4 w-96 text-zinc-300 overflow-auto scrollbar-thumb">
       <div className="flex justify-between items-center">
         <h1 className="text-lg font-medium hover:text-white hover:scale-105">
           Teams
@@ -64,7 +64,7 @@ export default function Sidebar() {
               </div>
               <div className="flex gap-2 text-xs text-zinc-500">
                 <div className="flex items-center gap-1">
-                  <p className="truncate">{team.country}</p>
+                  <p>{team.country}</p>
                   <img
                     src={flags[team.country] || ""}
                     alt=""

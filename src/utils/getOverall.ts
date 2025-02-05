@@ -1,5 +1,5 @@
 export default function getOverall(position: string, atb1: number, atb2: number, atb3: number, atb4: number, atb5: number, atb6: number) {
-    if (position === 'Goalkepper') {
+    if (position === 'Goalkeeper') {
       const atributtes = {
         diving: atb1,
         handling: atb2,

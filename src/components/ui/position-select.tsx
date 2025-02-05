@@ -8,7 +8,7 @@ type Props = {
 
 export default function PositionSelect({ placeholder, field }: Props) {
   const options = [
-    { value: "Goalkepper", label: "Goalkepper" },
+    { value: "Goalkeeper", label: "Goalkeeper" },
     { value: "Center Back", label: "Center Back" },
     { value: "Full Back", label: "Full Back" },
     { value: "Defensive Midfielder", label: "Defensive Midfielder" },
