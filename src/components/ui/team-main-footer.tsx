@@ -1,5 +1,4 @@
 import PlayerDialog from "./player-dialog";
-import { PlayerType } from "../../types/playerType";
 import { TeamType } from "../../types/teamType";
 import { useRef } from "react";
 import { Plus } from "lucide-react";
@@ -7,10 +6,9 @@ import PlayersTable from "./players-table";
 
 type Props = {
   team: TeamType;
-  players: PlayerType[];
 };
 
-export default function TeamMainFooter({ team, players }: Props) {
+export default function TeamMainFooter({ team }: Props) {
   const playerDialogRef = useRef<HTMLDialogElement>(null);
 
   function togglePlayerDialog() {
@@ -34,7 +32,7 @@ export default function TeamMainFooter({ team, players }: Props) {
         </button>
         <PlayerDialog ref={playerDialogRef} team={team} />
       </div>
-      <PlayersTable players={players} />
+      <PlayersTable team={team} />
     </div>
   );
 }

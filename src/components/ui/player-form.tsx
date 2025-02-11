@@ -7,8 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 import getOverall from "../../utils/getOverall";
 import { TeamType } from "../../types/teamType";
-import { forwardRef, useContext } from "react";
-import { PlayersContext } from "../../context/PlayersContext";
+import { forwardRef } from "react";
 import { playerSchema } from "../../schemas/playerSchema";
 import FormField from "./form-field";
 
@@ -20,7 +19,6 @@ type Props = {
 
 const CreatePlayerForm = forwardRef<HTMLDialogElement, Props>(
   ({ team }, ref) => {
-    const { setPlayers } = useContext(PlayersContext);
     const {
       register,
       handleSubmit,
@@ -30,7 +28,7 @@ const CreatePlayerForm = forwardRef<HTMLDialogElement, Props>(
     } = useForm<PlayerSchema>({
       resolver: zodResolver(playerSchema),
     });
-    const handlePlayer = (data: PlayerSchema) => {
+    const handlePlayer = async (data: PlayerSchema) => {
       const overall = getOverall(
         data.position,
         data.atb1,
@@ -40,20 +38,38 @@ const CreatePlayerForm = forwardRef<HTMLDialogElement, Props>(
         data.atb5,
         data.atb6
       );
-      setPlayers((prevPlayers) => [
-        ...prevPlayers,
-        {
-          ...data,
-          id: uuidv4(),
-          team: team,
-          overall: Number(overall),
-        },
-      ]);
-      reset();
-      if (ref && typeof ref !== "function" && ref.current) {
-        ref.current.close();
+      
+      const playerData = {
+        ...data,
+        id: uuidv4(),
+        team: team,
+        overall: Number(overall),
+      };
+
+      const API_URL = import.meta.env.VITE_API_URL;
+
+      try {
+        const response = await fetch(`${API_URL}/players`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(playerData),
+        });
+    
+        if (response.ok) {
+          reset(); 
+          if (ref && typeof ref !== "function" && ref.current) {
+            ref.current.close();
+          }
+        } else {
+          console.error("Erro ao adicionar o jogador.");
+        }
+      } catch (error) {
+        console.error("Erro na requisição:", error);
       }
     };
+    
 
     const attributes: { name: string; key: keyof PlayerSchema }[] = [
       { name: "Pace", key: "atb1" },

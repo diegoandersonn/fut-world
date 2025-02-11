@@ -1,7 +1,6 @@
 import { Share, Send, PencilLine } from "lucide-react";
 import { TeamType } from "../../types/teamType";
-import { useContext, useState } from "react";
-import { TeamsContext } from "../../context/TeamsContext";
+import { useState } from "react";
 import MainHeaderForm from "./main-header-form";
 
 type Props = {
@@ -9,16 +8,26 @@ type Props = {
 };
 
 export default function TeamMainHeader({ team }: Props) {
-  const { updateTeam } = useContext(TeamsContext);
   const [isEditing, setIsEditing] = useState(false);
   const [name, setTeamName] = useState("");
 
-  function handleLogoChange(e: React.ChangeEvent<HTMLInputElement>) {
+  async function handleLogoChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (file) {
       const fileURL = URL.createObjectURL(file);
       const updatedTeam = { ...team, logo: fileURL };
-      updateTeam(updatedTeam);
+      const API_URL = import.meta.env.VITE_API_URL;
+      try {
+        await fetch(`${API_URL}/teams/${team.id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedTeam),
+        });
+      } catch (error) {
+        console.error(error);
+      }
     }
   }
 
@@ -35,12 +44,28 @@ export default function TeamMainHeader({ team }: Props) {
     setTeamName(e.target.value);
   }
 
-  function submitNameChange() {
-    updateTeam({ ...team, name: name });
-    setIsEditing(false);
+  async function submitNameChange() {
+    const updatedTeam = { ...team, name: name };
+    const API_URL = import.meta.env.VITE_API_URL;
+    try {
+      const response = await fetch(`${API_URL}/teams/${team.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedTeam),
+      });
+      if (response.ok) {
+        setIsEditing(false);
+      } else {
+        console.error("ERRO");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
-  return (
+  return team ? (
     <div className="flex justify-between">
       <div className="m-4">
         <div className="flex items-center justify-center gap-3">
@@ -90,5 +115,7 @@ export default function TeamMainHeader({ team }: Props) {
         <MainHeaderForm team={team} />
       </div>
     </div>
+  ) : (
+    <p>loading...</p>
   );
 }

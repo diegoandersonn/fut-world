@@ -5,8 +5,7 @@ import FormLabel from "./form-label";
 import { PlayerType } from "../../types/playerType";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { forwardRef, useContext, useEffect } from "react";
-import { PlayersContext } from "../../context/PlayersContext";
+import { forwardRef, useEffect } from "react";
 import getOverall from "../../utils/getOverall";
 import { playerSchema } from "../../schemas/playerSchema";
 import FormField from "./form-field";
@@ -19,7 +18,6 @@ type Props = {
 
 const CreateEditPlayerForm = forwardRef<HTMLDialogElement, Props>(
   ({ player }, ref) => {
-    const { updatePlayer } = useContext(PlayersContext);
     const {
       register,
       handleSubmit,
@@ -56,7 +54,7 @@ const CreateEditPlayerForm = forwardRef<HTMLDialogElement, Props>(
       });
     }, [player, reset]);
 
-    function handlePlayer(data: EditPlayerSchema) {
+    async function handlePlayer(data: EditPlayerSchema) {
       const newPlayer: PlayerType = {
         ...data,
         id: player.id,
@@ -73,10 +71,25 @@ const CreateEditPlayerForm = forwardRef<HTMLDialogElement, Props>(
           )
         ),
       };
-      updatePlayer(newPlayer);
-      reset();
-      if (ref && typeof ref !== "function" && ref.current) {
-        ref.current.close();
+      const API_URL = import.meta.env.VITE_API_URL;
+      try {
+        const response = await fetch(`${API_URL}/players/${player.id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newPlayer),
+        });
+        if(response.ok) {
+          reset();
+          if (ref && typeof ref !== "function" && ref.current) {
+            ref.current.close();
+          }
+        } else {
+          console.error("Erro ao atualizar o jogador.");
+        }
+      } catch (error) {
+        console.error("Erro na requisição:", error);
       }
     }
 

@@ -1,5 +1,3 @@
-import { TeamsContext } from "../../context/TeamsContext";
-import { useContext } from "react";
 import { TeamType } from "../../types/teamType";
 
 type Props = {
@@ -7,12 +5,23 @@ type Props = {
 };
 
 export default function MainHeaderForm({ team }: Props) {
-  const { updateTeam } = useContext(TeamsContext);
-  function handleFieldChange(
+  async function handleFieldChange(
     e: React.ChangeEvent<HTMLInputElement>,
     value: string
   ) {
-    updateTeam({ ...team, [value]: e.target.value });
+    const editedTeam = { ...team, [value]: e.target.value };
+    const API_URL = import.meta.env.VITE_API_URL;
+    try {
+      await fetch(`${API_URL}/teams/${team.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(editedTeam),
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (

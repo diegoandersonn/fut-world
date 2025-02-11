@@ -4,8 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { v4 as uuidv4 } from "uuid";
 import FormLabel from "./form-label";
 import FormInput from "./form-input";
-import { useContext } from "react";
-import { TeamsContext } from "../../context/TeamsContext";
 import { useNavigate } from "react-router-dom";
 import CountrySelect from "./country-select";
 import defaultTeamImage from "../../assets/defaultteamimage.jpg";
@@ -23,7 +21,6 @@ type TeamSchema = z.infer<typeof teamSchema>;
 
 export default function CreateTeamForm() {
   const navigate = useNavigate();
-  const { teams, setTeams } = useContext(TeamsContext);
   const {
     control,
     register,
@@ -33,10 +30,31 @@ export default function CreateTeamForm() {
     resolver: zodResolver(teamSchema),
   });
 
-  const handleTeam = (data: TeamSchema) => {
-    const newTeam = { ...data, id: uuidv4(), logo: defaultTeamImage, manager: 'Default Manager', league: 'Default League' };
-    setTeams([...teams, newTeam]);
-    navigate("/");
+  const handleTeam = async (data: TeamSchema) => {
+    const newTeam = {
+      ...data,
+      id: uuidv4(),
+      logo: defaultTeamImage,
+      manager: "Default Manager",
+      league: "Default League",
+    };
+    const API_URL = import.meta.env.VITE_API_URL;
+    try {
+      const response = await fetch(`${API_URL}/teams`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newTeam),
+      });
+      if (response.ok) {
+        navigate("/");
+      } else {
+        console.error("Erro ao adicionar o jogador.");
+      }
+    } catch (error) {
+      console.error("Erro na requisição:", error);
+    }
   };
 
   return (
@@ -52,7 +70,9 @@ export default function CreateTeamForm() {
             placeholder="Insert Team Name"
             {...register("name")}
           />
-          <p className="text-xs text-red-600 font-bold">{errors?.name?.message}</p>
+          <p className="text-xs text-red-600 font-bold">
+            {errors?.name?.message}
+          </p>
         </div>
 
         <div className="flex flex-col gap-2">
@@ -64,7 +84,9 @@ export default function CreateTeamForm() {
               <CountrySelect placeholder="Insert Team Country" field={field} />
             )}
           />
-          <p className="text-xs text-red-600 font-bold">{errors?.country?.message}</p>
+          <p className="text-xs text-red-600 font-bold">
+            {errors?.country?.message}
+          </p>
         </div>
 
         <div className="flex flex-col gap-2">
@@ -75,7 +97,9 @@ export default function CreateTeamForm() {
             {...register("stadium")}
           />
         </div>
-        <p className="text-xs text-red-600 font-bold">{errors?.stadium?.message}</p>
+        <p className="text-xs text-red-600 font-bold">
+          {errors?.stadium?.message}
+        </p>
       </div>
       <button
         type="submit"

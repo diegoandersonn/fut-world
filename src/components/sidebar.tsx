@@ -1,28 +1,35 @@
-import { useContext, useEffect, useState } from "react";
-import { TeamsContext } from "../context/TeamsContext";
+import { useEffect, useState } from "react";
 import getFlagImage from "../utils/getFlagImage";
 import { Link } from "react-router-dom";
 import { Plus, Trash } from "lucide-react";
+import { TeamType } from "../types/teamType";
 
 export default function Sidebar() {
   const [selectedTeam, setSelectedTeam] = useState("");
-  const { teams } = useContext(TeamsContext);
   const [flags, setFlags] = useState<{ [key: string]: string }>({});
+  const [teams, setTeams] = useState<TeamType[]>([]);
 
   useEffect(() => {
-    const fetchFlags = async () => {
+    const API_URL = import.meta.env.VITE_API_URL;
+
+    const fetchTeams = async () => {
+      const response = await fetch(`${API_URL}/teams`);
+      const teamsData = await response.json();
+      setTeams(teamsData);
+      fetchFlags(teamsData);
+    };
+
+    const fetchFlags = async (teamsData: TeamType[]) => {
       const flagUrls: { [key: string]: string } = {};
-      for (const team of teams) {
+      for (const team of teamsData) {
         const flagUrl = await getFlagImage(team.country);
         flagUrls[team.country] = flagUrl || "";
       }
       setFlags(flagUrls);
     };
 
-    if (teams.length > 0) {
-      fetchFlags();
-    }
-  }, [teams]);
+    fetchTeams();
+  }, []);
 
   return (
     <div className="bg-neutral-950 rounded-md ml-2 p-5 flex flex-col gap-4 w-96 text-zinc-300 overflow-auto scrollbar-thumb">
@@ -47,7 +54,7 @@ export default function Sidebar() {
                 : "group flex p-3 rounded-md gap-3 cursor-pointer bg-neutral-800"
             }
           >
-            <div>
+            <div className="w-14 h-14 bg-slate-50 hover:bg-neutral-500 rounded-md group relative">
               <img src={team.logo} alt="" className="w-14 h-14 rounded-md" />
             </div>
             <div className="flex flex-col flex-1">
@@ -76,9 +83,14 @@ export default function Sidebar() {
                 </p>
               </div>
             </div>
-              <div className="flex items-center">
-            <Trash size={22} className="text-zinc-400 hover:text-white hover:scale-110"/>
-              </div>
+            <div className="flex items-center">
+              <button onClick={() => console.log('oi')}>
+                <Trash
+                  size={22}
+                  className="text-zinc-400 hover:text-white hover:scale-110"
+                />
+              </button>
+            </div>
           </Link>
         ))}
       </div>

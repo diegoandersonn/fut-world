@@ -1,19 +1,61 @@
-import { useContext } from "react";
+import { useEffect, useState } from "react";
 import { PlayerType } from "../../types/playerType";
 import { Pencil, Trash2 } from "lucide-react";
-import { PlayersContext } from "../../context/PlayersContext";
 import TableCell from "./table-cell";
 import FlagCell from "./flag-cell";
-import { TeamsContext } from "../../context/TeamsContext";
+import { TeamType } from "../../types/teamType";
 
 type Props = {
-  players: PlayerType[];
+  team?: TeamType;
   onEdit: (player: PlayerType) => void;
 };
 
-export default function TableBody({ players, onEdit }: Props) {
-  const { removePlayer } = useContext(PlayersContext);
-  const { teams } = useContext(TeamsContext);
+export default function TableBody({ onEdit, team }: Props) {
+  const [players, setPlayers] = useState<PlayerType[]>([]);
+  const [teams, setTeams] = useState<TeamType[]>([]);
+  const API_URL = import.meta.env.VITE_API_URL;
+  useEffect(() => {
+    const fetchTeam = async () => {
+      const response = await fetch(`${API_URL}/teams`);
+      const data = await response.json();
+      setTeams(data);
+    };
+    fetchTeam();
+    if (team) {
+      const fetchPlayer = async () => {
+        const response = await fetch(`${API_URL}/players?filter=${team.name}`);
+        const data = await response.json();
+        setPlayers(data);
+      };
+      fetchPlayer();
+    } else {
+      const fetchPlayer = async () => {
+        const response = await fetch(`${API_URL}/players`);
+        const data = await response.json();
+        setPlayers(data);
+      };
+      fetchPlayer();
+    }
+  }, [API_URL, team]);
+
+  async function removePlayer(player: PlayerType) {
+    try {
+      const response = await fetch(`${API_URL}/players/${player.id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        const players =  await response.json()
+        setPlayers(players);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   return (
     <tbody>
       {players.length > 0 ? (
