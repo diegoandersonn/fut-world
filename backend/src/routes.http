@@ -1,0 +1,88 @@
+POST http://localhost:8080/players
+Content-Type: application/json
+
+{
+  "id": "001",
+  "name": "Cristiano Ronaldo",
+  "age": "38",
+  "country": "Portugal",
+  "position": "Forward",
+  "overall": 92,
+  "team": {
+    "id": "001",
+    "name": "Al Nassr",
+    "country": "Saudi Arabia",
+    "stadium": "Default Stadium",
+    "logo": "Default Logo",
+    "manager": "Luis Castro",
+    "league": "Saudi Arabia Pro League"
+  },
+  "atb1": 90,
+  "atb2": 85,
+  "atb3": 88,
+  "atb4": 92,
+  "atb5": 94,
+  "atb6": 91
+}
+
+###
+POST http://localhost:8080/players
+Content-Type: application/json
+
+{
+  "id": "002",
+  "name": "Messi",
+  "age": "35",
+  "country": "Argentina",
+  "position": "Forward",
+  "overall": 92,
+  "team": {
+    "id": "002",
+    "name": "Inter Miami",
+    "country": "United States",
+    "stadium": "Default Stadium",
+    "logo": "Default Logo",
+    "manager": "Diego anderson",
+    "league": "MLS"
+  },
+  "atb1": 90,
+  "atb2": 85,
+  "atb3": 88,
+  "atb4": 92,
+  "atb5": 94,
+  "atb6": 91
+}
+
+###
+GET http://localhost:8080/players
+
+###
+DELETE http://localhost:8080/players/002
+
+###
+PUT http://localhost:8080/players/002
+Content-Type: application/json
+
+{
+  "id": "002",
+  "name": "Suarez",
+  "age": "36",
+  "country": "Uruguay",
+  "position": "Forward",
+  "overall": 87,
+  "team": {
+    "id": "002",
+    "name": "Inter Miami",
+    "country": "United States",
+    "stadium": "Default Stadium",
+    "logo": "Default Logo",
+    "manager": "Diego anderson",
+    "league": "MLS"
+  },
+  "atb1": 90,
+  "atb2": 85,
+  "atb3": 88,
+  "atb4": 92,
+  "atb5": 94,
+  "atb6": 91
+}
