@@ -1,6 +1,6 @@
 import { SingleValue } from "react-select";
 import Select from "react-select";
-import { CountryType } from "../../types/countryType";
+import { CountryType } from "../../../../shared/types/countryType";
 import { useQuery } from "@tanstack/react-query";
 
 type Props = {
@@ -9,19 +9,14 @@ type Props = {
 };
 
 export default function CountrySelect({ placeholder, field }: Props) {
+  const API_URL = import.meta.env.VITE_API_URL;
   const { data: countriesResponse } = useQuery<CountryType[]>({
     queryKey: ["get-countries"],
     queryFn: async () => {
-      const response = await fetch("https://restcountries.com/v3.1/all");
-      const data = await response.json();
-      const array: CountryType[] = [];
-      data.forEach((country) => {
-        array.push({ name: country.name.common, flag: country.flags.png });
-      });
-      return array;
+      const response = await fetch(`${API_URL}/countries`);
+      return await response.json();
     },
   });
-
   const options = countriesResponse?.map((country) => ({
     value: country,
     label: country.name,

@@ -5,11 +5,11 @@ export type PlayerType = {
   name: string;
   age: string;
   country: CountryType;
-  picture: string;
   position: string;
   overall: number;
   id: string;
   team: TeamType;
+  picture: string;
   atb1: number;
   atb2: number;
   atb3: number;

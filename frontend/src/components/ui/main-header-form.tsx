@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { TeamType } from "../../types/teamType";
+import { TeamType } from "../../../../shared/types/teamType";
 
 type Props = {
   team: TeamType;

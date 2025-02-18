@@ -7,7 +7,7 @@ import CountrySelect from "../country-select";
 import defaultTeamImage from "../../../assets/defaultteamimage.jpg";
 import { teamSchema } from "../../../schemas/teamSchema";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { TeamType } from "../../../types/teamType";
+import { TeamType } from "../../../../../shared/types/teamType"; 
 import {FormField, FormLabel } from "./form";
 
 type TeamSchema = z.infer<typeof teamSchema>;

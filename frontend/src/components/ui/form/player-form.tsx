@@ -5,12 +5,12 @@ import CountrySelect from "../country-select";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 import getOverall from "../../../utils/getOverall";
-import { TeamType } from "../../../types/teamType";
+import { TeamType } from "../../../../../shared/types/teamType"; 
 import { forwardRef } from "react";
 import { playerSchema } from "../../../schemas/playerSchema";
 import { FormField, FormLabel } from "./form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { PlayerType } from "../../../types/playerType";
+import { PlayerType } from "../../../../../shared/types/playerType"; 
 import defaultPlayerPicture from "../../../assets/defaultplayerpicture.jpg";
 
 type PlayerSchema = z.infer<typeof playerSchema>;

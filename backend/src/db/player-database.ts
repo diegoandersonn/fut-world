@@ -1,4 +1,4 @@
-import { PlayerType } from "../types/playerType.ts";
+import { PlayerType } from "../../../shared/types/playerType";
 
 export class PlayerDatabase {
   #players: Map<string, PlayerType> = new Map();

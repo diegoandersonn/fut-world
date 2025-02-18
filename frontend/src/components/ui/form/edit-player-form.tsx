@@ -1,7 +1,7 @@
 import { Controller, useForm } from "react-hook-form";
 import PositionSelect from "../position-select";
 import CountrySelect from "../country-select";
-import { PlayerType } from "../../../types/playerType";
+import { PlayerType } from "../../../../../shared/types/playerType"; 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { FormField, FormLabel } from "./form";

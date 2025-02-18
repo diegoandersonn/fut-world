@@ -1,5 +1,5 @@
 import PlayerDialog from "../player-dialog";
-import { TeamType } from "../../../types/teamType";
+import { TeamType } from "../../../../../shared/types/teamType"; 
 import { useRef } from "react";
 import { Plus } from "lucide-react";
 import PlayersTable from "../table/players-table";

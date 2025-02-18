@@ -1,8 +1,8 @@
-import { server } from "../../server.ts";
-import CreatePlayer from "./create-player.ts";
-import DeletePlayer from "./delete-player.ts";
-import EditPlayer from "./edit-player.ts";
-import ListPlayers from "./list-players.ts";
+import { server } from "../../server";
+import CreatePlayer from "./create-player";
+import DeletePlayer from "./delete-player";
+import EditPlayer from "./edit-player";
+import ListPlayers from "./list-players";
 
 
 export default async function PlayerRoutes() {

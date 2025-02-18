@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Plus, Trash } from "lucide-react";
-import { TeamType } from "../../types/teamType";
+import { TeamType } from "../../../../shared/types/teamType"; 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export default function Sidebar() {

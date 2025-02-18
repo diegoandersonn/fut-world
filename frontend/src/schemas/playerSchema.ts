@@ -19,6 +19,8 @@ export const playerSchema = z.object({
   country: z.object({
     name: z.string(),
     flag: z.string(),
+    id: z.string(),
+    abbreviation: z.string(),
   }),
   picture: z.string().optional(),
   position: z.string().nonempty("Position Name Field is Required"),

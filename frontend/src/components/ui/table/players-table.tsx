@@ -1,9 +1,6 @@
-// import { useState, useRef } from "react";
-// import EditPlayerDialog from "../edit-player-dialog";
 import TableHead from "./table-head";
 import TableBody from "./table-body";
-// import { PlayerType } from "../../../types/playerType";
-import { TeamType } from "../../../types/teamType";
+import { TeamType } from "../../../../../shared/types/teamType"; 
 
 type Props = {
   team?: TeamType;

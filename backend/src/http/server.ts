@@ -1,17 +1,20 @@
 import { fastify } from "fastify";
-import { PlayerDatabase } from "../db/player-database.ts";
-import { TeamDatabase } from "../db/team-database.ts";
-import { SeedDatabase } from "../db/seed.ts";
+import { PlayerDatabase } from "../db/player-database";
+import { TeamDatabase } from "../db/team-database";
+import { CountryDatabase } from "../db/country-database";
+import { SeedDatabase } from "../db/seed";
 import fastifyCors from "@fastify/cors";
-import Routes from "./routes.ts";
+import Routes from "./routes";
 
 export const server = fastify();
 const playerDatabase = new PlayerDatabase();
 const teamDatabase = new TeamDatabase();
+const countryDatabase = new CountryDatabase();
 
 server.register(Routes);
 server.decorate("playerDatabase", playerDatabase);
 server.decorate("teamDatabase", teamDatabase);
+server.decorate("countryDatabase", countryDatabase);
 server.register(fastifyCors, {
   origin: "http://localhost:5173",
 });

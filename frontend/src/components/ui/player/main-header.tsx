@@ -1,5 +1,5 @@
 import { Share } from "lucide-react";
-import { PlayerType } from "../../../types/playerType";
+import { PlayerType } from "../../../../../shared/types/playerType"; 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type Props = {

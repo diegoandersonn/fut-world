@@ -1,5 +1,5 @@
-import { PlayerType } from "../../../types/playerType";
-import { TeamType } from "../../../types/teamType";
+import { PlayerType } from "../../../../../shared/types/playerType"; 
+import { TeamType } from "../../../../../shared/types/teamType"; 
 
 type CellProps = {
   content: string | number;

@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { PlayerType } from "../../types/playerType";
+import { PlayerType } from "../../../../shared/types/playerType";
 import { X } from "lucide-react";
 import CreateEditPlayerForm from "./form/edit-player-form";
 

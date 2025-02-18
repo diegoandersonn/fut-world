@@ -1,4 +1,4 @@
-import { TeamType } from "../../types/teamType";
+import { TeamType } from "../../../../shared/types/teamType";
 import DialogHeader from "./player-dialog-header";
 import CreatePlayerForm from "./form/player-form";
 import { forwardRef } from "react";

@@ -1,5 +1,5 @@
 import { Share, Send, PencilLine } from "lucide-react";
-import { TeamType } from "../../../types/teamType";
+import { TeamType } from "../../../../../shared/types/teamType";
 import { useState } from "react";
 import MainHeaderForm from "../main-header-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

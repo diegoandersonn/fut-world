@@ -1,7 +1,7 @@
-import { PlayerType } from "../../../types/playerType";
+import { PlayerType } from "../../../../../shared/types/playerType"; 
 import { Pencil, Trash2 } from "lucide-react";
 import { FlagCell, ImageCell, TableCell } from "./table";
-import { TeamType } from "../../../types/teamType";
+import { TeamType } from "../../../../../shared/types/teamType";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 

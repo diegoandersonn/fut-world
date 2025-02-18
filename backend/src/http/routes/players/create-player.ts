@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify";
-import { PlayerType } from "../../../types/playerType.ts";
+import { PlayerType } from "../../../types/playerType";
 
 export default async function CreatePlayer(server: FastifyInstance) {
   server.post<{ Body: PlayerType }>("/players", (request, reply) => {

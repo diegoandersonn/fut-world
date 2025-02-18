@@ -5,6 +5,8 @@ export const teamSchema = z.object({
   country: z.object({
     name: z.string(),
     flag: z.string(),
+    id: z.string(),
+    abbreviation: z.string(),
   }),
   stadium: z.string().nonempty("The Team Stadium field is Required"),
   id: z.string().optional(),
