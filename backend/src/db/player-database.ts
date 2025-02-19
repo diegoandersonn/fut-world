@@ -15,17 +15,16 @@ export class PlayerDatabase {
     this.#players.delete(playerId);
   }
 
-  list(filter?: string) {
+  list(filter?: string, type?: string) {
     return Array.from(this.#players.entries())
       .map((playerArray) => {
         const data = playerArray[1];
         return { ...data };
       })
       .filter((player) => {
-        if (filter) {
-          return player.team.name.includes(filter);
-        }
-        return true;
+        const matchesFilter = filter ? player.name.includes(filter) : true;
+        const matchesType = type ? player.team.name.includes(type) : true;
+        return matchesFilter && matchesType;
       });
   }
 }

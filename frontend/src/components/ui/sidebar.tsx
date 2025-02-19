@@ -27,7 +27,7 @@ export default function Sidebar() {
     },
   });
   return (
-    <div className="bg-neutral-950 rounded-md ml-2 p-5 flex flex-col gap-4 w-96 text-zinc-300 overflow-auto scrollbar-thumb">
+    <div className="bg-neutral-950 rounded-md ml-2 p-5 flex flex-col gap-4 w-[20%] text-zinc-300">
       <div className="flex justify-between items-center">
         <h1 className="text-lg font-medium hover:text-white hover:scale-105">
           Teams
@@ -36,7 +36,7 @@ export default function Sidebar() {
           <Plus className="hover:text-white hover:scale-125" />
         </Link>
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col overflow-y-auto scrollbar-thumb">
         {teamsResponse?.map((team, index) => (
           <div
             key={index}

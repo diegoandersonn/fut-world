@@ -8,7 +8,9 @@ export default function TeamMain() {
   return (
     <div className="flex-1 flex flex-col bg-neutral-950 w-full mr-2 text-white rounded-md gap-28">
       <TeamMainHeader team={team} />
-      <TeamMainFooter team={team} />
+      <div className="overflow-y-auto scrollbar-thumb">
+        <TeamMainFooter team={team} />
+      </div>
     </div>
   );
 }

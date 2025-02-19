@@ -3,25 +3,27 @@ import { Pencil, Trash2 } from "lucide-react";
 import { FlagCell, ImageCell, TableCell } from "./table";
 import { TeamType } from "../../../../../shared/types/teamType";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import defaultFlagImage from "../../../assets/defaultflagimage.jpeg"
-
-import { Link } from "react-router-dom";
+import defaultFlagImage from "../../../assets/defaultflagimage.jpeg";
+import { Link, useSearchParams } from "react-router-dom";
 
 type Props = {
   team?: TeamType;
 };
 
 export default function TableBody({ team }: Props) {
+  const [searchParams] = useSearchParams();
+  const name = searchParams.get("name");
   const queryClient = useQueryClient();
   const API_URL = import.meta.env.VITE_API_URL;
-
   const { data: playersResponse } = useQuery<PlayerType[]>({
-    queryKey: ["get-players", team?.name || "all"],
+    queryKey: ["get-players", name || "", team?.name || "all"],
     queryFn: async () => {
-      const response = await fetch(
-        `${API_URL}/players?filter=${team?.name || ""}`
-      );
-      return response.json();
+      const url = new URL(`${API_URL}/players`);
+      if (name) url.searchParams.append("filter", name);
+      if (team?.name) url.searchParams.append("type", team.name);
+
+      const response = await fetch(url.toString());
+      return await response.json();
     },
   });
 
@@ -44,8 +46,16 @@ export default function TableBody({ team }: Props) {
           >
             <ImageCell content={player.picture} />
             <TableCell content={player.name} />
-            <FlagCell countryName={player.country?.name || "Default Country"} countryFlag={player.country?.flag || defaultFlagImage} />
-            <FlagCell countryName={player.team.country?.name || "Default Country"} countryFlag={player.team.country?.flag || defaultFlagImage} />
+            <FlagCell
+              countryName={player.country?.name || "Default Country"}
+              countryFlag={player.country?.flag || defaultFlagImage}
+              type="player"
+            />
+            <FlagCell
+              countryName={player.team.name || "Default Team"}
+              countryFlag={player.team.country?.flag || defaultFlagImage}
+              type="team"
+            />
             <TableCell content={player.age} />
             <TableCell content={player.position} />
             <TableCell content={player.overall} />

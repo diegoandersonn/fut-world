@@ -8,16 +8,24 @@ export function TableCell({ content }: CellProps) {
 
 type FlagProps = {
   countryName: string;
-  countryFlag: string; 
+  countryFlag: string;
+  type: string;
 };
 
-export function FlagCell({ countryName, countryFlag }: FlagProps) {
+export function FlagCell({ countryName, countryFlag, type }: FlagProps) {
   return (
     <td className="px-4 py-2 border-t border-gray-700">
-      <div className="flex items-center gap-1">
-        {countryName}
-        <img src={countryFlag} className="w-4 h-3" alt="" />
-      </div>
+      {type === "player" ? (
+        <div className="flex items-center gap-1">
+          {countryName}
+          <img src={countryFlag} className="w-4 h-3" alt="" />
+        </div>
+      ) : (
+        <div className="flex items-center gap-1">
+          {countryName}
+          <img src={countryFlag} className="w-4 h-3" alt="" />
+        </div>
+      )}
     </td>
   );
 }
