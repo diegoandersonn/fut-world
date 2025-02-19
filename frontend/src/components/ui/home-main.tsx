@@ -12,11 +12,7 @@ const playersFilterSchema = z.object({
 type PlayersFilterSchema = z.infer<typeof playersFilterSchema>;
 
 export default function HomeMain() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_, setSearchParams] = useSearchParams();
-  const { register, handleSubmit, reset } = useForm<PlayersFilterSchema>({
-    resolver: zodResolver(playersFilterSchema),
-  });
+  const [searchParams, setSearchParams] = useSearchParams();
   function handleFilterPlayers({ name }: PlayersFilterSchema) {
     setSearchParams((state) => {
       if (name) {
@@ -27,6 +23,12 @@ export default function HomeMain() {
       return state;
     });
   }
+  const { register, handleSubmit, reset } = useForm<PlayersFilterSchema>({
+    resolver: zodResolver(playersFilterSchema),
+    values: {
+      name: searchParams.get("name") ?? "",
+    },
+  });
   function resetFilter() {
     reset();
     setSearchParams((state) => {
@@ -44,7 +46,7 @@ export default function HomeMain() {
         >
           <input
             type="text"
-            className="p-3 h-8 w-96 text-white text-sm bg-neutral-950 border border-zinc-400 rounded-md hover:scale-105 focus:outline-none"
+            className="p-3 h-8 w-96 text-white text-sm font-bold bg-neutral-950 border border-zinc-400 rounded-md hover:scale-105 focus:outline-none"
             placeholder="Name"
             {...register("name")}
           />

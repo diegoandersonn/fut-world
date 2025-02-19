@@ -12,7 +12,6 @@ export default function TeamMainFooter({ team }: Props) {
   const playerDialogRef = useRef<HTMLDialogElement>(null);
 
   function togglePlayerDialog() {
-    console.log("entrou");
     if (playerDialogRef.current) {
       if (playerDialogRef.current.hasAttribute("open")) {
         playerDialogRef.current.close();

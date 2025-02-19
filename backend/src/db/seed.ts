@@ -1,6 +1,5 @@
 import { PlayerType } from "../../../shared/types/playerType";
 import { CountryType } from "../../../shared/types/countryType";
-import defaultPlayerPicture from "../assets/defaultplayerpicture.jpg";
 import { TeamType } from "../../../shared/types/teamType";
 import { server } from "../http/server";
 import { v4 as uuidv4 } from "uuid";
@@ -29,13 +28,17 @@ async function fetchCountries() {
 
 async function fetchTeams(league: string) {
   const response = await fetch(
-    `${process.env.API_URL}/competitions/${league}?limit=${5}`,
+    `${process.env.API_URL}/competitions/${league}`,
     {
       headers: JSON.parse(process.env.HEADERS || "{}"),
     }
   );
   const data = await response.json();
-  console.log(data);
+  if (!data.teams) {
+    console.log(data.teams);
+    console.log("Tentativa de adicionar os times falhou");
+    return;
+  }
   const teamsArray: TeamType[] = await Promise.all(
     data.teams.map(async (team) => {
       const country = await getCountry(team.area.name);
@@ -48,7 +51,7 @@ async function fetchTeams(league: string) {
         logo: team.crest,
         league: "Default League",
       };
-      console.log("time adicionado");
+      console.log("Time " + newTeam.name + " Adicionado!");
       return newTeam;
     })
   );
@@ -64,10 +67,13 @@ async function fetchPlayers(league: string, teamParam: TeamType) {
   );
   const data = await response.json();
   if (!data.teams) {
-    console.error("Teams data not found!");
+    console.log(
+      "Tentativa de adicionar os jogadores do time " +
+        teamParam.name +
+        " falhou"
+    );
     return;
   }
-
   await Promise.all(
     data.teams.map(async (team) => {
       if (team.shortName === teamParam.name) {
@@ -87,7 +93,7 @@ async function fetchPlayers(league: string, teamParam: TeamType) {
               atb6: 80,
               id: uuidv4(),
               overall: 80,
-              picture: "../assets/defaultplayerpicture.jpg",
+              picture: "/src/assets/defaultplayerpicture.jpg",
               team: teamParam,
             };
             server.playerDatabase.create(newPlayer);
@@ -96,6 +102,7 @@ async function fetchPlayers(league: string, teamParam: TeamType) {
       }
     })
   );
+  console.log("Jogadores do " + teamParam.name + " adicionados");
 }
 
 function calculateAge(dateOfBirth: string): string {
@@ -120,9 +127,10 @@ async function getCountry(country: string) {
   return data;
 }
 
-async function teste123(teams: TeamType[]) {
+async function teste123(teams: TeamType[], league: string) {
   for (const team of teams) {
-    await fetchPlayers("PL/teams", team);
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+    await fetchPlayers(league, team);
   }
 }
 
@@ -133,15 +141,17 @@ export async function SeedDatabase() {
   });
   console.log("Países adicionados com sucesso!");
 
-  const teams = await fetchTeams("PL/teams");
-  teams.forEach((team: TeamType) => server.teamDatabase.create(team));
-  console.log("Times adicionados com sucesso!");
-  // teams = await fetchTeams("BSA/teams");
-  // teams.forEach((team: TeamType) => server.teamDatabase.create(team));
-  // teams = await fetchTeams("PD/teams");
-  // teams.forEach((team: TeamType) => server.teamDatabase.create(team));
-  await teste123(teams);
-  console.log("Jogadores adicionados com sucesso!");
-
-  console.log("Banco de dados populado com sucesso!");
+  const leagues = ["PD/teams", "PL/teams"];
+  for (const league of leagues) {
+    console.log("Adicionando a liga " + league);
+    await new Promise((resolve) => setTimeout(resolve, 10000));
+    let teams = await fetchTeams(league);
+    if (!teams) return;
+    teams.forEach((team: TeamType) => server.teamDatabase.create(team));
+    console.log("Times adicionados com sucesso!");
+    await new Promise((resolve) => setTimeout(resolve, 10000));
+    await teste123(teams, league);
+    console.log("Jogadores adicionados com sucesso!");
+    console.log(league + " adicionada!");
+  }
 }
