@@ -1,7 +1,7 @@
 import { Share, Send, PencilLine } from "lucide-react";
 import { TeamType } from "../../../../../shared/types/teamType";
 import { useState } from "react";
-import MainHeaderForm from "../main-header-form";
+import MainHeaderForm from "./main-header-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type Props = {
@@ -42,8 +42,11 @@ export default function TeamMainHeader({ team }: Props) {
   }
 
   const updateName = useMutation({
-    mutationFn: async ({ field, value }: { field: string; value: string }) => {
-      const updatedTeam = { ...team, [field]: value };
+    mutationFn: async (name: string) => {
+      const updatedTeam = {
+        ...team,
+        name: name,
+      };
       const API_URL = import.meta.env.VITE_API_URL;
 
       await fetch(`${API_URL}/teams/${team.id}`, {
@@ -61,8 +64,8 @@ export default function TeamMainHeader({ team }: Props) {
 
   return team ? (
     <div className="flex justify-between">
-      <div className="m-4">
-        <div className="flex items-center justify-center gap-3">
+      <div className="flex m-4 items-center justify-center gap-3">
+        <div>
           <button className="w-36 h-36 bg-slate-50 hover:bg-neutral-500 rounded-full group relative">
             <img
               src={team.logo}
@@ -79,14 +82,14 @@ export default function TeamMainHeader({ team }: Props) {
               onChange={(e) => updateLogo.mutate(e)}
             />
           </button>
+        </div>
+        <div className="flex gap-1">
           {isEditing ? (
             <>
               <input
                 type="text"
                 value={team.name}
-                onChange={(e) =>
-                  updateName.mutate({ field: "name", value: e.target.value })
-                }
+                onChange={(e) => updateName.mutate(e.target.value)}
                 className="text-3xl bg-transparent border-b border-white outline-none w-full"
                 style={{ width: `${team.name.length}ch` }}
               />

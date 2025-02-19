@@ -9,13 +9,15 @@ type Props = {
 export default function PositionSelect({ placeholder, field }: Props) {
   const options = [
     { value: "Goalkeeper", label: "Goalkeeper" },
-    { value: "Center Back", label: "Center Back" },
-    { value: "Full Back", label: "Full Back" },
-    { value: "Defensive Midfielder", label: "Defensive Midfielder" },
-    { value: "Center Midfielder", label: "Center Midfielder" },
-    { value: "Attacking Midfielder", label: "Attacking Midfielder" },
-    { value: "Winger", label: "Winger" },
-    { value: "Striker", label: "Striker" },
+    { value: "Centre-Back", label: "Centre-Back" },
+    { value: "Left-Back", label: "Left-Back" },
+    { value: "Right-Back", label: "Right-Back" },
+    { value: "Defensive Midfield", label: "Defensive Midfield" },
+    { value: "Central Midfield", label: "Central Midfield" },
+    { value: "Attacking Midfield", label: "Attacking Midfield" },
+    { value: "Left Winger", label: "Left Winger" },
+    { value: "Right Winger", label: "Right Winger" },
+    { value: "Centre-Forward", label: "Centre-Forward" },
   ];
 
   return (
@@ -24,7 +26,7 @@ export default function PositionSelect({ placeholder, field }: Props) {
       value={field?.value}
       onChange={(e) => field?.onChange(e.target.value)}
     >
-      <option value="" disabled>
+      <option value="">
         {placeholder}
       </option>
       {options.map((option) => (

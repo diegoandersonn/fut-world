@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Plus, Trash } from "lucide-react";
-import { TeamType } from "../../../../shared/types/teamType"; 
+import { TeamType } from "../../../../shared/types/teamType";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export default function Sidebar() {
@@ -29,9 +29,9 @@ export default function Sidebar() {
   return (
     <div className="bg-neutral-950 rounded-md ml-2 p-5 flex flex-col gap-4 w-[20%] text-zinc-300">
       <div className="flex justify-between items-center">
-        <h1 className="text-lg font-medium hover:text-white hover:scale-105">
+        <div className="text-lg font-medium hover:text-white hover:scale-105 cursor-pointer">
           Teams
-        </h1>
+        </div>
         <Link to="/CreateTeam">
           <Plus className="hover:text-white hover:scale-125" />
         </Link>
@@ -67,17 +67,14 @@ export default function Sidebar() {
                     {team.name}
                   </h1>
                 </div>
-                <div className="flex gap-2 text-xs text-zinc-500 overflow-hidden">
-                  <div className="flex items-center gap-1">
+                <div className="flex gap-2 text-xs text-zinc-500 overflow-y-auto">
+                  <div className="flex items-center gap-1 whitespace-nowrap">
                     <p>{team.country.name}</p>
                     <img src={team.country.flag} alt="" className="w-4 h-3" />
                   </div>
-                  <p className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
-                    {team.stadium}
-                  </p>
+                  <div className="truncate max-w-[120px]">{team.stadium}</div>
                 </div>
               </div>
-              <div className="flex items-center"></div>
             </Link>
             <button
               onClick={() => removeTeam.mutate(team.id)}

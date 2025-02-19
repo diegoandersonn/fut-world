@@ -16,7 +16,7 @@ server.decorate("playerDatabase", playerDatabase);
 server.decorate("teamDatabase", teamDatabase);
 server.decorate("countryDatabase", countryDatabase);
 server.register(fastifyCors, {
-  origin: "http://localhost:5174",
+  origin: "http://localhost:5173",
 });
 
 server.listen(

@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { TeamType } from "../../../../shared/types/teamType";
+import { TeamType } from "../../../../../shared/types/teamType";
 
 type Props = {
   team: TeamType;
@@ -25,7 +25,7 @@ export default function MainHeaderForm({ team }: Props) {
   });
 
   return (
-    <form action="" className="grid grid-cols-2 gap-4">
+    <form action="PUT" className="grid grid-cols-2 gap-4">
       <div className="flex items-center justify-between gap-2">
         <label htmlFor="stadium" className="text-zinc-400 font-semibold">
           Team Stadium

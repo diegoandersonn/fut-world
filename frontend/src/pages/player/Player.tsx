@@ -7,7 +7,7 @@ export default function Player() {
   return (
     <div className="bg-black h-screen w-screen flex flex-col font-roboto">
       <Header />
-      <div className="flex justify-between gap-3 h-full w-full">
+      <div className="flex justify-between gap-3 h-full overflow-auto">
         <Sidebar />
         <PlayerMain />
       </div>

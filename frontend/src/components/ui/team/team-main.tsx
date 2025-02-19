@@ -8,20 +8,21 @@ export default function TeamMain() {
   const location = useLocation();
   const API_URL = import.meta.env.VITE_API_URL;
   const teamName = location.state?.team.name;
-  const { data: team, isLoading } = useQuery<TeamType[]>({
+  const { data: team, isLoading } = useQuery<TeamType>({
     queryKey: ["get-teams", teamName],
     queryFn: async () => {
       const response = await fetch(`${API_URL}/teams?filter=${teamName}`);
-      return await response.json();
+      const data = await response.json();
+      return data[0];
     },
   });
   if(isLoading) return <p>Loading...</p>;
   if (!team) return <p>Time não encontrado</p>;
   return (
     <div className="flex-1 flex flex-col bg-neutral-950 w-full mr-2 text-white rounded-md gap-28">
-      <TeamMainHeader team={team[0]} />
+      <TeamMainHeader team={team} />
       <div className="overflow-y-auto scrollbar-thumb">
-        <TeamMainFooter team={team[0]} />
+        <TeamMainFooter team={team} />
       </div>
     </div>
   );
