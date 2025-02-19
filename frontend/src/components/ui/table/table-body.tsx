@@ -1,8 +1,10 @@
-import { PlayerType } from "../../../../../shared/types/playerType"; 
+import { PlayerType } from "../../../../../shared/types/playerType";
 import { Pencil, Trash2 } from "lucide-react";
 import { FlagCell, ImageCell, TableCell } from "./table";
 import { TeamType } from "../../../../../shared/types/teamType";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import defaultFlagImage from "../../../assets/defaultflagimage.jpeg"
+
 import { Link } from "react-router-dom";
 
 type Props = {
@@ -42,8 +44,8 @@ export default function TableBody({ team }: Props) {
           >
             <ImageCell content={player.picture} />
             <TableCell content={player.name} />
-            <FlagCell entity={player} type="player" />
-            <FlagCell entity={player.team} type="team" />
+            <FlagCell countryName={player.country?.name || "Default Country"} countryFlag={player.country?.flag || defaultFlagImage} />
+            <FlagCell countryName={player.team.country?.name || "Default Country"} countryFlag={player.team.country?.flag || defaultFlagImage} />
             <TableCell content={player.age} />
             <TableCell content={player.position} />
             <TableCell content={player.overall} />

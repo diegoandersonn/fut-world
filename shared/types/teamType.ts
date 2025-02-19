@@ -1,4 +1,5 @@
 import { CountryType } from "./countryType";
+import { PlayerType } from "./playerType";
 
 export type TeamType = {
   name: string;

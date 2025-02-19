@@ -1,5 +1,6 @@
 import { PlayerType } from "../../../shared/types/playerType";
 import { CountryType } from "../../../shared/types/countryType";
+import defaultPlayerPicture from "../assets/defaultplayerpicture.jpg";
 import { TeamType } from "../../../shared/types/teamType";
 import { server } from "../http/server";
 import { v4 as uuidv4 } from "uuid";
@@ -7,21 +8,54 @@ import dotenv from "dotenv";
 dotenv.config();
 
 async function fetchCountries() {
-  const response = await fetch("https://restcountries.com/v3.1/all");
+  const response = await fetch(`${process.env.COUNTRY_URL}`);
   const data = await response.json();
   const array: CountryType[] = [];
   data.forEach((country) => {
     array.push({
-      name: country.name.common,
+      name:
+        country.name.common === "United Kingdom"
+          ? "England"
+          : country.name.common,
       flag: country.flags.png,
-      abbreviation: country.fifa,
+      abbreviation:
+        country.name.common === "United Kingdom" ? "ENG" : country.fifa,
       id: uuidv4(),
     });
   });
+
   return array;
 }
 
 async function fetchTeams(league: string) {
+  const response = await fetch(
+    `${process.env.API_URL}/competitions/${league}?limit=${5}`,
+    {
+      headers: JSON.parse(process.env.HEADERS || "{}"),
+    }
+  );
+  const data = await response.json();
+  console.log(data);
+  const teamsArray: TeamType[] = await Promise.all(
+    data.teams.map(async (team) => {
+      const country = await getCountry(team.area.name);
+      const newTeam: TeamType = {
+        name: team.shortName,
+        country: country[0],
+        stadium: team.venue,
+        id: uuidv4(),
+        manager: team.coach.name,
+        logo: team.crest,
+        league: "Default League",
+      };
+      console.log("time adicionado");
+      return newTeam;
+    })
+  );
+  return teamsArray;
+}
+
+async function fetchPlayers(league: string, teamParam: TeamType) {
   const response = await fetch(
     `${process.env.API_URL}/competitions/${league}`,
     {
@@ -29,16 +63,39 @@ async function fetchTeams(league: string) {
     }
   );
   const data = await response.json();
-  let teamsArray: TeamType[] = data.teams.map((team) => ({
-    name: team.shortName,
-    country: { name: team.area.name, flag: team.area.flag },
-    stadium: team.venue,
-    id: uuidv4(),
-    manager: team.coach.name,
-    logo: team.crest,
-    league: "Default League",
-  }));
-  return teamsArray;
+  if (!data.teams) {
+    console.error("Teams data not found!");
+    return;
+  }
+
+  await Promise.all(
+    data.teams.map(async (team) => {
+      if (team.shortName === teamParam.name) {
+        await Promise.all(
+          team.squad.map(async (player) => {
+            const country = await getCountry(player.nationality);
+            const newPlayer: PlayerType = {
+              name: player.name,
+              position: player.position,
+              age: calculateAge(player.dateOfBirth),
+              country: country[0],
+              atb1: 80,
+              atb2: 80,
+              atb3: 80,
+              atb4: 80,
+              atb5: 80,
+              atb6: 80,
+              id: uuidv4(),
+              overall: 80,
+              picture: "../assets/defaultplayerpicture.jpg",
+              team: teamParam,
+            };
+            server.playerDatabase.create(newPlayer);
+          })
+        );
+      }
+    })
+  );
 }
 
 function calculateAge(dateOfBirth: string): string {
@@ -55,63 +112,36 @@ function calculateAge(dateOfBirth: string): string {
   return age.toString();
 }
 
-async function fetchPlayers(league: string) {
+async function getCountry(country: string) {
   const response = await fetch(
-    `${process.env.API_URL}/competitions/${league}`,
-    {
-      headers: JSON.parse(process.env.HEADERS || "{}"),
-    }
+    `${process.env.DB_URL}/countries?filter=${country}`
   );
   const data = await response.json();
-  let players: PlayerType[] = data.teams.flatMap((team) =>
-    team.squad.map((player) => ({
-      age: calculateAge(player.dateOfBirth),
-      atb1: 80,
-      atb2: 80,
-      atb3: 80,
-      atb4: 80,
-      atb5: 80,
-      atb6: 80,
-      overall: 80,
-      country: { name: player.nationality, flag: team.area.flag },
-      id: uuidv4(),
-      name: player.name,
-      position: player.position,
-      team: {
-        name: team.shortName,
-        country: { name: team.area.name, flag: team.area.flag },
-        stadium: team.venue,
-        id: uuidv4(),
-        manager: team.coach.name,
-        logo: team.crest,
-        league: "Default League",
-      },
-    }))
-  );
-  return players;
+  return data;
+}
+
+async function teste123(teams: TeamType[]) {
+  for (const team of teams) {
+    await fetchPlayers("PL/teams", team);
+  }
 }
 
 export async function SeedDatabase() {
-  let countries = await fetchCountries();
-  console.log("pais quase adicionado");
+  const countries = await fetchCountries();
   countries.forEach((country: CountryType) => {
     server.countryDatabase.create(country);
-    console.log("pais adicionado");
   });
+  console.log("Países adicionados com sucesso!");
 
-  // let teams = await fetchTeams("PL/teams");
-  // teams.forEach((team: TeamType) => server.teamDatabase.create(team));
+  const teams = await fetchTeams("PL/teams");
+  teams.forEach((team: TeamType) => server.teamDatabase.create(team));
+  console.log("Times adicionados com sucesso!");
   // teams = await fetchTeams("BSA/teams");
   // teams.forEach((team: TeamType) => server.teamDatabase.create(team));
   // teams = await fetchTeams("PD/teams");
   // teams.forEach((team: TeamType) => server.teamDatabase.create(team));
-  // console.log("Banco de dados populado com sucesso!");
+  await teste123(teams);
+  console.log("Jogadores adicionados com sucesso!");
 
-  // let players = await fetchPlayers("PL/teams");
-  // players.forEach((player: PlayerType) => server.playerDatabase.create(player));
-  // players = await fetchPlayers("BSA/teams");
-  // players.forEach((player: PlayerType) => server.playerDatabase.create(player));
-  // players = await fetchPlayers("PD/teams");
-  // players.forEach((player: PlayerType) => server.playerDatabase.create(player));
-  // console.log("Banco de dados populado com sucesso!");
+  console.log("Banco de dados populado com sucesso!");
 }
