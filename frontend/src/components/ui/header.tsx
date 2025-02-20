@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
-import { House, Github } from "lucide-react";
-
+import { House, Github, Linkedin } from "lucide-react";
 
 export default function Header() {
   return (
@@ -11,13 +10,16 @@ export default function Header() {
             <House />
           </Link>
         </li>
-
         <li>
           <Link to="https://github.com/diegoandersonn">
             <Github />
           </Link>
         </li>
-
+        <li>
+          <Link to="https://www.linkedin.com/in/diegoandersonn/">
+            <Linkedin />
+          </Link>
+        </li>
       </ul>
     </div>
   );

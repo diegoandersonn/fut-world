@@ -10,7 +10,6 @@ type Props = {
 
 export default function TeamMainFooter({ team }: Props) {
   const playerDialogRef = useRef<HTMLDialogElement>(null);
-
   function togglePlayerDialog() {
     if (playerDialogRef.current) {
       if (playerDialogRef.current.hasAttribute("open")) {
@@ -20,6 +19,7 @@ export default function TeamMainFooter({ team }: Props) {
       }
     }
   }
+  
   return (
     <div className="flex flex-col gap-2 p-4 text-zinc-400">
       <div className="flex justify-between">

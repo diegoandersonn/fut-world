@@ -1,7 +1,7 @@
-import Footer from "../../components/ui/footer";
-import Header from "../../components/ui/header";
 import HomeMain from "../../components/ui/home-main";
 import Sidebar from "../../components/ui/sidebar";
+import Footer from "../../components/ui/footer";
+import Header from "../../components/ui/header";
 
 export default function Home() {
   return (

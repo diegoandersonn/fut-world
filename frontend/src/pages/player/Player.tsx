@@ -1,7 +1,7 @@
+import PlayerMain from "../../components/ui/player/player-main";
+import Sidebar from "../../components/ui/sidebar";
 import Footer from "../../components/ui/footer";
 import Header from "../../components/ui/header";
-import Sidebar from "../../components/ui/sidebar";
-import PlayerMain from "../../components/ui/player/player-main";
 
 export default function Player() {
   return (

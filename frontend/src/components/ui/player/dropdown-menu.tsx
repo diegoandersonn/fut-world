@@ -1,8 +1,9 @@
-import { Ellipsis, Repeat, Trash } from "lucide-react";
-import { useState } from "react";
+import { Ellipsis, Repeat, Trash, Undo2 } from "lucide-react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRemovePlayer } from "../../../hooks/use-removePlayer";
 import { PlayerType } from "../../../../../shared/types/playerType";
+import TransferPlayerDialog from "../transfer-player-dialog";
 
 type Props = {
   player: PlayerType;
@@ -19,25 +20,40 @@ export default function DropdownMenu({ player }: Props) {
   function handleClick() {
     if (isActive === true) {
       setIsActive(false);
-      console.log("false");
     } else {
       setIsActive(true);
-      console.log("true");
     }
   }
+  const transferPlayerDialogRef = useRef<HTMLDialogElement | null>(null);
+  function toggleTransferPlayerDialog() {
+    if (transferPlayerDialogRef.current) {
+      if (transferPlayerDialogRef.current.hasAttribute("open")) {
+        transferPlayerDialogRef.current.close();
+      } else {
+        transferPlayerDialogRef.current.showModal();
+      }
+    }
+  }
+
   return (
     <div className="flex flex-col justify-start items-end p-6">
-      <Ellipsis
-        size={30}
-        className="hover:text-zinc-400 hover:scale-110 cursor-pointer"
-        onClick={handleClick}
-      />
+      <div className="flex gap-3">
+        <Ellipsis
+          size={30}
+          className="hover:text-zinc-400 hover:scale-110 cursor-pointer"
+          onClick={handleClick}
+        />
+        <Undo2 className="hover:text-zinc-400 hover:scale-110 cursor-pointer" onClick={() => navigate(-1)}/>
+      </div>
       <ul
         data-active={isActive}
         className="flex flex-col gap-4 bg-neutral-900 w-28 p-2 rounded-md text-zinc-400 invisible data-[active=true]:visible"
       >
         <li>
-          <button className="flex items-center gap-1 group">
+          <button
+            className="flex items-center gap-1 group"
+            onClick={toggleTransferPlayerDialog}
+          >
             <p className="group-hover:scale-105 group-hover:text-white">
               Transferir Jogador
             </p>
@@ -46,6 +62,7 @@ export default function DropdownMenu({ player }: Props) {
               className="group-hover:scale-105 group-hover:text-white"
             />
           </button>
+          <TransferPlayerDialog ref={transferPlayerDialogRef} player={player} />
         </li>
         <li>
           <button

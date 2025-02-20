@@ -1,7 +1,7 @@
+import TeamMain from "../../components/ui/team/team-main";
+import Sidebar from "../../components/ui/sidebar";
 import Footer from "../../components/ui/footer";
 import Header from "../../components/ui/header";
-import Sidebar from "../../components/ui/sidebar";
-import TeamMain from "../../components/ui/team/team-main";
 
 export default function Team() {
   return (

@@ -14,18 +14,17 @@ export default function HeaderProfile({ team }: Props) {
   const updateLogo = useMutation({
     mutationFn: async (e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0];
-      if (file) {
-        const fileURL = URL.createObjectURL(file);
-        const updatedTeam = { ...team, logo: fileURL };
-        const API_URL = import.meta.env.VITE_API_URL;
-        await fetch(`${API_URL}/teams/${team.id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedTeam),
-        });
-      }
+      if (!file) return;
+      const fileURL = URL.createObjectURL(file);
+      const updatedTeam = { ...team, logo: fileURL };
+      const API_URL = import.meta.env.VITE_API_URL;
+      await fetch(`${API_URL}/teams/${team.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedTeam),
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["get-teams"] });

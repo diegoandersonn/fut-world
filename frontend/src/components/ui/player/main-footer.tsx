@@ -31,7 +31,6 @@ export default function PlayerMainFooter({ player }: Props) {
           updatedPlayer.atb6
         )
       );
-      console.log(overall);
       updatedPlayer.overall = overall;
       await fetch(`${API_URL}/players/${player.id}`, {
         method: "PUT",
@@ -45,7 +44,6 @@ export default function PlayerMainFooter({ player }: Props) {
       queryClient.invalidateQueries({ queryKey: ["get-players"] });
     },
   });
-  console.log(player);
   return (
     <div className="flex items-center justify-center">
       <form method="PUT" className="grid grid-cols-3 gap-10">
