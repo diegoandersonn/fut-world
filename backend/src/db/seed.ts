@@ -82,7 +82,7 @@ async function fetchPlayers(league: string, teamParam: TeamType) {
             const country = await getCountry(player.nationality);
             const newPlayer: PlayerType = {
               name: player.name,
-              position: getPosition(player.position),
+              position: player.position,
               age: calculateAge(player.dateOfBirth),
               country: country[0],
               atb1: 80,
@@ -117,11 +117,6 @@ function calculateAge(dateOfBirth: string): string {
     age--;
   }
   return age.toString();
-}
-
-function getPosition(position: string): string {
-  console.log(position);
-  return position;
 }
 
 async function getCountry(country: string) {

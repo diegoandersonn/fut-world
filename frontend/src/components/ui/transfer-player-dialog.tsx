@@ -5,6 +5,7 @@ import { useGetTeams } from "../../hooks/use-getTeams";
 import { Repeat } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { TeamType } from "../../../../shared/types/teamType";
+import { toast } from "react-toastify";
 
 type Props = {
   player: PlayerType;
@@ -30,6 +31,7 @@ const TransferPlayerDialog = forwardRef<HTMLDialogElement, Props>(
         });
       },
       onSuccess: () => {
+        toast.success("Jogador transferido!")
         queryClient.invalidateQueries({ queryKey: ["get-players"] });
         if (ref && typeof ref !== "function" && ref.current) {
           ref.current.close();

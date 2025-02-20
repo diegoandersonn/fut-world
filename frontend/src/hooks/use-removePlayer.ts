@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { PlayerType } from "../../../shared/types/playerType";
+import { toast } from "react-toastify";
 
 export const useRemovePlayer = () => {
   const queryClient = useQueryClient();
@@ -9,6 +10,7 @@ export const useRemovePlayer = () => {
       await fetch(`${API_URL}/players/${player.id}`, { method: "DELETE" });
     },
     onSuccess: () => {
+      toast.success("Jogador removido!");
       queryClient.invalidateQueries({ queryKey: ["get-players"] });
     },
   });

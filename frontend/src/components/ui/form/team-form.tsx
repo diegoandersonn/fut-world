@@ -9,6 +9,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { TeamType } from "../../../../../shared/types/teamType";
 import { FormField, FormLabel } from "./form";
 import { forwardRef } from "react";
+import { toast } from "react-toastify";
 
 type TeamSchema = z.infer<typeof teamSchema>;
 
@@ -25,12 +26,13 @@ const CreateTeamForm = forwardRef<HTMLDialogElement>((_, ref) => {
         body: JSON.stringify(team),
       });
       if (response.ok) {
+        toast.success("Time adicionado!")
         reset();
         if (ref && typeof ref !== "function" && ref.current) {
           ref.current.close();
         }
       } else {
-        console.error("Erro ao adicionar o jogador.");
+        toast.error("Erro ao adicionar o time.");
       }
     },
     onSuccess: () => {

@@ -9,12 +9,14 @@ type Props = {
 
 const PlayerDialog = forwardRef<HTMLDialogElement, Props>(({ team }, ref) => {
   return (
-    <DialogContainer ref={ref}>
-      <DialogHeader ref={ref} text="Create Player" />
-      <DialogContent>
-        <CreatePlayerForm team={team} ref={ref} />
-      </DialogContent>
-    </DialogContainer>
+    <>
+      <DialogContainer ref={ref}>
+        <DialogHeader ref={ref} text="Create Player" />
+        <DialogContent>
+          <CreatePlayerForm team={team} ref={ref} />
+        </DialogContent>
+      </DialogContainer>
+    </>
   );
 });
 

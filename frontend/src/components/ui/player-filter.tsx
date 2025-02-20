@@ -1,7 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSearchParams } from "react-router-dom";
 import { Search, SearchX } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import { z } from "zod";
 
 const playersFilterSchema = z.object({
@@ -16,13 +17,15 @@ export default function PlayerFilter() {
     setSearchParams((state) => {
       if (name) {
         state.set("name", name);
+        toast.success(`Filtro aplicado!`);
       } else {
         state.delete("name");
+        toast.info("Filtro removido!");
       }
       return state;
     });
   }
-  
+
   function resetFilter() {
     reset();
     setSearchParams((state) => {
