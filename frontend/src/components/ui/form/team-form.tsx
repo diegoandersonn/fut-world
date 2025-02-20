@@ -2,17 +2,17 @@ import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { v4 as uuidv4 } from "uuid";
-import { useNavigate } from "react-router-dom";
 import CountrySelect from "../country-select";
 import defaultTeamImage from "../../../assets/defaultteamimage.jpg";
 import { teamSchema } from "../../../schemas/teamSchema";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { TeamType } from "../../../../../shared/types/teamType"; 
-import {FormField, FormLabel } from "./form";
+import { TeamType } from "../../../../../shared/types/teamType";
+import { FormField, FormLabel } from "./form";
+import { forwardRef } from "react";
 
 type TeamSchema = z.infer<typeof teamSchema>;
 
-export default function CreateTeamForm() {
+const CreateTeamForm = forwardRef<HTMLDialogElement>((_, ref) => {
   const API_URL = import.meta.env.VITE_API_URL;
   const queryClient = useQueryClient();
   const createTeam = useMutation({
@@ -25,22 +25,24 @@ export default function CreateTeamForm() {
         body: JSON.stringify(team),
       });
       if (response.ok) {
-        navigate("/");
+        reset();
+        if (ref && typeof ref !== "function" && ref.current) {
+          ref.current.close();
+        }
       } else {
         console.error("Erro ao adicionar o jogador.");
       }
     },
     onSuccess: () => {
-      alert("Time criado com sucesso!");
       queryClient.invalidateQueries({ queryKey: ["get-teams"] });
     },
   });
-  const navigate = useNavigate();
   const {
     control,
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<TeamSchema>({
     resolver: zodResolver(teamSchema),
   });
@@ -102,4 +104,6 @@ export default function CreateTeamForm() {
       </button>
     </form>
   );
-}
+});
+
+export default CreateTeamForm;

@@ -16,7 +16,7 @@ export default function getOverall(
       reflexes: atb5,
       reactions: atb6,
     };
-    return (
+    const overall = (
       atributtes.diving * 0.2 +
       atributtes.handling * 0.2 +
       atributtes.kicking * 0.2 +
@@ -24,6 +24,8 @@ export default function getOverall(
       atributtes.reflexes * 0.1 +
       atributtes.reactions * 0.1
     ).toFixed(0);
+    if (Number(overall) > 99) return 99;
+    return overall;
   } else {
     const atributtes = {
       pace: atb1,
@@ -34,51 +36,65 @@ export default function getOverall(
       physical: atb6,
     };
     if (position === "Centre-Back") {
-      return (
+      const overall = (
         atributtes.defense * 0.6 +
         atributtes.passing * 0.1 +
         atributtes.physical * 0.3
       ).toFixed(0);
+      if (Number(overall) > 99) return 99;
+      return overall;
     } else if (position === "Left-Back" || position == "Right-Back") {
-      return (
+      const overall = (
         atributtes.pace * 0.3 +
         atributtes.passing * 0.2 +
         atributtes.defense * 0.3 +
         atributtes.dribbling * 0.2
       ).toFixed(0);
+      if (Number(overall) > 99) return 99;
+      return overall;
     } else if (position === "Defensive Midfield") {
-      return (
+      const overall = (
         atributtes.defense * 0.4 +
         atributtes.physical * 0.3 +
         atributtes.passing * 0.3
       ).toFixed(0);
+      if (Number(overall) > 99) return 99;
+      return overall;
     } else if (position === "Central Midfield") {
-      return (
+      const overall = (
         atributtes.shooting * 0.1 +
         atributtes.passing * 0.3 +
         atributtes.dribbling * 0.2 +
         atributtes.defense * 0.2 +
         atributtes.physical * 0.2
       ).toFixed(0);
+      if (Number(overall) > 99) return 99;
+      return overall;
     } else if (position === "Attacking Midfield") {
-      return (
+      const overall = (
         atributtes.shooting * 0.3 +
         atributtes.dribbling * 0.3 +
         atributtes.passing * 0.4
       ).toFixed(0);
+      if (Number(overall) > 99) return 99;
+      return overall;
     } else if (position === "Left Winger" || position === "Right Winger") {
-      return (
+      const overall = (
         atributtes.shooting * 0.2 +
         atributtes.dribbling * 0.5 +
         atributtes.pace * 0.3
       ).toFixed(0);
+      if (Number(overall) > 99) return 99;
+      return overall;
     } else if (position === "Centre-Forward") {
-      return (
+      const overall = (
         atributtes.shooting * 0.5 +
         atributtes.dribbling * 0.2 +
         atributtes.passing * 0.1 +
         atributtes.physical * 0.2
       ).toFixed(0);
+      if (Number(overall) > 99) return 99;
+      return overall;
     }
   }
 }

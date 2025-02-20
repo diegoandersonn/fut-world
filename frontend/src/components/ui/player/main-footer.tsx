@@ -8,12 +8,12 @@ type Props = {
 
 export default function PlayerMainFooter({ player }: Props) {
   const attributes = [
-    player.atb1,
-    player.atb2,
-    player.atb3,
-    player.atb4,
-    player.atb5,
-    player.atb6,
+    { value: player.atb1, label: "Pace" },
+    { value: player.atb2, label: "Shooting" },
+    { value: player.atb3, label: "Passing" },
+    { value: player.atb4, label: "Dribbling" },
+    { value: player.atb5, label: "Defense" },
+    { value: player.atb6, label: "Physical" },
   ];
   const API_URL = import.meta.env.VITE_API_URL;
   const queryClient = useQueryClient();
@@ -31,7 +31,7 @@ export default function PlayerMainFooter({ player }: Props) {
           updatedPlayer.atb6
         )
       );
-      console.log(overall)
+      console.log(overall);
       updatedPlayer.overall = overall;
       await fetch(`${API_URL}/players/${player.id}`, {
         method: "PUT",
@@ -47,20 +47,22 @@ export default function PlayerMainFooter({ player }: Props) {
   });
   console.log(player);
   return (
-    <div className="flex items-center justify-center selection:m-4">
-      <form method="PUT" className="grid grid-cols-3 gap-4">
+    <div className="flex items-center justify-center">
+      <form method="PUT" className="grid grid-cols-3 gap-10">
         {attributes.map((atb, index) => (
-          <div className="flex items-center justify-between gap-2" key={index}>
+          <div className="flex items-center justify-end gap-2" key={index}>
             <label
-              htmlFor={atb + index.toString()}
-              className="text-zinc-400 font-semibold"
+              htmlFor={atb.label}
+              className="text-lg text-zinc-400 font-semibold"
             >
-              Atb{index + 1}
+              {atb.label}
             </label>
             <input
-              type="text"
-              value={atb}
-              className="text-sm p-1 outline-none rounded-md border-2 border-zinc-400 bg-transparent"
+              type="number"
+              value={atb.value}
+              min={1}
+              max={99}
+              className="text-lg p-1 outline-none rounded-md border-2 border-zinc-400 bg-transparent"
               onChange={(e) =>
                 updatePlayer.mutate({
                   field: "atb" + (index + 1),

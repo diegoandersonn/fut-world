@@ -1,14 +1,25 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Plus, Trash } from "lucide-react";
 import { TeamType } from "../../../../shared/types/teamType";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import TeamDialog from "./team-dialog";
 
 export default function Sidebar() {
   const [selectedTeam, setSelectedTeam] = useState("");
   const API_URL = import.meta.env.VITE_API_URL;
   const queryClient = useQueryClient();
+  const teamDialogRef = useRef<HTMLDialogElement>(null);
 
+  function toggleTeamDialog() {
+    if (teamDialogRef.current) {
+      if (teamDialogRef.current.hasAttribute("open")) {
+        teamDialogRef.current.close();
+      } else {
+        teamDialogRef.current.showModal();
+      }
+    }
+  }
   const { data: teamsResponse } = useQuery<TeamType[]>({
     queryKey: ["get-teams"],
     queryFn: async () => {
@@ -32,9 +43,11 @@ export default function Sidebar() {
         <div className="text-lg font-medium hover:text-white hover:scale-105 cursor-pointer">
           Teams
         </div>
-        <Link to="/CreateTeam">
-          <Plus className="hover:text-white hover:scale-125" />
-        </Link>
+        <Plus
+          className="hover:text-white hover:scale-125 cursor-pointer"
+          onClick={toggleTeamDialog}
+        />
+        <TeamDialog ref={teamDialogRef} />
       </div>
       <div className="flex flex-col overflow-y-auto scrollbar-thumb">
         {teamsResponse?.map((team, index) => (

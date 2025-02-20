@@ -2,9 +2,10 @@ import { PlayerType } from "../../../../../shared/types/playerType";
 import { Pencil, Trash2 } from "lucide-react";
 import { FlagCell, ImageCell, TableCell } from "./table";
 import { TeamType } from "../../../../../shared/types/teamType";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import defaultFlagImage from "../../../assets/defaultflagimage.jpeg";
 import { Link, useSearchParams } from "react-router-dom";
+import { useRemovePlayer } from "../../../hooks/use-removePlayer";
 
 type Props = {
   team?: TeamType;
@@ -13,7 +14,7 @@ type Props = {
 export default function TableBody({ team }: Props) {
   const [searchParams] = useSearchParams();
   const name = searchParams.get("name");
-  const queryClient = useQueryClient();
+  const removePlayer = useRemovePlayer();
   const API_URL = import.meta.env.VITE_API_URL;
   const { data: playersResponse } = useQuery<PlayerType[]>({
     queryKey: ["get-players", name || "", team?.name || "all"],
@@ -24,15 +25,6 @@ export default function TableBody({ team }: Props) {
 
       const response = await fetch(url.toString());
       return await response.json();
-    },
-  });
-
-  const removePlayer = useMutation({
-    mutationFn: async (player: PlayerType) => {
-      await fetch(`${API_URL}/players/${player.id}`, { method: "DELETE" });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["get-players"] });
     },
   });
 
