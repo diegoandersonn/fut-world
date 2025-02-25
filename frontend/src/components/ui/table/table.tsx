@@ -17,12 +17,13 @@ export function TableCell({ content }: CellProps) {
 }
 
 type FlagProps = {
+  logo?: string;
   countryName: string;
   countryFlag: string;
   type: string;
 };
 
-export function FlagCell({ countryName, countryFlag, type }: FlagProps) {
+export function FlagCell({ logo, countryName, countryFlag, type }: FlagProps) {
   return (
     <td className="px-4 py-2 border-t border-gray-700">
       {type === "player" ? (
@@ -32,6 +33,7 @@ export function FlagCell({ countryName, countryFlag, type }: FlagProps) {
         </div>
       ) : (
         <div className="flex items-center gap-1">
+          <img src={logo} className="h-8 w-8" />
           {countryName}
           <img src={countryFlag} className="w-4 h-3" alt="" />
         </div>
@@ -49,7 +51,7 @@ export function ImageCell({ content }: ImageProps) {
     <td className="border-t border-gray-700">
       <img
         src={content}
-        className="h-14 w-14 rounded-md border-1 border-gray-700"
+        className="h-14 w-14 rounded-md border border-gray-700"
       />
     </td>
   );
@@ -57,7 +59,7 @@ export function ImageCell({ content }: ImageProps) {
 export function TableHead() {
   const [isDescending, toggleIsDescending] = useState<boolean>(true);
   const { order, setOrder } = useContext(OrderContext);
-   function handleOrderClick(value: "name" | "country" | "team") {
+  function handleOrderClick(value: "name" | "country" | "team") {
     setOrder((prevState) => {
       if (prevState.order === "Descending") {
         queryClient.invalidateQueries({
@@ -183,6 +185,7 @@ export function TableBody({ team }: BodyProps) {
               type="player"
             />
             <FlagCell
+            logo={player.team.logo}
               countryName={player.team.name || "Default Team"}
               countryFlag={player.team.country?.flag || defaultFlagImage}
               type="team"

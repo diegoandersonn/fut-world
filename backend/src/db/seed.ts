@@ -95,7 +95,7 @@ async function fetchTeams(league: string) {
         id: uuidv4(),
         manager: team.coach.name,
         logo: team.crest,
-        league: "Default League",
+        league: league === "PL/teams" ? "Premier League" : league === "PD/teams" ? "La Liga" : "Default League",
       };
       console.log("Time " + newTeam.name + " Adicionado!");
       return newTeam;

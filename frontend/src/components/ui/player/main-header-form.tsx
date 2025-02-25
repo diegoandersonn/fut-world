@@ -1,5 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { PlayerType } from "../../../../../shared/types/playerType";
+import { CountryType } from "../../../../../shared/types/countryType";
+import { useGetCountries } from "../../../hooks/use-getCountries";
 
 type Props = {
   player: PlayerType;
@@ -7,10 +9,17 @@ type Props = {
 
 export default function MainHeaderForm({ player }: Props) {
   const API_URL = import.meta.env.VITE_API_URL;
+  const countries = useGetCountries();
   const queryClient = useQueryClient();
   const updatePlayer = useMutation({
-    mutationFn: async ({ field, value }: { field: string; value: string }) => {
-      const updatedPlayer= { ...player, [field]: value };
+    mutationFn: async ({
+      field,
+      value,
+    }: {
+      field: string;
+      value: string | CountryType;
+    }) => {
+      const updatedPlayer = { ...player, [field]: value };
       await fetch(`${API_URL}/players/${player.id}`, {
         method: "PUT",
         headers: {
@@ -41,20 +50,38 @@ export default function MainHeaderForm({ player }: Props) {
       </div>
       <div className="flex items-center justify-between gap-2">
         <label htmlFor="country" className="text-zinc-400 font-semibold">
-        Player Country
+          Player Country
         </label>
-        <input
-          type="text"
-          className="text-sm p-1 outline-none rounded-md border-2 border-zinc-400 bg-transparent"
+        <select
           value={player.country.name}
-          onChange={(e) =>
-            updatePlayer.mutate({ field: "country", value: e.target.value })
-          }
-        />
+          className="text-sm p-1 w-52 outline-none rounded-md border-2 border-zinc-400 bg-transparent transition-all"
+          onChange={(e) => {
+            const selectedCountry = countries?.find(
+              (c) => c.name === e.target.value
+            );
+            if (selectedCountry) {
+              const country: CountryType = selectedCountry;
+              updatePlayer.mutate({
+                field: "country",
+                value: country,
+              });
+            }
+          }}
+        >
+          {countries?.map((country) => (
+            <option
+              key={country.id}
+              value={country.name}
+              className="bg-zinc-800 text-white"
+            >
+              {country.name}
+            </option>
+          ))}
+        </select>
       </div>
       <div className="flex items-center justify-between gap-2">
         <label htmlFor="position" className="text-zinc-400 font-semibold">
-        Player Position
+          Player Position
         </label>
         <input
           type="text"
@@ -67,7 +94,7 @@ export default function MainHeaderForm({ player }: Props) {
       </div>
       <div className="flex items-center justify-between gap-2">
         <label htmlFor="Overall" className="text-zinc-400 font-semibold">
-        Player Overall
+          Player Overall
         </label>
         <input
           type="text"

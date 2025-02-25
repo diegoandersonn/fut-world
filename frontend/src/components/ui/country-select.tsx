@@ -1,7 +1,6 @@
 import { SingleValue } from "react-select";
 import Select from "react-select";
-import { CountryType } from "../../../../shared/types/countryType";
-import { useQuery } from "@tanstack/react-query";
+import { useGetCountries } from "../../hooks/use-getCountries";
 
 type Props = {
   placeholder?: string;
@@ -9,15 +8,8 @@ type Props = {
 };
 
 export default function CountrySelect({ placeholder, field }: Props) {
-  const API_URL = import.meta.env.VITE_API_URL;
-  const { data: countriesResponse } = useQuery<CountryType[]>({
-    queryKey: ["get-countries"],
-    queryFn: async () => {
-      const response = await fetch(`${API_URL}/countries`);
-      return await response.json();
-    },
-  });
-  const options = countriesResponse?.map((country) => ({
+  const countries = useGetCountries();
+  const options = countries?.map((country) => ({
     value: country,
     label: country.name,
   }));
