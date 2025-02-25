@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify";
-import { PlayerType } from "../../../types/playerType";
+import { PlayerType } from "../../../../../shared/types/playerType";
 
 export default async function CreatePlayer(server: FastifyInstance) {
   server.post<{ Body: PlayerType }>("/players", (request, reply) => {

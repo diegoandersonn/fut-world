@@ -52,6 +52,33 @@ Content-Type: application/json
   "atb5": 94,
   "atb6": 91
 }
+###
+POST http://localhost:8080/players
+Content-Type: application/json
+
+{
+  "id": "003",
+  "name": "Andres",
+  "age": "35",
+  "country": "Argentina",
+  "position": "Forward",
+  "overall": 92,
+  "team": {
+    "id": "002",
+    "name": "Inter Miami",
+    "country": "United States",
+    "stadium": "Default Stadium",
+    "logo": "Default Logo",
+    "manager": "Diego anderson",
+    "league": "MLS"
+  },
+  "atb1": 90,
+  "atb2": 85,
+  "atb3": 88,
+  "atb4": 92,
+  "atb5": 94,
+  "atb6": 91
+}
 
 ###
 GET http://localhost:8080/players
@@ -86,3 +113,4 @@ Content-Type: application/json
   "atb5": 94,
   "atb6": 91
 }
+

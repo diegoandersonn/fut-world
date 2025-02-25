@@ -1,8 +1,8 @@
 import PlayerDialog from "../player-dialog";
-import { TeamType } from "../../../../../shared/types/teamType"; 
+import { TeamType } from "../../../../../shared/types/teamType";
 import { useRef } from "react";
 import { Plus } from "lucide-react";
-import PlayersTable from "../table/players-table";
+import { TableBody, TableHead } from "../table/table";
 
 type Props = {
   team: TeamType;
@@ -19,7 +19,7 @@ export default function TeamMainFooter({ team }: Props) {
       }
     }
   }
-  
+
   return (
     <div className="flex flex-col gap-2 p-4 text-zinc-400">
       <div className="flex justify-between">
@@ -32,7 +32,10 @@ export default function TeamMainFooter({ team }: Props) {
         </button>
         <PlayerDialog ref={playerDialogRef} team={team} />
       </div>
-      <PlayersTable team={team} />
+      <table className="w-full table-auto border-collapse text-left bg-neutral-950 text-white">
+        <TableHead />
+        <TableBody team={team} />
+      </table>
     </div>
   );
 }

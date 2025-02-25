@@ -4,7 +4,6 @@ import DeletePlayer from "./delete-player";
 import EditPlayer from "./edit-player";
 import ListPlayers from "./list-players";
 
-
 export default async function PlayerRoutes() {
   server.register(CreatePlayer);
   server.register(EditPlayer);
