@@ -17,7 +17,7 @@ type OrderProviderType = {
 
 export const OrderProvider = ({ children }: OrderProviderType) => {
   const [order, setOrder] = useState<OrderType>({
-    order: "Descending",
+    order: "Ascending",
     value: "name",
   });
   return (

@@ -27,22 +27,30 @@ export class PlayerDatabase {
         const matchesType = type ? player.team.name.includes(type) : true;
         return matchesFilter && matchesType;
       });
-    if (order) {
-      if (order.order === "Ascending") {
-        return players.sort((a, b) => {
-          return a[order.value].localeCompare(b[order.value]);
-        });
-      } else {
-        return players.sort((a, b) => {
-          return b[order.value].localeCompare(a[order.value]);
-        });
-      }
-    }
+    if (order)
+      return players.sort((a, b) => {
+        let valueA: string;
+        let valueB: string;
+        if (order.value === "name") {
+          valueA = a.name;
+          valueB = b.name;
+          return order.order === "Ascending"
+            ? valueA.localeCompare(valueB)
+            : valueB.localeCompare(valueA);
+        } else if (order.value === "team") {
+          valueA = a.team.name;
+          valueB = b.team.name;
+          return order.order === "Ascending"
+            ? valueA.localeCompare(valueB)
+            : valueB.localeCompare(valueA);
+        } else if (order.value === "country") {
+          valueA = a.country?.name ?? "Unknown Country";
+          valueB = b.country?.name ?? "Unknown Country";
+          return order.order === "Ascending"
+            ? valueA.localeCompare(valueB)
+            : valueB.localeCompare(valueA);
+        } else return 0;
+      });
     return players;
-  }
-  orderBy() {
-    return Array.from(this.#players.values()).sort((a, b) => {
-      return a.name.localeCompare(b.name);
-    });
   }
 }

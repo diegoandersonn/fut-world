@@ -1,4 +1,4 @@
 export type OrderType = {
   order: "Descending" | "Ascending";
-  value: "name";
+  value: "name" | "country" | "team";
 };

@@ -52,8 +52,8 @@ export default function SidebarList() {
               </div>
               <div className="flex gap-2 text-xs text-zinc-500 overflow-y-auto">
                 <div className="flex items-center gap-1 whitespace-nowrap">
-                  <p>{team.country.name}</p>
-                  <img src={team.country.flag} alt="" className="w-4 h-3" />
+                  <p>{team.country.name ?? "Default Country"}</p>
+                  <img src={team.country.flag} alt="asdasd" className="w-4 h-3" />
                 </div>
                 <div className="truncate max-w-[120px]">{team.stadium}</div>
               </div>

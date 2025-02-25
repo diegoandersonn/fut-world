@@ -23,7 +23,7 @@ export class CountryDatabase {
       })
       .filter((country) => {
         if (filter) {
-          return country.name.includes(filter);
+          return country.name === filter;
         }
         return true;
       });

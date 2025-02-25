@@ -5,17 +5,15 @@ export default async function ListPlayers(server: FastifyInstance) {
     Querystring: {
       filter?: string;
       type?: string;
-      orderBy?: string;
+      orderBy?: "team" | "country" | "name";
       order?: "Ascending" | "Descending";
     };
   }>("/players", (request, reply) => {
     const { filter, type, orderBy, order } = request.query;
-    console.log({ order, orderBy });
-    const orderAA = {
+    const players = server.playerDatabase.list(filter, type, {
       order: order,
       value: orderBy,
-    };
-    const players = server.playerDatabase.list(filter, type, orderAA);
+    });
     return players;
   });
 }

@@ -55,9 +55,9 @@ export function ImageCell({ content }: ImageProps) {
   );
 }
 export function TableHead() {
-  const [isDescending, toggleIsDescending] = useState<boolean>(false);
-  const {order, setOrder } = useContext(OrderContext);
-  function handleOrderClick() {
+  const [isDescending, toggleIsDescending] = useState<boolean>(true);
+  const { order, setOrder } = useContext(OrderContext);
+   function handleOrderClick(value: "name" | "country" | "team") {
     setOrder((prevState) => {
       if (prevState.order === "Descending") {
         queryClient.invalidateQueries({
@@ -65,15 +65,14 @@ export function TableHead() {
           exact: false,
         });
         toggleIsDescending(false);
-        return { order: "Ascending", value: "name" };
+        return { order: "Ascending", value: value };
       } else {
-        console.log("Mudado");
         queryClient.invalidateQueries({
           queryKey: ["get-players"],
           exact: false,
         });
         toggleIsDescending(true);
-        return { order: "Descending", value: "name" };
+        return { order: "Descending", value: value };
       }
     });
   }
@@ -83,13 +82,56 @@ export function TableHead() {
       <tr className="text-sm uppercase text-gray-300">
         <th></th>
         <th className="px-4 py-2">
-          <button className="flex" onClick={handleOrderClick}>
-            Name
-            {isDescending && order.value === 'name' ? <ChevronUp /> : <ChevronDown />}
+          <button
+            className="flex uppercase"
+            onClick={() => handleOrderClick("name")}
+          >
+            <p>Name</p>
+            {order.value === "name" ? (
+              isDescending ? (
+                <ChevronDown />
+              ) : (
+                <ChevronUp />
+              )
+            ) : (
+              <></>
+            )}
           </button>
         </th>
-        <th className="px-4 py-2">Nationality</th>
-        <th className="px-4 py-2">Team</th>
+        <th className="px-4 py-2">
+          <button
+            className="flex uppercase"
+            onClick={() => handleOrderClick("country")}
+          >
+            <p>Nationality</p>
+            {order.value === "country" ? (
+              isDescending ? (
+                <ChevronDown />
+              ) : (
+                <ChevronUp />
+              )
+            ) : (
+              <></>
+            )}
+          </button>
+        </th>
+        <th className="px-4 py-2">
+          <button
+            className="flex uppercase"
+            onClick={() => handleOrderClick("team")}
+          >
+            <p>Team</p>
+            {order.value === "team" ? (
+              isDescending ? (
+                <ChevronDown />
+              ) : (
+                <ChevronUp />
+              )
+            ) : (
+              <></>
+            )}
+          </button>
+        </th>
         <th className="px-4 py-2">Age</th>
         <th className="px-4 py-2">Position</th>
         <th className="px-4 py-2">Overall</th>

@@ -10,20 +10,66 @@ async function fetchCountries() {
   const response = await fetch(`${process.env.COUNTRY_URL}`);
   const data = await response.json();
   const array: CountryType[] = [];
-  data.forEach((country) => {
+  data.forEach((country: any) => {
     array.push({
-      name:
-        country.name.common === "United Kingdom"
-          ? "England"
-          : country.name.common,
+      name: countryParser(country.name.common),
       flag: country.flags.png,
-      abbreviation:
-        country.name.common === "United Kingdom" ? "ENG" : country.fifa,
+      abbreviation: country.fifa,
       id: uuidv4(),
     });
   });
-
+  const unitedKingdom = [
+    {
+      name: "England",
+      abbreviation: "ENG",
+      flag: "https://flagcdn.com/w320/gb-eng.png",
+      id: uuidv4(),
+    },
+    {
+      name: "Scotland",
+      flag: "https://flagcdn.com/w320/gb-sct.png",
+      abbreviation: "SCO",
+      id: uuidv4(),
+    },
+    {
+      name: "Wales",
+      abbreviation: "WAL",
+      flag: "https://flagcdn.com/w320/gb-wls.png",
+      id: uuidv4(),
+    },
+    {
+      name: "Northern Ireland",
+      flag: "https://flagcdn.com/w320/gb-nir.png",
+      abbreviation: "NIR",
+      id: uuidv4(),
+    },
+  ];
+  unitedKingdom.forEach((country) => {
+    array.push({
+      name: country.name,
+      flag: country.flag,
+      abbreviation: country.abbreviation,
+      id: country.id,
+    });
+  });
   return array;
+}
+
+function countryParser(country: string): string {
+  if (country === "Bosnia and Herzegovina") return "Bosnia-Herzegovina";
+  if (country === "Cape Verde") return "Cape Verde Islands";
+  if (country === "United States") return "USA";
+  if (country === "Czechia") return "Czech Republic";
+  if (country === "Bosnia and Herzegovina") return "Bosnia-Herzegovina";
+  return country;
+}
+
+async function getCountry(country: string) {
+  const response = await fetch(
+    `${process.env.DB_URL}/countries?filter=${country}`
+  );
+  const data = await response.json();
+  return data;
 }
 
 async function fetchTeams(league: string) {
@@ -40,7 +86,7 @@ async function fetchTeams(league: string) {
     return;
   }
   const teamsArray: TeamType[] = await Promise.all(
-    data.teams.map(async (team) => {
+    data.teams.map(async (team: any) => {
       const country = await getCountry(team.area.name);
       const newTeam: TeamType = {
         name: team.shortName,
@@ -75,11 +121,12 @@ async function fetchPlayers(league: string, teamParam: TeamType) {
     return;
   }
   await Promise.all(
-    data.teams.map(async (team) => {
+    data.teams.map(async (team: any) => {
       if (team.shortName === teamParam.name) {
         await Promise.all(
-          team.squad.map(async (player) => {
+          team.squad.map(async (player: any) => {
             const country = await getCountry(player.nationality);
+            if (!country[0].name) console.log(player.nationality);
             const newPlayer: PlayerType = {
               name: player.name,
               position: player.position,
@@ -119,14 +166,6 @@ function calculateAge(dateOfBirth: string): string {
   return age.toString();
 }
 
-async function getCountry(country: string) {
-  const response = await fetch(
-    `${process.env.DB_URL}/countries?filter=${country}`
-  );
-  const data = await response.json();
-  return data;
-}
-
 async function teste123(teams: TeamType[], league: string) {
   for (const team of teams) {
     await new Promise((resolve) => setTimeout(resolve, 5000));
@@ -141,7 +180,7 @@ export async function SeedDatabase() {
   });
   console.log("Países adicionados com sucesso!");
 
-  const leagues = ["PD/teams", "PL/teams"];
+  const leagues = ["PL/teams", "PD/teams"];
   for (const league of leagues) {
     console.log("Adicionando a liga " + league);
     await new Promise((resolve) => setTimeout(resolve, 10000));
