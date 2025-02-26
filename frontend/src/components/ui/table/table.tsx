@@ -5,7 +5,7 @@ import { PlayerType } from "../../../../../shared/types/playerType";
 import { useRemovePlayer } from "../../../hooks/use-removePlayer";
 import { TeamType } from "../../../../../shared/types/teamType";
 import defaultFlagImage from "../../../assets/defaultflagimage.jpeg";
-import { ReactNode, useContext, useState } from "react";
+import { ReactNode, useContext, useEffect, useState } from "react";
 import { OrderContext } from "../../../contexts/order-context";
 
 type CellProps = {
@@ -57,28 +57,25 @@ export function ImageCell({ content }: ImageProps) {
   );
 }
 export function TableHead() {
-  const [isDescending, toggleIsDescending] = useState<boolean>(true);
+  const [isDescending, setIsDescending] = useState<boolean>(true);
   const { order, setOrder } = useContext(OrderContext);
+  const queryClient = useQueryClient();
+
   function handleOrderClick(value: "name" | "country" | "team") {
     setOrder((prevState) => {
-      if (prevState.order === "Descending") {
-        queryClient.invalidateQueries({
-          queryKey: ["get-players"],
-          exact: false,
-        });
-        toggleIsDescending(false);
-        return { order: "Ascending", value: value };
-      } else {
-        queryClient.invalidateQueries({
-          queryKey: ["get-players"],
-          exact: false,
-        });
-        toggleIsDescending(true);
-        return { order: "Descending", value: value };
-      }
+      const newOrder =
+        prevState.order === "Descending" ? "Ascending" : "Descending";
+      setIsDescending(newOrder === "Descending");
+      return { order: newOrder, value };
     });
   }
-  const queryClient = useQueryClient();
+  useEffect(() => {
+    queryClient.invalidateQueries({
+      queryKey: ["get-players"],
+      exact: false,
+    });
+  }, [order, queryClient]);
+
   return (
     <thead>
       <tr className="text-sm uppercase text-gray-300">
@@ -185,7 +182,7 @@ export function TableBody({ team }: BodyProps) {
               type="player"
             />
             <FlagCell
-            logo={player.team.logo}
+              logo={player.team.logo}
               countryName={player.team.name || "Default Team"}
               countryFlag={player.team.country?.flag || defaultFlagImage}
               type="team"

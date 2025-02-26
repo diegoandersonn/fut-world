@@ -7,13 +7,32 @@ type Props = {
 };
 
 export default function PlayerMainFooter({ player }: Props) {
+  console.log(player.position);
   const attributes = [
-    { value: player.atb1, label: "Pace" },
-    { value: player.atb2, label: "Shooting" },
-    { value: player.atb3, label: "Passing" },
-    { value: player.atb4, label: "Dribbling" },
-    { value: player.atb5, label: "Defense" },
-    { value: player.atb6, label: "Physical" },
+    {
+      value: player.atb1,
+      label: player.position !== "Goalkeeper" ? "Pace" : "Diving",
+    },
+    {
+      value: player.atb2,
+      label: player.position !== "Goalkeeper" ? "Shooting" : "Handling",
+    },
+    {
+      value: player.atb3,
+      label: player.position !== "Goalkeeper" ? "Passing" : "Kicking",
+    },
+    {
+      value: player.atb4,
+      label: player.position !== "Goalkeeper" ? "Dribbling" : "Reflexes",
+    },
+    {
+      value: player.atb5,
+      label: player.position !== "Goalkeeper" ? "Defense" : "Speed",
+    },
+    {
+      value: player.atb6,
+      label: player.position !== "Goalkeeper" ? "Physical" : "Positioning",
+    },
   ];
   const API_URL = import.meta.env.VITE_API_URL;
   const queryClient = useQueryClient();

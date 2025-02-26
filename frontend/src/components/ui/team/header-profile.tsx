@@ -79,9 +79,9 @@ export default function HeaderProfile({ team }: Props) {
           />
         </button>
       </div>
-      <div className="flex gap-1">
+      <div className="flex items-center gap-3">
         {isEditing ? (
-          <>
+          <div className="flex items-center gap-1">
             <input
               type="text"
               value={team.name}
@@ -92,15 +92,16 @@ export default function HeaderProfile({ team }: Props) {
             <button type="submit" onClick={toggleEditMode}>
               <Send />
             </button>
-          </>
+          </div>
         ) : (
-          <>
+          <div className="flex items-center gap-1">
             <h1 className="text-3xl">{team.name}</h1>
             <button onClick={toggleEditMode}>
               <PencilLine />
             </button>
-          </>
+          </div>
         )}
+        <img src={team.country.flag} alt="" className="h-5 w-7" />
       </div>
     </div>
   );

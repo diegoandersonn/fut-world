@@ -41,7 +41,7 @@ export default function MainHeaderForm({ player }: Props) {
         </label>
         <input
           type="text"
-          className="text-sm p-1 outline-none rounded-md border-2 border-zinc-400 bg-transparent"
+          className="text-sm p-1 w-44 outline-none rounded-md border-2 border-zinc-400 bg-transparent"
           value={player.age}
           onChange={(e) =>
             updatePlayer.mutate({ field: "age", value: e.target.value })
@@ -54,7 +54,7 @@ export default function MainHeaderForm({ player }: Props) {
         </label>
         <select
           value={player.country.name}
-          className="text-sm p-1 w-52 outline-none rounded-md border-2 border-zinc-400 bg-transparent transition-all"
+          className="text-sm p-1 w-44 outline-none rounded-md border-2 border-zinc-400 bg-transparent transition-all"
           onChange={(e) => {
             const selectedCountry = countries?.find(
               (c) => c.name === e.target.value
@@ -85,7 +85,7 @@ export default function MainHeaderForm({ player }: Props) {
         </label>
         <input
           type="text"
-          className="text-sm p-1 outline-none rounded-md border-2 border-zinc-400 bg-transparent"
+          className="text-sm p-1 w-44 outline-none rounded-md border-2 border-zinc-400 bg-transparent"
           value={player.position}
           onChange={(e) =>
             updatePlayer.mutate({ field: "position", value: e.target.value })
@@ -98,7 +98,7 @@ export default function MainHeaderForm({ player }: Props) {
         </label>
         <input
           type="text"
-          className="text-sm p-1 outline-none rounded-md border-2 border-zinc-400 bg-transparent"
+          className="text-sm p-1 w-44 outline-none rounded-md border-2 border-zinc-400 bg-transparent"
           value={player.overall}
           onChange={(e) =>
             updatePlayer.mutate({ field: "Overall", value: e.target.value })

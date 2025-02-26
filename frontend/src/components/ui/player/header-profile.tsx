@@ -78,7 +78,7 @@ export default function HeaderProfile({ player }: Props) {
         </button>
       </div>
       <div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 items-center">
           {isEditing ? (
             <>
               <input
@@ -100,10 +100,14 @@ export default function HeaderProfile({ player }: Props) {
               </button>
             </>
           )}
+          <img src={player.country.flag} alt="" className="h-6 w-8" />
         </div>
-        <div className="flex items-center gap-1">
-          <p>{player.team.name}</p>
-          <img src={player.team.country.flag} alt="" className="h-4 w-6" />
+        <div className="flex items-center gap-2">
+          <div className="flex items-center text-base font-bold">
+            <img src={player.team.logo} alt="" className="h-6 w-6" />
+            <p>{player.team.name}</p>
+          </div>
+          <img src={player.team.country.flag} alt="" className="h-3.5 w-5.5" />
         </div>
       </div>
     </div>
