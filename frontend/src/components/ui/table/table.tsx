@@ -1,12 +1,12 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { ChevronDown, ChevronUp, Pencil, Trash2 } from "lucide-react";
 import { useSearchParams, Link } from "react-router-dom";
-import { PlayerType } from "../../../../../shared/types/playerType";
 import { useRemovePlayer } from "../../../hooks/use-removePlayer";
 import { TeamType } from "../../../../../shared/types/teamType";
 import defaultFlagImage from "../../../assets/defaultflagimage.jpeg";
 import { ReactNode, useContext, useEffect, useState } from "react";
 import { OrderContext } from "../../../contexts/order-context";
+import { useGetTeamPlayers } from "../../../hooks/use-getTeamPlayers";
 
 type CellProps = {
   content: string | number;
@@ -149,27 +149,12 @@ export function TableBody({ team }: BodyProps) {
   const [searchParams] = useSearchParams();
   const name = searchParams.get("name");
   const removePlayer = useRemovePlayer();
-  const API_URL = import.meta.env.VITE_API_URL;
-  const { data: playersResponse } = useQuery<PlayerType[]>({
-    queryKey: ["get-players", name || "", team?.name || "all"],
-    queryFn: async () => {
-      const url = new URL(`${API_URL}/players`);
-      if (name) url.searchParams.append("filter", name);
-      if (team?.name) url.searchParams.append("type", team.name);
-      if (order?.value) {
-        url.searchParams.append("orderBy", order.value);
-        url.searchParams.append("order", order.order);
-      }
-
-      const response = await fetch(url.toString());
-      return await response.json();
-    },
-  });
+  const players = useGetTeamPlayers(team, name, order);
 
   return (
     <tbody>
-      {playersResponse && playersResponse.length > 0 ? (
-        playersResponse.map((player) => (
+      {players && players.length > 0 ? (
+        players.map((player) => (
           <tr
             key={player.id}
             className="hover:bg-neutral-800 transition-colors"

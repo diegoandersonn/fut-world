@@ -55,7 +55,6 @@ export default function SidebarList() {
                   <p>{team.country.name ?? "Default Country"}</p>
                   <img src={team.country.flag} alt="asdasd" className="w-4 h-3" />
                 </div>
-                <div className="truncate max-w-[120px]">{team.stadium}</div>
               </div>
             </div>
           </Link>

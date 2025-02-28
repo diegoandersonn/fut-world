@@ -19,7 +19,7 @@ export default function TeamMain() {
   if(isLoading) return <p>Loading...</p>;
   if (!team) return <p>Time não encontrado</p>;
   return (
-    <div className="flex-1 flex flex-col bg-neutral-950 w-full mr-2 text-white rounded-md gap-28">
+    <div className="flex-1 flex flex-col bg-neutral-950 w-full mr-2 text-white rounded-md">
       <TeamMainHeader team={team} />
       <div className="overflow-y-auto scrollbar-thumb">
         <TeamMainFooter team={team} />
