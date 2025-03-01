@@ -7,7 +7,6 @@ type Props = {
 };
 
 export default function PlayerMainFooter({ player }: Props) {
-  console.log(player.position);
   const attributes = [
     {
       value: player.atb1,

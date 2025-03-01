@@ -41,7 +41,7 @@ export default function MainHeaderForm({ team }: Props) {
         </label>
         <input
           type="text"
-          className="text-xs p-1 outline-none w-52 rounded-md border-2 border-zinc-400 bg-transparent"
+          className="text-xs p-1 outline-none w-40 rounded-md border-2 border-zinc-400 bg-transparent"
           value={team.stadium}
           onChange={(e) =>
             updateTeam.mutate({ field: "stadium", value: e.target.value })
@@ -54,7 +54,7 @@ export default function MainHeaderForm({ team }: Props) {
         </label>
         <select
           value={team.country.name}
-          className="text-xs p-1 w-52 outline-none rounded-md border-2 border-zinc-400 bg-transparent transition-all"
+          className="text-xs p-1 w-40 outline-none rounded-md border-2 border-zinc-400 bg-transparent transition-all"
           onChange={(e) => {
             const selectedCountry = countries?.find(
               (c) => c.name === e.target.value
@@ -85,7 +85,7 @@ export default function MainHeaderForm({ team }: Props) {
         </label>
         <input
           type="text"
-          className="text-xs p-1 outline-none w-52 rounded-md border-2 border-zinc-400 bg-transparent"
+          className="text-xs p-1 outline-none w-40 rounded-md border-2 border-zinc-400 bg-transparent"
           value={team.manager}
           onChange={(e) =>
             updateTeam.mutate({ field: "manager", value: e.target.value })
@@ -98,7 +98,7 @@ export default function MainHeaderForm({ team }: Props) {
         </label>
         <input
           type="text"
-          className="text-xs p-1 outline-none w-52 rounded-md border-2 border-zinc-400 bg-transparent"
+          className="text-xs p-1 outline-none w-40 rounded-md border-2 border-zinc-400 bg-transparent"
           value={team.league}
           onChange={(e) =>
             updateTeam.mutate({ field: "league", value: e.target.value })

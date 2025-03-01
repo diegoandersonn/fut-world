@@ -4,30 +4,39 @@ import { PlayerPickContext } from "../../../contexts/player-pick-context";
 
 type Props = {
   amount: number;
+  position: "Goalkeeper" | "Defense" | "Midfield" | "Attack";
   players: PlayerType[];
 };
 
-export default function PitchLine({ amount, players }: Props) {
-  console.log(players);
-  const { setStatus } = useContext(PlayerPickContext);
+export default function PitchLine({ amount, players, position }: Props) {
+  const { setValue } = useContext(PlayerPickContext);
   function handlePlayerPick() {
-    setStatus((prevStatus) => {
-      if (prevStatus) {
-        return false;
+    setValue((prevValue) => {
+      if (prevValue.status) {
+        return { position: position, status: false };
       } else {
-        return true;
+        return { position: position, status: true };
       }
     });
   }
   return (
-    <div className="flex gap-4 p-2 z-20">
+    <div className="flex gap-6 p-5 z-20">
       {Array.from({ length: amount }).map((_, index) => (
         <button
           key={index}
-          className="bg-white h-10 w-10 rounded-full"
+          className="bg-white h-16 w-16 rounded-full hover:brightness-50 hover:scale-110"
           onClick={handlePlayerPick}
         >
-          {/* <img src={player.picture} alt={player.name} title={player.name} />     */}
+          {players[index] ? (
+            <img
+              src={players[index].picture}
+              alt={players[index].name}
+              title={players[index].name}
+              className="bg-white h-16 w-16 rounded-full"
+            />
+          ) : (
+            <> </>
+          )}
         </button>
       ))}
     </div>

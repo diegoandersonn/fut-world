@@ -22,7 +22,7 @@ export default function TeamMainHeader({ team }: Props) {
       <div className="flex items-center">
         <MainHeaderPitch team={team} />
       </div>
-      <div className="p-4">
+      <div className="p-4 flex ">
         <Undo2
           className="hover:text-zinc-400 hover:scale-110 cursor-pointer"
           onClick={() => navigate(-1)}
