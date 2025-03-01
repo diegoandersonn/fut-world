@@ -34,14 +34,14 @@ export default function MainHeaderForm({ team }: Props) {
   const countries = useGetCountries();
 
   return (
-    <form action="PUT" className="grid grid-cols-2 gap-4">
+    <form action="PUT" className="grid grid-cols-1 gap-4">
       <div className="flex items-center justify-between gap-2">
-        <label htmlFor="stadium" className="text-zinc-400 font-semibold">
+        <label htmlFor="stadium" className="text-zinc-400 font-semibold text-sm">
           Team Stadium
         </label>
         <input
           type="text"
-          className="text-sm p-1 outline-none w-52 rounded-md border-2 border-zinc-400 bg-transparent"
+          className="text-xs p-1 outline-none w-52 rounded-md border-2 border-zinc-400 bg-transparent"
           value={team.stadium}
           onChange={(e) =>
             updateTeam.mutate({ field: "stadium", value: e.target.value })
@@ -49,12 +49,12 @@ export default function MainHeaderForm({ team }: Props) {
         />
       </div>
       <div className="flex items-center justify-between gap-2">
-        <label htmlFor="country" className="text-zinc-400 font-semibold">
+        <label htmlFor="country" className="text-zinc-400 font-semibold text-sm">
           Team Country
         </label>
         <select
           value={team.country.name}
-          className="text-sm p-1 w-52 outline-none rounded-md border-2 border-zinc-400 bg-transparent transition-all"
+          className="text-xs p-1 w-52 outline-none rounded-md border-2 border-zinc-400 bg-transparent transition-all"
           onChange={(e) => {
             const selectedCountry = countries?.find(
               (c) => c.name === e.target.value
@@ -80,12 +80,12 @@ export default function MainHeaderForm({ team }: Props) {
         </select>
       </div>
       <div className="flex items-center justify-between gap-2">
-        <label htmlFor="teamManager" className="text-zinc-400 font-semibold">
+        <label htmlFor="teamManager" className="text-zinc-400 font-semibold text-sm">
           Team Manager
         </label>
         <input
           type="text"
-          className="text-sm p-1 outline-none w-52 rounded-md border-2 border-zinc-400 bg-transparent"
+          className="text-xs p-1 outline-none w-52 rounded-md border-2 border-zinc-400 bg-transparent"
           value={team.manager}
           onChange={(e) =>
             updateTeam.mutate({ field: "manager", value: e.target.value })
@@ -93,12 +93,12 @@ export default function MainHeaderForm({ team }: Props) {
         />
       </div>
       <div className="flex items-center justify-between gap-2">
-        <label htmlFor="teamManager" className="text-zinc-400 font-semibold">
+        <label htmlFor="teamManager" className="text-zinc-400 font-semibold text-sm">
           Team League
         </label>
         <input
           type="text"
-          className="text-sm p-1 outline-none w-52 rounded-md border-2 border-zinc-400 bg-transparent"
+          className="text-xs p-1 outline-none w-52 rounded-md border-2 border-zinc-400 bg-transparent"
           value={team.league}
           onChange={(e) =>
             updateTeam.mutate({ field: "league", value: e.target.value })

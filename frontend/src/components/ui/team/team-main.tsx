@@ -16,14 +16,12 @@ export default function TeamMain() {
       return data[0];
     },
   });
-  if(isLoading) return <p>Loading...</p>;
+  if (isLoading) return <p>Loading...</p>;
   if (!team) return <p>Time não encontrado</p>;
   return (
-    <div className="flex-1 flex flex-col bg-neutral-950 w-full mr-2 text-white rounded-md">
+    <div className="flex-1 flex flex-col bg-neutral-950 w-full h-full mr-2 text-white rounded-md overflow-y-auto scrollbar-thumb">
       <TeamMainHeader team={team} />
-      <div className="overflow-y-auto scrollbar-thumb">
-        <TeamMainFooter team={team} />
-      </div>
+      <TeamMainFooter team={team} />
     </div>
   );
 }
